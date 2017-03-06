@@ -1,0 +1,48 @@
+@charset "utf-8";
+
+/* LDN 2017-02-08 */
+
+/* reset */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, button, blockquote, a, address, img, strong, dl, dt, dd, ol, ul, li, fieldset, form, pre, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, input
+{margin:0; padding:0; font-weight:normal; font-size:100%;}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, nav, menu, nav, section, video {margin:0; padding:0; display:block;}
+
+html, body {width:100%; height:100%;}
+html {overflow-y:scroll;}
+body, input, button, textarea, select {font-family:"Malgun Gothic", "맑은 고딕", Dotum, "돋움", Gulim, "굴림", Verdana, tahoma, Sans-serif; font-size:12px; color:#4c4c4c; line-height:1.2;}
+input, select, button{vertical-align:middle}
+li {list-style:none}
+img {margin:0; padding:0; vertical-align:top; border:none; max-width:100%;}
+fieldset, iframe{border:none;}
+textarea {resize:none;}
+legend {display:none;}
+button {margin:0; padding:0; border:0; cursor:pointer; background:transparent;}
+table {border-spacing:0; border-collapse:collapse;}
+caption, th, td {text-align:left;}
+em, address{font-style:normal;}
+label {cursor:pointer;}
+/*object {outline:none;}*/
+
+/* cross */
+.input_check,.input_radio {width:13px; height:13px; margin:-1px; vertical-align:top;}
+
+/* a */
+a {color:#4c4c4c; text-decoration:none;} /* 파폭 및 익스 링크 점선없애기 outline:none; selector-dummy: expression(this.hideFocus=true); */
+a:hover {color:#4c4c4c; text-decoration:underline;}
+
+/* 모바일용 input[type=text], select, textarea {border-radius:0;}/* -webkit-appearance:none;
+
+input[type="radio"] {margin-top:-4px; width:16px; height:16px; background:#fff; border: solid 2px #66310c; border-radius:10; -webkit-border-radius:10; -webkit-appearance:none; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+input[type="radio"]:checked {background:#fff; border:solid 2px #66310c; border-radius:10; -webkit-border-radius:10;}
+input[type="radio"]:checked:after {width:10; height:10; display:block; content:""; position:relative; top:1px; left:1px; background:#66310c; border-radius:10; -webkit-border-radius:10;}
+
+input[type="checkbox"] {margin-top:-4px; width:15px; height:15px; background:#fff; border: solid 2px #66310c; -webkit-appearance:none; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;}
+input[type="checkbox"]:checked {background:#fff; border:solid 2px #66310c;}
+input[type="checkbox"]:checked:after {width:9px; height:9px; display:block; content:""; position:relative; top:1px; left:1px; background:#66310c;}*/
+
+/*skip_navi*/
+.skip_navi {position: absolute; left:0; top:0; width:100%; z-index:900; }
+a.skip_link {position:absolute; display:block; width:100%; left:0; text-align:center; top:-10000; z-index:500;}
+a.skip_link:hover, a.skip_link:active, a.skip_link:focus {position:absolute; top:0; padding:15px 0; font-weight:bold; color:#fff; background:#1d60a7; z-index:500}
