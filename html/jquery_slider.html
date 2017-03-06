@@ -83,8 +83,6 @@
             var list = $element.children(".slide_list").find("li");
             var listLen = list.length;
             var listWrap = $element.children(".slide_list");
-            var divWidth = 760;        // 원본 이미지 가로 사이즈
-            var divHeight = 924;        // 원본 이미지 세로 사이즈
 
             var consTructors = {
                 init : function() {
@@ -130,7 +128,7 @@
                         resizeTimer = setTimeout(function() {
                             resizeTimer = null;
                             var resizeWidth = $element.width();
-                            var ratioHeight = Math.floor(resizeWidth*divHeight/divWidth);
+                            var ratioHeight = Math.floor(resizeWidth*opts.divHeight/opts.divWidth);
                             $element.children(".slide_list").css({width:resizeWidth, height:ratioHeight});
                             for ( var i=0 ; i<listLen ; i++ ){
                                 $(list[i]).css({width:resizeWidth, height:ratioHeight, left:resizeWidth*(i-opts.currentNum)});
@@ -145,13 +143,19 @@
     })(jQuery);
 
     $("#slideWrap1").jquerySlider({
-        currentNum:0
+        currentNum:0,
+        divWidth:760,        // 이미지 원본 가로 사이즈
+        divHeight:924        // 이미지 원본 세로 사이즈
     });
     $("#slideWrap2").jquerySlider({
-        currentNum:1
+        currentNum:1,
+        divWidth:760,        // 이미지 원본 가로 사이즈
+        divHeight:924        // 이미지 원본 세로 사이즈
     });
     $("#slideWrap3").jquerySlider({
-        currentNum:2
+        currentNum:2,
+        divWidth:760,        // 이미지 원본 가로 사이즈
+        divHeight:924        // 이미지 원본 세로 사이즈
     });
 
 </script>
