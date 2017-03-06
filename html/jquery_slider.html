@@ -75,11 +75,15 @@
         var plugin_name = "jquerySlider";
         $.fn[plugin_name] = function(options) {
 
-            var $element = $(this);
-            var defaults = {
-                currentNum:0
+            var defaults = {        // 기본 옵션값
+                currentNum:0,
+                divWidth:720,        // 16:9 비율
+                divHeight:405        // 16:9 비율
             };
-            var opts = $.extend({}, $.fn[plugin_name].defaults, options);
+            //var opts = $.extend({}, $.fn[plugin_name].defaults, options);
+            var opts = $.extend({}, defaults, options);
+            console.log(opts)
+            var $element = $(this);
             var list = $element.children(".slide_list").find("li");
             var listLen = list.length;
             var listWrap = $element.children(".slide_list");
@@ -153,7 +157,6 @@
         divHeight:924        // 이미지 원본 세로 사이즈
     });
     $("#slideWrap3").jquerySlider({
-        currentNum:2,
         divWidth:760,        // 이미지 원본 가로 사이즈
         divHeight:924        // 이미지 원본 세로 사이즈
     });
