@@ -69,24 +69,26 @@
 
         //    jquerySlider version 0.1
         //    $(selector).jquerySlider({
-        //        currentNum:1     start view number
+        //        currentNum:0,        // 처음 보여줄 이미지 번호
+        //        divWidth:760,        // 이미지 원본 가로 사이즈
+        //        divHeight:924        // 이미지 원본 세로 사이즈
         //    });
 
         var plugin_name = "jquerySlider";
         $.fn[plugin_name] = function(options) {
 
-            var defaults = {        // 기본 옵션값
+            var defaults = {        // 사용자 옵션이 없을때 기본값
                 currentNum:0,
-                divWidth:720,        // 16:9 비율
-                divHeight:405        // 16:9 비율
+                divWidth:720,
+                divHeight:405
             };
             //var opts = $.extend({}, $.fn[plugin_name].defaults, options);
-            var opts = $.extend({}, defaults, options);
-            console.log(opts)
+            var opts = $.extend({}, defaults, options || {});
             var $element = $(this);
             var list = $element.children(".slide_list").find("li");
             var listLen = list.length;
             var listWrap = $element.children(".slide_list");
+            console.log(opts)
 
             var consTructors = {
                 init : function() {
@@ -157,6 +159,7 @@
         divHeight:924        // 이미지 원본 세로 사이즈
     });
     $("#slideWrap3").jquerySlider({
+        currentNum:2,
         divWidth:760,        // 이미지 원본 가로 사이즈
         divHeight:924        // 이미지 원본 세로 사이즈
     });
