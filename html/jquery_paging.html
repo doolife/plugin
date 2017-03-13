@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> jquery scroller </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.1.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+
+</style>
+</head>
+<body>
+<div id="pagingZone"></div>
+<script>
+    var NAMESPACE = (function(NAMESPACE, $, undefined){
+
+        var totalCount = 1000;	// 전체 게시글 수
+        var totalPage = Math.ceil(totalCount/10);	// 페이지당 보여주는 게시글 수
+        var totalPageNum = 10;	// 보여질 페이지 번호 갯수
+        var page;	// 현재페이지
+        var PageNum;
+        var pageZone = $("#pagingZone");
+
+        NAMESPACE.init = function(goTo){
+            page = goTo;
+            var pageGroup = Math.ceil(page/totalPageNum);    //페이지 그룹 넘버링
+            var nextNum = pageGroup*totalPageNum;
+            var prevNum = nextNum-(totalPageNum-1);
+            var goNext = nextNum+1;
+
+            if(prevNum-1<=0){
+                var goPrev = 1;
+            }else{
+                var goPrev = prevNum-1;
+            }
+            if(nextNum>totalPage){
+                var goNext = totalPage;
+                nextNum = totalPage;
+            }else{
+                var goNext = nextNum+1;
+            }
+
+            var prevStep = "<a href='#' onclick='NAMESPACE.init("+goPrev+")' class='paging_prev'>"+goPrev+"prev</a>";
+            var nextStep = "<a href='#' onclick='NAMESPACE.init("+goNext+")' class='paging_next'>"+goNext+"next</a>";
+
+            $(pageZone).empty();
+            $(pageZone).append(prevStep);
+            for(var i=prevNum; i<=nextNum;i++){
+                console.log(i)
+                PageNum = "<span style='margin:0 10px 0 10px;'><a href='#'>"+i+"</a></span>";
+                $(pageZone).append(PageNum);
+            }
+            $(pageZone).append(nextStep);
+        };
+
+        NAMESPACE.controls = function(){
+            console.log("controls")
+        };
+
+        return NAMESPACE;
+
+    })(window.NAMESPACE || {},jQuery);
+
+    NAMESPACE.init(15);
+</script>
+</body>
+</html>
