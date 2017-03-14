@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
-<title> jquery scroller </title>
+<title> jquery paging </title>
 <meta name="Keywords" content="">
 <meta name="Description" content="">
 <link rel="stylesheet" href="../css/base.css" />
@@ -18,58 +18,107 @@
 </style>
 </head>
 <body>
-<div id="pagingZone"></div>
+    <div id="pagingZone"></div>
+    <div id="createdData"></div>
 <script>
+    var totalData = 2000;        // 총 데이터 수
+    var dataPerPage = 10;        // 한 페이지에 나타낼 데이터 수
+    var pageCount = 10;        // 한 화면에 나타낼 페이지 수
+    var selectedPage = 2;        // 화면에 보여질 페이지 번호
+
     var NAMESPACE = (function(NAMESPACE, $, undefined){
 
-        var totalCount = 1000;	// 전체 게시글 수
-        var totalPage = Math.ceil(totalCount/10);	// 페이지당 보여주는 게시글 수
-        var totalPageNum = 10;	// 보여질 페이지 번호 갯수
-        var page;	// 현재페이지
-        var PageNum;
         var pageZone = $("#pagingZone");
 
-        NAMESPACE.init = function(goTo){
-            page = goTo;
-            var pageGroup = Math.ceil(page/totalPageNum);    //페이지 그룹 넘버링
-            var nextNum = pageGroup*totalPageNum;
-            var prevNum = nextNum-(totalPageNum-1);
-            var goNext = nextNum+1;
+        NAMESPACE.init = function(totalData, dataPerPage, pageCount, currentPage){
+            console.log("currentPage : " + currentPage);
 
-            if(prevNum-1<=0){
-                var goPrev = 1;
-            }else{
-                var goPrev = prevNum-1;
-            }
-            if(nextNum>totalPage){
-                var goNext = totalPage;
-                nextNum = totalPage;
-            }else{
-                var goNext = nextNum+1;
+            var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
+            var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
+
+            console.log("pageGroup : " + pageGroup);
+
+            var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
+            if(last > totalPage)
+                last = totalPage;
+            var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
+            var next = last+1;
+            var prev = first-1;
+
+            // console.log("last : " + last);
+            // console.log("first : " + first);
+            // console.log("next : " + next);
+            // console.log("prev : " + prev);
+
+            var html = "";
+
+            if(prev > 0){
+                html += "<a href=# id='prev'><</a> ";
             }
 
-            var prevStep = "<a href='#' onclick='NAMESPACE.init("+goPrev+")' class='paging_prev'>"+goPrev+"prev</a>";
-            var nextStep = "<a href='#' onclick='NAMESPACE.init("+goNext+")' class='paging_next'>"+goNext+"next</a>";
-
-            $(pageZone).empty();
-            $(pageZone).append(prevStep);
-            for(var i=prevNum; i<=nextNum;i++){
-                console.log(i)
-                PageNum = "<span style='margin:0 10px 0 10px;'><a href='#'>"+i+"</a></span>";
-                $(pageZone).append(PageNum);
+            for(var i=first; i <= last; i++){
+                html += "<span style='margin:0 10px 0 10px;'><a href='#' id=" + i + ">" + i + "</a></span>";
             }
-            $(pageZone).append(nextStep);
+
+            if(last < totalPage){
+                html += "<a href=# id='next'>></a>";
+            }
+
+            $(pageZone).html(html);    // 페이지 목록 생성
+            console.log($(pageZone).find("a#"+currentPage))
+            $(pageZone).find("a#"+currentPage).css({color:"red", fontWeight:"bold"});    // 현재 페이지 표시
+            // $("#pagingZone a#"+currentPage).css({color:"red", fontWeight:"bold"});    // 현재 페이지 표시
+
+            $(pageZone).find("a").on("click", function(e){
+                e.preventDefault();
+                var $item = $(this);
+                var $id = $item.attr("id");
+                var selectedPage = $item.text();
+                if($id == "next"){
+                    selectedPage = next;
+                }else if($id == "prev"){
+                    selectedPage = prev;
+                }
+                NAMESPACE.init(totalData, dataPerPage, pageCount, selectedPage);
+            });
         };
 
-        NAMESPACE.controls = function(){
-            console.log("controls")
+        NAMESPACE.ajaxCall = function(){
+            var url = "../json/data.json";
+    		$.ajax({
+    			url : url,
+    			type : "GET",
+    			dataType : "json",
+    			success: function(result) {
+    				NAMESPACE.appendData(result);
+    			},
+    			error : function (){
+    				console.log("데이터를 불러오는데 실패하였습니다.")
+    			}
+    		});
+        };
+
+        NAMESPACE.appendData = function(dataInfo){
+            var content = $("#createdData");
+    		var dataLength = dataInfo.data.length;
+    		var strDOM;
+            $(content).empty();
+            $(content).append("<ul>");
+    	    for ( var i=0; i<dataLength ; i++ ){
+    			var list = dataInfo.data[i];
+                for ( var j=0; j<list.length ; j++ ){
+                    strDOM = "<li>"+list[j]+"</li>";
+                    $(content).children("ul").append(strDOM);
+        		}
+    		}
+            $(content).append("</ul>");
         };
 
         return NAMESPACE;
 
     })(window.NAMESPACE || {},jQuery);
 
-    NAMESPACE.init(15);
+    NAMESPACE.init(totalData, dataPerPage, pageCount, selectedPage);
 </script>
 </body>
 </html>
