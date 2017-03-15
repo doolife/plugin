@@ -30,7 +30,7 @@
 
         var pageZone = $("#pagingZone");
 
-        NAMESPACE.init = function(totalData, dataPerPage, pageCount, currentPage){
+        NAMESPACE.initPagination = function(totalData, dataPerPage, pageCount, currentPage){
             console.log("currentPage : " + currentPage);
 
             var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
@@ -39,86 +39,63 @@
             console.log("pageGroup : " + pageGroup);
 
             var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
-            if(last > totalPage)
+            if(last > totalPage){
                 last = totalPage;
+            }
             var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
             var next = last+1;
             var prev = first-1;
 
-            // console.log("last : " + last);
-            // console.log("first : " + first);
-            // console.log("next : " + next);
-            // console.log("prev : " + prev);
+            console.log("last : " + last);
+            console.log("first : " + first);
+            console.log("next : " + next);
+            console.log("prev : " + prev);
 
             var html = "";
 
             if(prev > 0){
-                html += "<a href=# id='prev'><</a> ";
+                html += "<a href=# id='prev'>PREV</a> ";
             }
 
-            for(var i=first; i <= last; i++){
+            for( var i=first ; i <= last ; i++ ){
                 html += "<span style='margin:0 10px 0 10px;'><a href='#' id=" + i + ">" + i + "</a></span>";
             }
 
             if(last < totalPage){
-                html += "<a href=# id='next'>></a>";
+                html += "<a href=# id='next'>NEXT</a>";
             }
 
             $(pageZone).html(html);    // 페이지 목록 생성
-            console.log($(pageZone).find("a#"+currentPage))
-            $(pageZone).find("a#"+currentPage).css({color:"red", fontWeight:"bold"});    // 현재 페이지 표시
-            // $("#pagingZone a#"+currentPage).css({color:"red", fontWeight:"bold"});    // 현재 페이지 표시
+            $(pageZone).find("a#"+currentPage).css({color:"red"});    // 현재 페이지 표시
+            // $(pageZone).find("a[id="+currentPage+"]").css({color:"red"});
 
             $(pageZone).find("a").on("click", function(e){
                 e.preventDefault();
                 var $item = $(this);
                 var $id = $item.attr("id");
                 var selectedPage = $item.text();
-                if($id == "next"){
+                if($id === "next"){
                     selectedPage = next;
-                }else if($id == "prev"){
+                }else if($id === "prev"){
                     selectedPage = prev;
                 }
-                NAMESPACE.init(totalData, dataPerPage, pageCount, selectedPage);
+                NAMESPACE.initPagination(totalData, dataPerPage, pageCount, selectedPage);
             });
         };
 
         NAMESPACE.ajaxCall = function(){
-            var url = "../json/data.json";
-    		$.ajax({
-    			url : url,
-    			type : "GET",
-    			dataType : "json",
-    			success: function(result) {
-    				NAMESPACE.appendData(result);
-    			},
-    			error : function (){
-    				console.log("데이터를 불러오는데 실패하였습니다.")
-    			}
-    		});
+
         };
 
-        NAMESPACE.appendData = function(dataInfo){
-            var content = $("#createdData");
-    		var dataLength = dataInfo.data.length;
-    		var strDOM;
-            $(content).empty();
-            $(content).append("<ul>");
-    	    for ( var i=0; i<dataLength ; i++ ){
-    			var list = dataInfo.data[i];
-                for ( var j=0; j<list.length ; j++ ){
-                    strDOM = "<li>"+list[j]+"</li>";
-                    $(content).children("ul").append(strDOM);
-        		}
-    		}
-            $(content).append("</ul>");
+        NAMESPACE.appendData = function(){
+
         };
 
         return NAMESPACE;
 
     })(window.NAMESPACE || {},jQuery);
 
-    NAMESPACE.init(totalData, dataPerPage, pageCount, selectedPage);
+    NAMESPACE.initPagination(totalData, dataPerPage, pageCount, selectedPage);
 </script>
 </body>
 </html>
