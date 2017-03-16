@@ -14,13 +14,23 @@
 <script src="../js/respond.js"></script>
 <![endif]-->
 <style>
-
+.scroller_wrap {display:inline-block; vertical-align:top; overflow:hidden;}
+.scroller {width:100%; height:100%;}
 </style>
 </head>
 <body>
-<div class="wrap">
-    <div id="scorllerSection1">aaa</div>
-    <div id="scorllerSection2">bbb</div>
+<div id="scorllerSection1" class="scroller_wrap">
+    <div class="scroller">1</div>
+    <div class="scroller">2</div>
+    <div class="scroller">3</div>
+    <div class="scroller">4</div>
+</div>
+<div id="scorllerSection2" class="scroller_wrap">
+    <div class="scroller">1</div>
+    <div class="scroller">2</div>
+    <div class="scroller">3</div>
+    <div class="scroller">4</div>
+    <div class="scroller">5</div>
 </div>
 <script>
     (function($) {
@@ -31,28 +41,82 @@
             return this.each(function(){
                 var opts = $.extend({}, $.fn[plugin_name].defaults, options || {});
                 var $element = $(this);
-                NS.SCROLLER.init($element, opts)
+                NS.SCROLLER.init($element, opts);
             });
         };
 
         window.NS = window.NS || {};
         NS.SCROLLER = {
             init : function($element, opts){
-                this.btnControls()
+                opts.sLength = $element.children(".scroller").length;
+                NS.SCROLLER.sectionSettings($element, opts);
+                NS.SCROLLER.scrollControls($element, opts);
             },
-            btnControls : function(){
-                console.log("running NS.myFunction...2222222");
+            scrollControls : function($element, opts){
+                var isScrolling = false;
+                $element.on("mousewheel", function(e){
+                    if(!isScrolling){
+				        isScrolling = true;
+                        NS.SCROLLER.scrollerMove($element, opts, e);
+                        setTimeout(function(){
+        					isScrolling = false;
+        				}, 500);
+                    };
+                    // prevent page fom scrolling
+                    return false;
+                });
+            },
+            sectionSettings : function($element, opts){
+                $element.css({width:opts.width, height:opts.height, position:"relative"}).children(".scroller").css({position:"absolute", left:0, top:0});
+                for ( var i=0 ; i<opts.sLength ; i++ ){
+                    if (opts.currentNum===i){
+                        $element.children(".scroller").eq(i).css({top:0});
+                    }else if (opts.currentNum>i){
+                        $element.children(".scroller").eq(i).css({top:"-100%"});
+                    }else{
+                        $element.children(".scroller").eq(i).css({top:"100%"});
+                    }
+                }
+            },
+            scrollerMove : function($element, opts, e){
+                if(e.originalEvent.wheelDelta < 0) {
+                    // scroll down
+                    if (opts.currentNum<opts.sLength-1){
+                        opts.currentNum = opts.currentNum+1;
+                        console.log(opts.currentNum+"|"+opts.sLength)
+                        $element.children(".scroller").eq(opts.currentNum).stop().animate({top:"0%"});
+                        $element.children(".scroller").eq(opts.currentNum-1).stop().animate({top:"-100%"});
+                    }
+                }else {
+                    // scroll up
+                    if (opts.currentNum>0){
+                        opts.currentNum = opts.currentNum-1;
+                        console.log(opts.currentNum+"|"+opts.sLength)
+                        $element.children(".scroller").eq(opts.currentNum).stop().animate({top:"0%"});
+                        $element.children(".scroller").eq(opts.currentNum+1).stop().animate({top:"100%"});
+                    }
+                }
             }
         }
 
         $.fn[plugin_name].defaults = {
             currentNum:0,
-            colors:"red"
+            width:"100%",
+            height:"100%"
         };
 
     })(jQuery);
-    //    console.log(NS.SCROLLER.name)
-    $("#scorllerSection1").jqueryScroller();
+
+    $("#scorllerSection1").jqueryScroller({
+        currentNum:1,
+        width:500,
+        height:400
+    });
+    $("#scorllerSection2").jqueryScroller({
+        currentNum:2,
+        width:500,
+        height:500
+    });
 </script>
 </body>
 </html>
