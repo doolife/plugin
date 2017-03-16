@@ -18,10 +18,8 @@
 </style>
 </head>
 <body>
-<div class="wrap">
-    <div id="colorSection1">aaa</div>
-    <div id="colorSection2">bbb</div>
-</div>
+<div id="contentsSection1">aaa</div>
+<div id="contentsSection2">bbb</div>
 <script>
     (function($) {
 
@@ -38,29 +36,35 @@
         window.NS = window.NS || {};
         NS.SCROLLER = {
             init : function($element, opts){
-                this.colorControls($element, opts)
+                this.sectionControls($element, opts)
             },
-            colorControls : function($element, opts){
-                $element.css({color:opts.colors, backgroundColor:opts.bgColors});
+            sectionControls : function($element, opts){
+                $element.css({width:opts.width, height:opts.height, color:opts.colors, backgroundColor:opts.bgColors});
                 console.log($element, opts);
             }
         }
 
         $.fn[plugin_name].defaults = {
             currentNum:0,
+            width:"100%",
+            height:"100%",
             colors:"gray",
             bgColors:"black"
         };
 
     })(jQuery);
 
-    $("#colorSection1").jqueryScroller({
+    $("#contentsSection1").jqueryScroller({
         currentNum:1,
+        width:"100%",
+        height:"100%",
         colors:"red",
         bgColors:"green"
     });
-    $("#colorSection2").jqueryScroller({
+    $("#contentsSection2").jqueryScroller({
         currentNum:2,
+        width:"100%",
+        height:"100%",
         colors:"blue",
         bgColors:"pink"
     });
