@@ -26,28 +26,25 @@
         var plugin_name = "jqueryScroller";
 
         $.fn[plugin_name] = function(options) {
-            return this.each(function(){
-                var opts = $.extend({}, $.fn[plugin_name].defaults, options || {});
-                var $element = $(this);
-                NS.SCROLLER.init($element, opts)
-            });
-        };
+            var opts = $.extend({}, $.fn[plugin_name].defaults, options || {});
+            var $element = $(this);
 
-        window.NS = window.NS || {};
-        NS.SCROLLER = {
-            init : function($element, opts){
-                this.sectionControls($element, opts)
-            },
-            sectionControls : function($element, opts){
-                $element.css({width:opts.width, height:opts.height, color:opts.colors, backgroundColor:opts.bgColors});
-                console.log($element, opts);
-            }
-        }
+            var consTructors = {
+                init : function() {
+                    $element.on("click", function(e){
+                        consTructors.sectionControls();
+                    });
+                },
+                sectionControls : function() {
+                    console.log($element)
+                    $element.css({width:opts.width, height:opts.height, color:opts.colors, backgroundColor:opts.bgColors});
+                }
+            };
+            consTructors.init();
+        };
 
         $.fn[plugin_name].defaults = {
             currentNum:0,
-            width:"100%",
-            height:"100%",
             colors:"gray",
             bgColors:"black"
         };
@@ -56,15 +53,11 @@
 
     $("#contentsSection1").jqueryScroller({
         currentNum:1,
-        width:"100%",
-        height:"100%",
         colors:"red",
         bgColors:"green"
     });
     $("#contentsSection2").jqueryScroller({
         currentNum:2,
-        width:"100%",
-        height:"100%",
         colors:"blue",
         bgColors:"pink"
     });
