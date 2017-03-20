@@ -14,18 +14,28 @@
 <script src="../js/respond.js"></script>
 <![endif]-->
 <style>
-.resize_images1>li {margin:0 10px 0 10px; width:150px; height:150px; display:inline-block;}
+.resize_images {margin-top:200px;}
+.resize_images>li {margin:0 10px 0 10px; display:inline-block; overflow:hidden;}
+.resize_images>span {margin:0 10px 0 10px; display:inline-block; overflow:hidden;}
 </style>
 </head>
 <body>
-<ul id="resizeImages1" class="resize_images1">
-    <li><img src="../images/resize/resize_images0.jpg" alt="" /></li>
-    <li><img src="../images/resize/resize_images1.jpg" alt="" /></li>
-    <li><img src="../images/resize/resize_images2.png" alt="" /></li>
-    <li><img src="../images/resize/resize_images3.jpg" alt="" /></li>
-    <li><img src="../images/resize/resize_images4.jpg" alt="" /></li>
-    <li><img src="../images/resize/resize_images5.jpg" alt="" /></li>
+<ul id="resizeImages1" class="resize_images">
+    <li style="width:150px; height:150px;"><img src="../images/resize/resize_images0.jpg" alt="" /></li>
+    <li style="width:170px; height:120px;"><img src="../images/resize/resize_images1.jpg" alt="" /></li>
+    <li style="width:100px; height:150px;"><img src="../images/resize/resize_images2.png" alt="" /></li>
+    <li style="width:200px; height:180px;"><img src="../images/resize/resize_images3.jpg" alt="" /></li>
+    <li style="width:90px; height:80px;"><img src="../images/resize/resize_images4.jpg" alt="" /></li>
+    <li style="width:120px; height:200px;"><img src="../images/resize/resize_images5.jpg" alt="" /></li>
 </ul>
+<div id="resizeImages2" class="resize_images">
+    <span style="width:120px; height:150px;"><img src="../images/resize/resize_images0.jpg" alt="" /></span>
+    <span style="width:110px; height:200px;"><img src="../images/resize/resize_images1.jpg" alt="" /></span>
+    <span style="width:200px; height:120px;"><img src="../images/resize/resize_images2.png" alt="" /></span>
+    <span style="width:150px; height:150px;"><img src="../images/resize/resize_images3.jpg" alt="" /></span>
+    <span style="width:180px; height:80px;"><img src="../images/resize/resize_images4.jpg" alt="" /></span>
+    <span style="width:160px; height:120px;"><img src="../images/resize/resize_images5.jpg" alt="" /></span>
+</div>
 <script>
     (function($) {
 
@@ -43,24 +53,47 @@
                 var count = 0;
                 var total = $element.find("img").length;
                 $element.find("img").on("load", function(){
-                    if (count <= total) {
-                        opts.currentWidth = $element.find("img").eq(count).prop("naturalWidth");
-                        opts.currentHeight = $element.find("img").eq(count).prop("naturalHeight");
-                        console.log(opts.currentWidth, opts.currentHeight)
-                        count = count+1;
-                    };
+                    count = count+1;
+                    if (count >=total){
+                        imgesResize();
+                    }
                 });
+
+                function imgesResize(){
+                    for ( var i=0 ; i<total ; i++ ){
+                        opts.currentWidth = $element.find("img").eq(i).prop("naturalWidth");
+                        opts.currentHeight = $element.find("img").eq(i).prop("naturalHeight");
+                        var ratio = 0;
+                        var maxWidth = $element.children(opts.childrenList).eq(i).width();
+                        var maxHeight = $element.children(opts.childrenList).eq(i).height();
+                        var divAspect = maxHeight / maxWidth;
+                        var imgAspect = opts.currentHeight / opts.currentWidth;
+                        if(imgAspect <= divAspect){
+                            resizeWidth = Math.round((opts.currentWidth * maxHeight) / opts.currentHeight);
+                            mLeft = -Math.round((resizeWidth-maxWidth)/2);
+                            $element.find("img").eq(i).css({width:resizeWidth, height:maxHeight, marginLeft:mLeft});
+                        }else{
+                            resizeHeight = Math.round((opts.currentHeight * maxWidth) / opts.currentWidth);
+                            mTop = -Math.round((resizeHeight-maxHeight)/2);
+                            $element.find("img").eq(i).css({width:maxWidth, height:resizeHeight, marginTop:mTop});
+                        }
+                    }
+                }
             }
         };
 
         $.fn[plugin_name].defaults = {
-            currentWidth:0,
-            currentHeight:0
+            childrenList:"li"
         };
 
     })(jQuery);
 
-    $("#resizeImages1").jqueryResizeImages();
+    $("#resizeImages1").jqueryResizeImages({
+        childrenList:"li"
+    });
+    $("#resizeImages2").jqueryResizeImages({
+        childrenList:"span"
+    });
 </script>
 </body>
 </html>
