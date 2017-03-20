@@ -14,7 +14,7 @@ html {overflow-y:scroll;}
 body, input, button, textarea, select {font-family:"Malgun Gothic", "맑은 고딕", Dotum, "돋움", Gulim, "굴림", Verdana, tahoma, Sans-serif; font-size:12px; color:#4c4c4c; line-height:1.2;}
 input, select, button{vertical-align:middle}
 li {list-style:none}
-img {margin:0; padding:0; vertical-align:top; border:none; max-width:100%;}
+img {margin:0; padding:0; vertical-align:top; border:none; /*max-width:100%;*/}
 fieldset, iframe{border:none;}
 textarea {resize:none;}
 legend {display:none;}
