@@ -84,16 +84,16 @@
                     if (opts.currentNum<opts.sLength-1){
                         opts.currentNum = opts.currentNum+1;
                         console.log(opts.currentNum+"|"+opts.sLength)
-                        $element.children(opts.childrenClass).eq(opts.currentNum).stop().animate({top:"0%"});
-                        $element.children(opts.childrenClass).eq(opts.currentNum-1).stop().animate({top:"-100%"});
+                        $element.children(opts.childrenClass).eq(opts.currentNum).stop().animate({top:"0%"}, opts.speed);
+                        $element.children(opts.childrenClass).eq(opts.currentNum-1).stop().animate({top:"-100%"}, opts.speed);
                     }
                 }else {
                     // scroll up
                     if (opts.currentNum>0){
                         opts.currentNum = opts.currentNum-1;
                         console.log(opts.currentNum+"|"+opts.sLength)
-                        $element.children(opts.childrenClass).eq(opts.currentNum).stop().animate({top:"0%"});
-                        $element.children(opts.childrenClass).eq(opts.currentNum+1).stop().animate({top:"100%"});
+                        $element.children(opts.childrenClass).eq(opts.currentNum).stop().animate({top:"0%"}, opts.speed);
+                        $element.children(opts.childrenClass).eq(opts.currentNum+1).stop().animate({top:"100%"}, opts.speed);
                     }
                 }
             }
@@ -103,7 +103,8 @@
             childrenClass:".scroller",
             currentNum:0,
             width:"100%",
-            height:"100%"
+            height:"100%",
+            speed:300
         };
 
     })(jQuery);
@@ -112,13 +113,15 @@
         childrenClass:".scrolling1",
         currentNum:1,
         width:500,
-        height:400
+        height:400,
+        speed:500
     });
     $("#scorllerSection2").jqueryScroller({
         childrenClass:".scrolling2",
         currentNum:2,
         width:500,
-        height:500
+        height:500,
+        speed:700
     });
 </script>
 </body>
