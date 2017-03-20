@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> resize images </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.1.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+.resize_images1>li {margin:0 10px 0 10px; width:150px; height:150px; display:inline-block;}
+</style>
+</head>
+<body>
+<ul id="resizeImages1" class="resize_images1">
+    <li><img src="../images/resize/resize_images0.jpg" alt="" /></li>
+    <li><img src="../images/resize/resize_images1.jpg" alt="" /></li>
+    <li><img src="../images/resize/resize_images2.png" alt="" /></li>
+    <li><img src="../images/resize/resize_images3.jpg" alt="" /></li>
+    <li><img src="../images/resize/resize_images4.jpg" alt="" /></li>
+    <li><img src="../images/resize/resize_images5.jpg" alt="" /></li>
+</ul>
+<script>
+    (function($) {
+
+        var plugin_name = "jqueryResizeImages";
+
+        $.fn[plugin_name] = function(options) {
+            var opts = $.extend({}, $.fn[plugin_name].defaults, options || {});
+            var $element = $(this);
+            NS.PLUGIN.init($element, opts);
+        };
+
+        window.NS = window.NS || {};
+        NS.PLUGIN = {
+            init : function($element, opts) {
+                var count = 0;
+                var total = $element.find("img").length;
+                $element.find("img").on("load", function(){
+                    if (count <= total) {
+                        opts.currentWidth = $element.find("img").eq(count).prop("naturalWidth");
+                        opts.currentHeight = $element.find("img").eq(count).prop("naturalHeight");
+                        console.log(opts.currentWidth, opts.currentHeight)
+                        count = count+1;
+                    };
+                });
+            }
+        };
+
+        $.fn[plugin_name].defaults = {
+            currentWidth:0,
+            currentHeight:0
+        };
+
+    })(jQuery);
+
+    $("#resizeImages1").jqueryResizeImages();
+</script>
+</body>
+</html>
