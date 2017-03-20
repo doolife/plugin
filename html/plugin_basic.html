@@ -28,19 +28,25 @@
         $.fn[plugin_name] = function(options) {
             var opts = $.extend({}, $.fn[plugin_name].defaults, options || {});
             var $element = $(this);
+            NS.PLUGIN.init($element, opts);
+        };
 
-            var consTructors = {
-                init : function() {
-                    $element.on("click", function(e){
-                        consTructors.sectionControls();
-                    });
-                },
-                sectionControls : function() {
+        window.NS = window.NS || {};
+        NS.PLUGIN = {
+            init : function($element, opts) {
+                console.log(opts)
+                $element.on("click", function(e){
+                    sectionControls();
+                });
+
+                function sectionControls(){
                     console.log($element)
                     $element.css({width:opts.width, height:opts.height, color:opts.colors, backgroundColor:opts.bgColors});
                 }
-            };
-            consTructors.init();
+            },
+            extControls : function(a, b) {
+                console.log(a+"|"+b)
+            }
         };
 
         $.fn[plugin_name].defaults = {
