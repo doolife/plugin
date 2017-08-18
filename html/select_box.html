@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> select box </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.1.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+.select_box {margin:100px 100px 0 100px; width:300px; display:inline-block; vertical-align:top; border:1px solid #000;}
+.select_box>.select_tit {padding:0 20px 0 20px; height:64px; line-height:64px; text-align:left; font-size:15px; color:#fff; position:relative; background-color:#595234; cursor:pointer;}
+.select_box>.select_tit:before {content:""; width:64px; height:64px; display:block; position:absolute; right:0; top:0; background:url("../images/select_arrow.gif") no-repeat left top;}
+.select_box>.select_tit.active:before {background-position:right -64px;}
+.select_box>.select_list {display:none;}
+.select_box>.select_list.active {display:block;}
+.select_box>.select_list>li {padding:0 20px 0 20px; height:64px; line-height:64px; color:#bfb690; background-color:#1f1903; border-top:1px solid #000; cursor:pointer;}
+.select_box>.select_list>li:hover {background:#3e6b88;}
+</style>
+</head>
+<body>
+<div id="selectBox1" class="select_box">
+    <div class="select_tit">캐릭터를 선택해주세요.</div>
+    <ul class="select_list select_list1">
+        <li><div><span>서버</span><span>캐릭터</span>1_1</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>1_2</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>1_3</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>1_4</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>1_5</div></li>
+    </ul>
+</div>
+<div id="selectBox2" class="select_box">
+    <div class="select_tit">캐릭터를 선택해주세요.</div>
+    <ul class="select_list select_list2">
+        <li><div><span>서버</span><span>캐릭터</span>2_1</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>2_2</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>2_3</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>2_4</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>2_5</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>2_6</div></li>
+    </ul>
+</div>
+<script>
+    (function($) {
+
+        var moduleName = "selectBox";
+
+        $.fn[moduleName] = function(options) {
+            var opts = $.extend({}, $.fn[moduleName].defaults, options || {});
+            var $element = $(this);
+            appModule.init($element, opts);
+        };
+
+        window.appModule = window.appModule || {};
+        appModule = {
+            init : function($element, opts) {
+                $element.children(""+opts.listTitle+"").on("click", function(e){
+                    e.preventDefault();
+                    appModule.selectOpenClose($element, opts);
+                });
+
+                $element.children(""+opts.listParent+"").children(""+opts.listChild+"").on("click", function(e){
+                    e.preventDefault();
+                    var target = $(this);
+                    appModule.listSelect($element, opts, target);
+                    if (typeof opts.callBack == "function"){
+                        opts.callBack(target.index());
+                    }
+                });
+
+            },
+            selectOpenClose : function($element, opts) {
+                if(!$element.children(""+opts.listParent+"").hasClass("active")){
+                    $element.children(""+opts.listTitle+"").addClass("active");
+                    $element.children(""+opts.listParent+"").addClass("active");
+                }else{
+                    $element.children(""+opts.listTitle+"").removeClass("active");
+                    $element.children(""+opts.listParent+"").removeClass("active");
+                }
+            },
+            listSelect : function($element, opts, target) {
+                var tagClone = $(target).contents().clone();
+                $element.children(""+opts.listTitle+"").empty().append(tagClone);
+                $element.children(""+opts.listTitle+"").removeClass("active");
+                $element.children(""+opts.listParent+"").removeClass("active");
+            }
+        };
+
+        $.fn[moduleName].defaults = {
+            listTitle:".select_tit",
+            listParent:".select_list",
+            listChild:"li",
+            callBack:null
+        };
+
+    })(jQuery);
+
+    $("#selectBox1").selectBox({
+        listTitle:".select_tit",
+        listParent:".select_list1",
+        listChild:"li",
+        callBack: function (num) {
+            console.log("1_"+num)
+        }
+    });
+
+    $("#selectBox2").selectBox({
+        listTitle:".select_tit",
+        listParent:".select_list2",
+        listChild:"li",
+        callBack: function (num) {
+            console.log("2_"+num)
+        }
+    });
+</script>
+</body>
+</html>
