@@ -14,9 +14,10 @@
 <script src="../js/respond.js"></script>
 <![endif]-->
 <style>
-.select_box {margin:100px 100px 0 100px; width:300px; display:inline-block; vertical-align:top; border:1px solid #000;}
+.select_box {margin:100px 0 0 25px; width:300px; display:inline-block; vertical-align:top; border:1px solid #000;}
 .select_box>.select_tit {padding:0 20px 0 20px; height:64px; line-height:64px; text-align:left; font-size:15px; color:#fff; position:relative; background-color:#595234; cursor:pointer;}
 .select_box>.select_tit:before {content:""; width:64px; height:64px; display:block; position:absolute; right:0; top:0; background:url("../images/select_arrow.gif") no-repeat left top;}
+.select_box>.select_tit[disabled] {cursor:default;}
 .select_box>.select_tit.active:before {background-position:right -64px;}
 .select_box>.select_list {display:none;}
 .select_box>.select_list.active {display:block;}
@@ -35,6 +36,7 @@
         <li><div><span>서버</span><span>캐릭터</span>1_5</div></li>
     </ul>
 </div>
+
 <div id="selectBox2" class="select_box">
     <div class="select_tit">캐릭터를 선택해주세요.</div>
     <ul class="select_list select_list2">
@@ -46,58 +48,71 @@
         <li><div><span>서버</span><span>캐릭터</span>2_6</div></li>
     </ul>
 </div>
+
+<div id="selectBox3" class="select_box">
+    <div class="select_tit">캐릭터를 선택해주세요.</div>
+    <ul class="select_list select_list3">
+        <li><div><span>서버</span><span>캐릭터</span>3_1</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>3_2</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>3_3</div></li>
+        <li><div><span>서버</span><span>캐릭터</span>3_4</div></li>
+    </ul>
+</div>
 <script>
     (function($) {
 
-        var moduleName = "selectBox";
+        var plugin_name = "selectBox";
 
-        $.fn[moduleName] = function(options) {
-            var opts = $.extend({}, $.fn[moduleName].defaults, options || {});
+        $.fn[plugin_name] = function(options) {
+
+            var defaults = {        // 사용자 옵션이 없을때 기본값
+                listTitle:".select_tit",
+                listParent:".select_list",
+                listChild:"li",
+                disabled:false,
+                callBack:null
+            };
+
+            var opts = $.extend({}, defaults, options || {});
             var $element = $(this);
-            appModule.init($element, opts);
-        };
 
-        window.appModule = window.appModule || {};
-        appModule = {
-            init : function($element, opts) {
-                $element.children(""+opts.listTitle+"").on("click", function(e){
-                    e.preventDefault();
-                    appModule.selectOpenClose($element, opts);
-                });
+            var consTructors = {
+                init : function() {
+                    $element.children(""+opts.listTitle+"").attr({"disabled":opts.disabled});
+                    $element.children(""+opts.listTitle+"").on("click", function(e){
+                        e.preventDefault();
+                        consTructors.selectOpenClose();
+                    });
 
-                $element.children(""+opts.listParent+"").children(""+opts.listChild+"").on("click", function(e){
-                    e.preventDefault();
-                    var target = $(this);
-                    appModule.listSelect($element, opts, target);
-                    if (typeof opts.callBack == "function"){
-                        opts.callBack(target.index());
+                    $element.children(""+opts.listParent+"").children(""+opts.listChild+"").on("click", function(e){
+                        e.preventDefault();
+                        var target = $(this);
+                        consTructors.listSelect(target);
+                        if (typeof opts.callBack == "function"){
+                            opts.callBack(target.index());
+                        }
+                    });
+                },
+                selectOpenClose : function() {
+                    if($element.children(""+opts.listTitle+"").attr("disabled")!="disabled"){
+                        if(!$element.children(""+opts.listParent+"").hasClass("active")){
+                            $element.children(""+opts.listTitle+"").addClass("active");
+                            $element.children(""+opts.listParent+"").addClass("active");
+                        }else{
+                            $element.children(""+opts.listTitle+"").removeClass("active");
+                            $element.children(""+opts.listParent+"").removeClass("active");
+                        }
                     }
-                });
-
-            },
-            selectOpenClose : function($element, opts) {
-                if(!$element.children(""+opts.listParent+"").hasClass("active")){
-                    $element.children(""+opts.listTitle+"").addClass("active");
-                    $element.children(""+opts.listParent+"").addClass("active");
-                }else{
+                },
+                listSelect : function(target) {
+                    var tagClone = $(target).contents().clone();
+                    $element.children(""+opts.listTitle+"").empty().append(tagClone);
                     $element.children(""+opts.listTitle+"").removeClass("active");
                     $element.children(""+opts.listParent+"").removeClass("active");
                 }
-            },
-            listSelect : function($element, opts, target) {
-                var tagClone = $(target).contents().clone();
-                $element.children(""+opts.listTitle+"").empty().append(tagClone);
-                $element.children(""+opts.listTitle+"").removeClass("active");
-                $element.children(""+opts.listParent+"").removeClass("active");
             }
-        };
-
-        $.fn[moduleName].defaults = {
-            listTitle:".select_tit",
-            listParent:".select_list",
-            listChild:"li",
-            callBack:null
-        };
+            consTructors.init();
+        }
 
     })(jQuery);
 
@@ -105,7 +120,7 @@
         listTitle:".select_tit",
         listParent:".select_list1",
         listChild:"li",
-        callBack: function (num) {
+        callBack:function(num){
             console.log("1_"+num)
         }
     });
@@ -114,10 +129,112 @@
         listTitle:".select_tit",
         listParent:".select_list2",
         listChild:"li",
-        callBack: function (num) {
+        callBack:function(num){
             console.log("2_"+num)
         }
     });
+
+    $("#selectBox3").selectBox({
+        listTitle:".select_tit",
+        listParent:".select_list3",
+        listChild:"li",
+        callBack:function(num){
+            console.log("3_"+num)
+        }
+    });
+
+
+
+    // (function($) {
+    //
+    //     var moduleName = "selectBox";
+    //
+    //     $.fn[moduleName] = function(options) {
+    //         var opts = $.extend({}, $.fn[moduleName].defaults, options || {});
+    //         var $element = $(this);
+    //         appModule.init($element, opts);
+    //     };
+    //
+    //     window.appModule = window.appModule || {};
+    //     appModule = {
+    //         init : function($element, opts) {
+    //             // appModule.idx = 0;
+    //             $element.children(""+opts.listTitle+"").attr({"disabled":opts.disabled});
+    //             $element.children(""+opts.listTitle+"").on("click", function(e){
+    //                 e.preventDefault();
+    //                 appModule.selectOpenClose($element, opts);
+    //             });
+    //
+    //             $element.children(""+opts.listParent+"").children(""+opts.listChild+"").on("click", function(e){
+    //                 e.preventDefault();
+    //                 var target = $(this);
+    //                 appModule.listSelect($element, opts, target);
+    //                 if (typeof opts.callBack == "function"){
+    //                     opts.callBack(target.index());
+    //                 }
+    //             });
+    //         },
+    //         selectOpenClose : function($element, opts) {
+    //             if($element.children(""+opts.listTitle+"").attr("disabled")!="disabled"){
+    //                 if(!$element.children(""+opts.listParent+"").hasClass("active")){
+    //                     $element.children(""+opts.listTitle+"").addClass("active");
+    //                     $element.children(""+opts.listParent+"").addClass("active");
+    //                 }else{
+    //                     $element.children(""+opts.listTitle+"").removeClass("active");
+    //                     $element.children(""+opts.listParent+"").removeClass("active");
+    //                 }
+    //             }
+    //         },
+    //         listSelect : function($element, opts, target) {
+    //             var tagClone = $(target).contents().clone();
+    //             $element.children(""+opts.listTitle+"").empty().append(tagClone);
+    //             $element.children(""+opts.listTitle+"").removeClass("active");
+    //             $element.children(""+opts.listParent+"").removeClass("active");
+    //             // appModule.idx = appModule.idx+1;
+    //             // console.log(appModule.idx)
+    //             // // $(".select_box").eq(appModule.idx).children(".select_tit").removeAttr("disabled");
+    //             // $(".select_box").children(".select_tit").attr({"disabled":true});
+    //             // $(".select_box").eq(appModule.idx).children(".select_tit").attr({"disabled":false});
+    //         }
+    //     };
+    //
+    //     $.fn[moduleName].defaults = {
+    //         listTitle:".select_tit",
+    //         listParent:".select_list",
+    //         listChild:"li",
+    //         disabled:false,
+    //         callBack:null
+    //     };
+    //
+    // })(jQuery);
+    //
+    // $("#selectBox1").selectBox({
+    //     listTitle:".select_tit",
+    //     listParent:".select_list1",
+    //     listChild:"li",
+    //     callBack:function(num){
+    //         console.log("1_"+num)
+    //     }
+    // });
+    //
+    // $("#selectBox2").selectBox({
+    //     listTitle:".select_tit",
+    //     listParent:".select_list2",
+    //     listChild:"li",
+    //     callBack:function(num){
+    //         console.log("2_"+num)
+    //     }
+    // });
+    //
+    // $("#selectBox3").selectBox({
+    //     listTitle:".select_tit",
+    //     listParent:".select_list3",
+    //     listChild:"li",
+    //     callBack:function(num){
+    //         console.log("3_"+num)
+    //     }
+    // });
+
 </script>
 </body>
 </html>
