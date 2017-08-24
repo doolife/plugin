@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> layer popup </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.1.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+body {height:1500px;}
+.btn_wrap {position:fixed; right:100px; top:100px;}
+.btn_wrap>button[data-layer="open"] {margin:30px 0 0 20px;}
+.layer_pop {display:none;}
+.layer_close {position:absolute; right:10px; top:10px;}
+#layerPop1 {width:300px; height:1000px; background:green;}
+#layerPop2 {width:400px; height:450px; background:yellow;}
+#layerPop3 {width:600px; height:350px; background:blue;}
+</style>
+</head>
+<body>
+<div class="btn_wrap">
+    <button type="button" data-name="#layerPop1" data-opacity="0.7" data-layer="open">열기1</button>
+    <button type="button" data-name="#layerPop2" data-opacity="0.5" data-layer="open">열기2</button>
+    <button type="button" data-name="#layerPop3" data-opacity="0.3" data-layer="open">열기3</button>
+</div>
+
+<div id="layerPop1" class="layer_pop">
+    <button type="button" class="layer_close" data-layer="close">닫기1</button>
+</div>
+<div id="layerPop2" class="layer_pop">
+    <button type="button" class="layer_close" data-layer="close">닫기2</button>
+</div>
+<div id="layerPop3" class="layer_pop">
+    <button type="button" class="layer_close" data-layer="close">닫기3</button>
+</div>
+
+<script>
+    var appModule = appModule || {};
+    appModule = (function(appModule, $, undefined){
+
+        var name, width, height, top, left, opacity, scTop, winHeight, winWidth;    // opction 전역 변수
+        var layerModule = {
+            init : function(){
+                layerModule.btnControls();    // 버튼 컨트롤 함수 호출
+            },
+            btnControls : function(){
+                $(document).on("click", "[data-layer='open']", function(){    // 레이어 open 버튼 클릭
+                    var target = $(this);
+                    // console.log(target.data());
+                    layerModule.layerOption(target);    // layerOption 함수 호출
+                    layerModule.layerOpen(name, opacity);    // layerOpen 함수 호출
+                });
+
+                $(document).on("click", "[data-layer='close']", function(){    // 레이어 close 버튼 클릭
+                    //e.preventDefault();
+                    layerModule.layerClose();    // layerClose 함수 호출
+                });
+            },
+            layerOpen : function(name, opacity){
+                if(winHeight<height) top = $(window).scrollTop()+scTop;    // 화면사이즈보다 컨텐츠 높이가 클 경우 스크롤 top 에서 떨어진 값을 준다
+                $(name).css({width:width, height:height, position:"absolute", left:left, top:top}).fadeIn(300);    // 화면사이즈보다 컨텐츠 높이가 작을 경우 수직 가운데 정렬 하면서 fadin
+                $(name).before($("<div id='mask' style='width:100%; height:100%; position:fixed; left:0; top:0; opacity:"+opacity+"; background:#000;'></div>"));    // 열려질 레이어팝업 태그 위쪽에 마스크 태그 생성
+            },
+            layerClose : function(){
+                $(name).css({display:"none"});    // 레이어팝업 숨김
+                $("#mask").remove();    // 마스크 태그 삭제
+            },
+            layerOption : function(target){    // 인자값으로 this 를 받음
+                name = $(target).attr("data-name"),    // 버튼 name 값
+                opacity = $(target).attr("data-opacity"),    // 버튼 opacity 값
+                scTop = 100,    // scrollTop에서 떨어진 값
+                winHeight = $(window).height(),    // window 높이
+                winWidth = $(window).width(),    // window 넓이
+                width = $(name).width(),    // 컨텐츠 넓이
+                height = $(name).height(),    // 컨텐츠 높이
+                top = (winHeight-height) / 2 + $(window).scrollTop(), // 수직가운데 : (윈도우높이 - 컨텐츠높이) / 2 + 스크롤 top 값
+                left = (winWidth-width) / 2 + $(window).scrollLeft(); // 수평가운데 : (윈도우넓이 - 컨텐츠넓이) / 2 + 스크롤 left 값
+            }
+        };
+
+        return{
+            layerInit : layerModule.init
+        };
+
+    })(window.appModule || {},jQuery);
+
+    appModule.layerInit();
+</script>
+</body>
+</html>
