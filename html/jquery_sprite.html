@@ -14,58 +14,13 @@
 <script src="../js/respond.js"></script>
 <![endif]-->
 <style>
-.wrap {padding-bottom:100px;}
-.slide_wrap {margin:20px auto 0; position:relative;}
-.slide_wrap>.btn_prev {position:absolute; left:0; top:0; z-index:1;}
-.slide_wrap>.btn_next {position:absolute; right:0; top:0; z-index:1;}
-.slide_list {text-align:center; position:relative; overflow:hidden; border:1px solid #000;}
-.slide_list>li {position:absolute;}
+#sprite1 {overflow:hidden;}
 </style>
 </head>
 <body>
-<div class="wrap">
-    <div id="slideWrap1" class="slide_wrap">
-        <button type="button" class="btn_prev">prev</button>
-        <button type="button" class="btn_next">next</button>
-        <ul class="slide_list">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-        </ul>
+    <div id="sprite1">
+        <div class="sprite"></div>
     </div>
-    <div id="slideWrap2" class="slide_wrap">
-        <button type="button" class="btn_prev">prev</button>
-        <button type="button" class="btn_next">next</button>
-        <ul class="slide_list">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-        </ul>
-    </div>
-    <div id="slideWrap3" class="slide_wrap">
-        <button type="button" class="btn_prev">prev</button>
-        <button type="button" class="btn_next">next</button>
-        <ul class="slide_list">
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-            <li>7</li>
-            <li>8</li>
-            <li>9</li>
-            <li>10</li>
-        </ul>
-    </div>
-</div>
 <script>
     (function($) {
 
@@ -74,85 +29,41 @@
         $.fn[plugin_name] = function(options) {
 
             var defaults = {    // 사용자 옵션이 없을때 기본값
-                currentNum:0,    // 처음 보여줄 이미지 번호
-                maxWidth:420,    // 최대 사이즈
-                divWidth:720,    // 이미지 원본 가로 사이즈
-                divHeight:405    // 이미지 원본 세로 사이즈
+                idx:0,
+                urlStr:"JQUERY_PLUGIN",
+                page:10,
+                width:408,
+                height:406
             };
-            //var opts = $.extend({}, $.fn[plugin_name].defaults, options);
             var opts = $.extend({}, defaults, options || {});
             var $element = $(this);
-            var list = $element.children(".slide_list").find("li");
-            var listLen = list.length;
-            var listWrap = $element.children(".slide_list");
 
+            var url = decodeURIComponent(location.href);
+            url = decodeURIComponent(url);
+            var strSrc = url.substring(0, url.indexOf(opts.urlStr)+opts.urlStr.length);    // substring(n, m) 문자열의 n번째부터 m번째까지 표시, indexOf("문자") 문자의 위치값을 왼쪽부터 계산하여 숫자로 표시
+            // var strSrc = url.split(opts.urlStr)[0];    // split("구분문자") 구분 문자를 이용해 문자열 객체를 분리 ex: split("구분문자")[0], split("구분문자")[1]
+            console.log(opts)
             var consTructors = {
                 init : function() {
-                    $btnNext = $element.children(".btn_next");
-                    $btnPrev = $element.children(".btn_prev");
-                    consTructors.btnControler();
-                    consTructors.resizeControls();
+                    $element.css({width:opts.width, height:opts.height});
+                    $element.children(".sprite").css({width:opts.width*opts.page, height:opts.height, backgroundImage:"url("+strSrc+"/images/sprite/po.png)"});
                 },
-                btnControler : function() {
-                    $btnNext.on("click", function(e){
-                        e.preventDefault();
-                        consTructors.sliderAction("next");
-                    });
-                    $btnPrev.on("click", function(e){
-                        e.preventDefault();
-                        consTructors.sliderAction("prev");
-                    });
-                },
-                sliderAction : function(strChk){
-                    if (strChk=="next"){
-                        if (opts.currentNum != listLen-1){
-                            opts.currentNum = opts.currentNum+1;
-                            consTructors.slideContents();
-                        }
-                    }else if (strChk=="prev"){
-                        if(opts.currentNum != 0){
-                            opts.currentNum = opts.currentNum-1;
-                            consTructors.slideContents();
-                        }
-                    }
-                },
-                slideContents : function (){
-                    for ( var i=0 ; i<listLen ; i++){
-                        $(list[i]).stop().animate({left:listWrap.width()*(i-opts.currentNum)});
-                    }
-                },
-                resizeControls : function(){
-                    var resizeTimer;
-                    console.log(opts.maxWidth)
-                	$(window).resize(function (){
-                        if (resizeTimer) {
-                            clearTimeout(resizeTimer);
-                        }
-                        resizeTimer = setTimeout(function() {
-                            resizeTimer = null;
-                            $element.css({maxWidth:opts.maxWidth});
-                            var resizeWidth = $element.width();
-                            var ratioHeight = Math.floor(resizeWidth*opts.divHeight/opts.divWidth);
-                            $element.children(".slide_list").css({width:resizeWidth, height:ratioHeight});
-                            for ( var i=0 ; i<listLen ; i++ ){
-                                $(list[i]).css({width:resizeWidth, height:ratioHeight, left:resizeWidth*(i-opts.currentNum)});
-                                // $(list[i]).find("img").css({height:ratioHeight}).css({marginLeft:(resizeWidth-$(list[i]).find("img").width())/2});
-                                // console.log((resizeWidth-$(list[i]).find("img").width())/2)
-                            }
-                        }, 0);
-                	}).resize();
+                action : function(){
+                    console.log("action")
                 }
             }
+
             consTructors.init();
         }
 
     })(jQuery);
 
-    $("#slideWrap1").jquerySlider({
-        currentNum:0,
-        maxWidth:200,
-        divWidth:16,
-        divHeight:9
+    $("#sprite1").jquerySlider({
+        idx:0,
+        urlStr:"JQUERY_PLUGIN",
+        page:10,
+        width:408,
+        height:406
     });
 
 </script>
