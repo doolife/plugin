@@ -15,24 +15,24 @@
 <![endif]-->
 <style>
 img {max-width:100%;}
-button[data-menu] {width:100%; height:50px; background-color:#ddd;}
+button[data-btn] {width:100%; height:50px; background-color:#ddd;}
 .dropdown_con {margin:0 auto 0; max-width:760px; display:none;}
 </style>
 </head>
 <body>
-    <button  type="button" data-name="#dropdown1" data-menu="menu">dropdown1</button>
+    <button  type="button" data-name="#dropdown1" data-btn="menu">dropdown1</button>
     <div id="dropdown1" class="dropdown_con">
         <img src="../images/slider/00.jpg" alt="" />
     </div>
-    <button  type="button" data-name="#dropdown2" data-menu="menu">dropdown2</button>
+    <button  type="button" data-name="#dropdown2" data-btn="menu">dropdown2</button>
     <div id="dropdown2" class="dropdown_con">
         <img src="../images/slider/01.jpg" alt="" />
     </div>
-    <button  type="button" data-name="#dropdown3" data-menu="menu">dropdown3</button>
+    <button  type="button" data-name="#dropdown3" data-btn="menu">dropdown3</button>
     <div id="dropdown3" class="dropdown_con">
         <img src="../images/slider/02.jpg" alt="" />
     </div>
-    <button  type="button" data-name="#dropdown4" data-menu="menu">dropdown4</button>
+    <button  type="button" data-name="#dropdown4" data-btn="menu">dropdown4</button>
     <div id="dropdown4" class="dropdown_con">
         <img src="../images/slider/03.jpg" alt="" />
     </div>
@@ -40,12 +40,15 @@ button[data-menu] {width:100%; height:50px; background-color:#ddd;}
     var appModule = appModule || {};
     appModule = (function(appModule, $, undefined){
 
-        var $btnMenu = $("[data-menu='menu']");
-        appModule.init = function(){
+        var scTop;
+        var $btnMenu = $("[data-btn='menu']");
+        appModule.init = function(num){
             $btnMenu.on("click", function(){
                 var name = $(this).data("name");
+                scTop = $(this).offset().top;
                 dropdown.visibleChk(name);
             });
+            $btnMenu.eq(num).trigger("click");
         };
 
         var dropdown = {
@@ -57,10 +60,21 @@ button[data-menu] {width:100%; height:50px; background-color:#ddd;}
                 }
             },
             slideDown : function(name){
-                $(name).slideDown(500);
+                $(name).slideDown(500,
+                    function (){
+                        dropdown.callbackScroll();
+                    }
+                );
             },
             slideUp : function(name){
-                $(name).slideUp(500);
+                $(name).slideUp(500,
+                    function (){
+                        dropdown.callbackScroll();
+                    }
+                );
+            },
+            callbackScroll : function(){
+                $("body, html").animate({scrollTop:scTop}, 500);
             }
         };
 
@@ -68,7 +82,7 @@ button[data-menu] {width:100%; height:50px; background-color:#ddd;}
 
     })(window.appModule || {},jQuery);
 
-    appModule.init();
+    appModule.init(0);
 </script>
 </body>
 </html>

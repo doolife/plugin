@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <title> responsve_layer </title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="../css/base.css">
+    <script src="../js/jquery-3.1.1.min.js"></script>
+    <!--[if lt ie 9]>
+    <script src="../js/html5.js"></script>
+    <script src="../js/respond.js"></script>
+    <![endif]-->
+    <style>
+    img {max-width:100%;}
+    body {height:1500px;}
+
+    button[data-btn="open"] {width:100%; height:500px; background-color:#ddd; border-bottom:1px solid #fff;}
+    button[data-btn="close"] {width:50px; height:50px; position:absolute; right:0; top:0;}
+
+    .layer_wrap {margin:0 auto 0; max-width:900px; position:relative;}
+    .responsive_layer {width:100%; display:none; position:absolute; z-index:1;}
+    .responsive_layer>.responsive_con {margin:0 auto 0; width:90%; position:relative;}
+    .responsive_layer>.responsive_con img {width:100%;}
+
+    .mask {width:100%; height:100%; display:none; position:fixed; left:0; top:0; background:rgba(0, 0, 0, 0.6);}
+    </style>
+</head>
+<body>
+    <div class="layer_wrap">
+        <button type="button" data-name="#respLayer1" data-btn="open">layer open1</button>
+        <button type="button" data-name="#respLayer2" data-btn="open">layer open2</button>
+        <button type="button" data-name="#respLayer3" data-btn="open">layer open3</button>
+        <div id="respLayer1" data-width="760" data-height="924" class="responsive_layer">
+            <div class="responsive_con">
+                <button type="button" data-btn="close">닫기</button>
+                <img src="../images/slider/00.jpg" alt="">
+            </div>
+        </div>
+        <div id="respLayer2" data-width="1024" data-height="732" class="responsive_layer">
+            <div class="responsive_con">
+                <button type="button" data-btn="close">닫기</button>
+                <img src="../images/resize/resize_images0.jpg" alt="">
+            </div>
+        </div>
+        <div id="respLayer3" data-width="500" data-height="648" class="responsive_layer">
+            <div class="responsive_con">
+                <button type="button" data-btn="close">닫기</button>
+                <img src="../images/resize/resize_images5.jpg" alt="">
+            </div>
+        </div>
+        <div class="mask"></div>
+    </div>
+    <script>
+        var appModule = appModule || {};
+        appModule = (function(appModule, $, undefined){
+
+            var $btnOpen = $("[data-btn='open']"), $btnClose = $("[data-btn='close']"), $respLayer = $(".responsive_layer"), closeName;
+            var resizeChk = false;
+            appModule.init = function(){
+                $btnOpen.on("click", function(){
+                    var name = $(this).data("name");
+                    closeName = name;
+                    appModule.layerOpen(name);
+                });
+                $btnClose.on("click", function(){
+                    appModule.layerClose();
+                });
+
+            };
+
+            appModule.layerOpen = function(name){
+                // var scrollPercent = 100 * $(window).scrollTop() / $(window).height();
+                resizeChk = true;
+                appModule.resizeControls();
+
+                $(name).fadeIn(300);
+
+                var scTop = 50;
+                var winHeight = $(window).height();
+                var height = $(name).children(".responsive_con").height();
+                var top = (winHeight - height)/2 + $(window).scrollTop();
+
+                if(winHeight<height) top = $(window).scrollTop()+scTop;
+
+                $(name).css({top:top});
+
+                $(".mask").fadeIn(300);
+            }
+
+            appModule.layerClose = function(){
+                resizeChk = false;
+                $(closeName).fadeOut(400);
+                $(".mask").fadeOut(400);
+            }
+
+            appModule.resizeControls = function(){
+                    var resizeTimer;
+                    $(window).resize(function (){
+                        if(resizeChk==true){
+                            if (resizeTimer) {
+                                clearTimeout(resizeTimer);
+                            }
+                            resizeTimer = setTimeout(function() {
+                                resizeTimer = null;
+                                var winHeight = $(window).height();
+                                var height = $(closeName).children(".responsive_con").height();
+                                var top = (winHeight - height)/2 + $(window).scrollTop();
+                                if(winHeight>=height){
+                                    $(closeName).css({top:(winHeight - height)/2 + $(window).scrollTop()});
+                                }
+                            }, 0);
+                        }
+                    });
+
+            }
+
+            return appModule;
+
+        })(window.appModule || {},jQuery);
+
+        appModule.init();
+    </script>
+</body>
+</html>

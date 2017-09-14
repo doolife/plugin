@@ -31,6 +31,7 @@
             var defaults = {    // 사용자 옵션이 없을때 기본값
                 idx:0,
                 urlStr:"JQUERY_PLUGIN",
+                imgPath:"/images/sprite/po.png",
                 page:10,
                 width:408,
                 height:406
@@ -39,17 +40,21 @@
             var $element = $(this);
 
             var url = decodeURIComponent(location.href);
-            url = decodeURIComponent(url);
+                url = decodeURIComponent(url);
             var strSrc = url.substring(0, url.indexOf(opts.urlStr)+opts.urlStr.length);    // substring(n, m) 문자열의 n번째부터 m번째까지 표시, indexOf("문자") 문자의 위치값을 왼쪽부터 계산하여 숫자로 표시
             // var strSrc = url.split(opts.urlStr)[0];    // split("구분문자") 구분 문자를 이용해 문자열 객체를 분리 ex: split("구분문자")[0], split("구분문자")[1]
             console.log(opts)
             var consTructors = {
                 init : function() {
+                    console.log(strSrc+opts.imgPath)
                     $element.css({width:opts.width, height:opts.height});
-                    $element.children(".sprite").css({width:opts.width*opts.page, height:opts.height, backgroundImage:"url("+strSrc+"/images/sprite/po.png)"});
+                    $element.children(".sprite").css({width:opts.width*opts.page, height:opts.height, backgroundImage:"url("+strSrc+opts.imgPath+")"});
+                    consTructors.action();
                 },
                 action : function(){
-                    console.log("action")
+                    if (typeof opts.callBack == "function"){    // index 값 콜백
+                        opts.callBack(2);
+                    }
                 }
             }
 
@@ -61,9 +66,13 @@
     $("#sprite1").jquerySlider({
         idx:0,
         urlStr:"JQUERY_PLUGIN",
+        imgPath:"/images/sprite/po.png",
         page:10,
         width:408,
-        height:406
+        height:406,
+        callBack:function(num){
+            aaa = num;
+        }
     });
 
 </script>
