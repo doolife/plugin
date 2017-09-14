@@ -65,7 +65,7 @@ body {height:1500px;}
             },
             layerOpen : function(name, opacity){
                 if(winHeight<height) top = $(window).scrollTop()+scTop;    // 화면사이즈보다 컨텐츠 높이가 클 경우 스크롤 top 에서 떨어진 값을 준다
-                $(name).css({width:width, height:height, position:"absolute", left:left, top:top}).fadeIn(300);    // 화면사이즈보다 컨텐츠 높이가 작을 경우 수직 가운데 정렬 하면서 fadin
+                $(name).css({width:width, height:height, position:"absolute", left:left, top:top}).fadeIn(500);    // 화면사이즈보다 컨텐츠 높이가 작을 경우 수직 가운데 정렬 하면서 fadin
                 $(name).before($("<div id='mask' style='width:100%; height:100%; position:fixed; left:0; top:0; opacity:"+opacity+"; background:#000;'></div>"));    // 열려질 레이어팝업 태그 위쪽에 마스크 태그 생성
             },
             layerClose : function(){
