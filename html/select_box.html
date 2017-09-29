@@ -29,11 +29,7 @@
 <div id="selectBox1" class="select_box">
     <div class="select_tit">캐릭터를 선택해주세요.</div>
     <ul class="select_list select_list1">
-        <li><div><span>서버</span><span>캐릭터</span>1_1</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>1_2</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>1_3</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>1_4</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>1_5</div></li>
+
     </ul>
 </div>
 
@@ -50,7 +46,7 @@
 </div>
 
 <div id="selectBox3" class="select_box">
-    <div class="select_tit">캐릭터를 선택해주세요.</div>
+    <div class="select_tit">캐릭터를 선택해주세요.3</div>
     <ul class="select_list select_list3">
         <li><div><span>서버</span><span>캐릭터</span>3_1</div></li>
         <li><div><span>서버</span><span>캐릭터</span>3_2</div></li>
@@ -83,8 +79,8 @@
                         e.preventDefault();
                         consTructors.selectOpenClose();    // selectOpenClose 함수 호출
                     });
-
-                    $element.children(""+opts.listParent+"").children(""+opts.listChild+"").on("click", function(e){    // 셀렉트박스 리스트 클릭
+                    // $element.children(""+opts.listParent+"").children(""+opts.listChild+"")
+                    $element.children(""+opts.listParent+"").on("click", ""+opts.listChild+"", function(e){    // 셀렉트박스 리스트 클릭
                         e.preventDefault();
                         var target = $(this);
                         consTructors.listSelect(target);    // listSelect 함수 호출
@@ -96,8 +92,15 @@
                 selectOpenClose : function() {
                     if($element.children(""+opts.listTitle+"").attr("disabled")!="disabled"){    // disabled 값이 false 일때만 실행
                         if(!$element.children(""+opts.listParent+"").hasClass("active")){    // class="active" 없을때만 active 클래스 추가 있으면 active 클래스 삭제
+                            $(".select_box").children(".select_tit").removeClass("active");
+                            $(".select_box").children(".select_list").removeClass("active");
                             $element.children(""+opts.listTitle+"").addClass("active");
                             $element.children(""+opts.listParent+"").addClass("active");
+                            if ($element.children(""+opts.listParent+"").height()>=260) {
+                                $element.children(""+opts.listParent+"").css({height:260, overflowY:"auto"});
+                            }else{
+                                $element.children(""+opts.listParent+"").css({height:""});
+                            }
                         }else{
                             $element.children(""+opts.listTitle+"").removeClass("active");
                             $element.children(""+opts.listParent+"").removeClass("active");
@@ -106,8 +109,13 @@
                 },
                 listSelect : function(target) {
                     var tagClone = $(target).contents().clone();    // 셀렉트박스 리스트내의 내용들 복사
+                    if($($element[0]).attr("id")=="selectBox1"){
+                        console.log($($element[0]).attr("id"))
+                        $("#selectBox3").children(".select_tit").empty().append("캐릭터를 선택해주세요.3");
+                    }
                     $element.children(""+opts.listTitle+"").empty().append(tagClone);    // 셀렉트박스 리스트내의 복사한 내용을 선택 붙여넣기(기존 .select_tit 내용 삭제)
                     $element.children(""+opts.listTitle+"").removeClass("active");    // active 클래스 삭제
+                    $element.children(""+opts.listTitle+"").addClass("on");
                     $element.children(""+opts.listParent+"").removeClass("active");
                 }
             }
@@ -144,6 +152,9 @@
         }
     });
 
+    for (var i = 1; i < 8; i++) {
+        $("#selectBox1 .select_list").append("<li><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
+    }
 
 
     // (function($) {
