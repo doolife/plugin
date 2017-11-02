@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
-<title> select box </title>
+<title>셀렉스박스</title>
 <meta name="Keywords" content="">
 <meta name="Description" content="">
 <link rel="stylesheet" href="../css/base.css" />
-<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
 <!--[if lt ie 9]>
 <script src="../js/html5.js"></script>
 <script src="../js/respond.js"></script>
@@ -17,7 +17,7 @@
 .select_box {margin:100px 0 0 25px; width:300px; display:inline-block; vertical-align:top; border:1px solid #000;}
 .select_box>.select_tit {padding:0 20px 0 20px; height:64px; line-height:64px; text-align:left; font-size:15px; color:#fff; position:relative; background-color:#595234; cursor:pointer;}
 .select_box>.select_tit:before {content:""; width:64px; height:64px; display:block; position:absolute; right:0; top:0; background:url("../images/select_arrow.gif") no-repeat left top;}
-.select_box>.select_tit[disabled] {cursor:default;}
+.select_box>.select_tit[disabled] {cursor:default; color:#000;}
 .select_box>.select_tit.active:before {background-position:right -64px;}
 .select_box>.select_list {display:none;}
 .select_box>.select_list.active {display:block;}
@@ -26,227 +26,95 @@
 </style>
 </head>
 <body>
-<div id="selectBox1" class="select_box">
-    <div class="select_tit">캐릭터를 선택해주세요.</div>
-    <ul class="select_list select_list1">
+    <div class="select_box s1">
+        <div class="select_tit" data-select="title">캐릭터를 선택해주세요.1</div>
+        <ul class="select_list" data-select="listWrap">
 
-    </ul>
-</div>
+        </ul>
+    </div>
 
-<div id="selectBox2" class="select_box">
-    <div class="select_tit">캐릭터를 선택해주세요.</div>
-    <ul class="select_list select_list2">
-        <li><div><span>서버</span><span>캐릭터</span>2_1</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>2_2</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>2_3</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>2_4</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>2_5</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>2_6</div></li>
-    </ul>
-</div>
+    <div class="select_box s2">
+        <div class="select_tit" data-select="title" disabled="disabled">캐릭터를 선택해주세요.2</div>
+        <ul class="select_list" data-select="listWrap">
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_1</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_2</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_3</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_4</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_5</div></li>
+        </ul>
+    </div>
 
-<div id="selectBox3" class="select_box">
-    <div class="select_tit">캐릭터를 선택해주세요.3</div>
-    <ul class="select_list select_list3">
-        <li><div><span>서버</span><span>캐릭터</span>3_1</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>3_2</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>3_3</div></li>
-        <li><div><span>서버</span><span>캐릭터</span>3_4</div></li>
-    </ul>
-</div>
-<script>
-    (function($) {
+    <div class="select_box s3">
+        <div class="select_tit" data-select="title">캐릭터를 선택해주세요.3</div>
+        <ul class="select_list" data-select="listWrap">
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_1</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_2</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_3</div></li>
+            <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_4</div></li>
+        </ul>
+    </div>
+    <script>
+        (function(){
+            var selectboxController = (function (window, document, $, undefined) {
 
-        var plugin_name = "selectBox";
+                var scrollHeight = 300;
+                var targetNum;
+                var $title = $("[data-select='title']"),
+                    $listWrap = $("[data-select='listWrap']"),
+                    $list = $("[data-select='list']");
 
-        $.fn[plugin_name] = function(options) {
+                var init = function() {
+                    btnControls();
+                };
 
-            var defaults = {    // 사용자 옵션이 없을때 기본값
-                listTitle:".select_tit",    // 선택된 값
-                listParent:".select_list",    // 셀렉트박스 리스트 부모
-                listChild:"li",    // 셀렉트박스 리스트
-                disabled:false,    // disabled 여부 사용자옵션으로 true 값을 주면 클릭안됨
-                callBack:null    // callBack 리스트 클릭할때 index 값을 콜백
-            };
-
-            var opts = $.extend({}, defaults, options || {});
-            var $element = $(this);
-
-            var consTructors = {
-                init : function() {
-                    $element.children(""+opts.listTitle+"").attr({"disabled":opts.disabled});    // disabled 여부
-                    $element.children(""+opts.listTitle+"").on("click", function(e){    // 셀렉트박스 클릭
-                        e.preventDefault();
-                        consTructors.selectOpenClose();    // selectOpenClose 함수 호출
+                function btnControls(){
+                    $title.on("click", function(e){
+                        var target = $title.index(this);
+                            targetNum = target;
+                        openClose(targetNum);
                     });
-                    // $element.children(""+opts.listParent+"").children(""+opts.listChild+"")
-                    $element.children(""+opts.listParent+"").on("click", ""+opts.listChild+"", function(e){    // 셀렉트박스 리스트 클릭
-                        e.preventDefault();
-                        var target = $(this);
-                        consTructors.listSelect(target);    // listSelect 함수 호출
-                        if (typeof opts.callBack == "function"){    // index 값 콜백
-                            opts.callBack(target.index());
-                        }
+                    $listWrap.children($list).on("click", function(e){
+                        var target = $listWrap.eq(targetNum).children($list).index(this);
+                        listSelect(target);
                     });
-                },
-                selectOpenClose : function() {
-                    if($element.children(""+opts.listTitle+"").attr("disabled")!="disabled"){    // disabled 값이 false 일때만 실행
-                        if(!$element.children(""+opts.listParent+"").hasClass("active")){    // class="active" 없을때만 active 클래스 추가 있으면 active 클래스 삭제
-                            $(".select_box").children(".select_tit").removeClass("active");
-                            $(".select_box").children(".select_list").removeClass("active");
-                            $element.children(""+opts.listTitle+"").addClass("active");
-                            $element.children(""+opts.listParent+"").addClass("active");
-                            if ($element.children(""+opts.listParent+"").height()>=260) {
-                                $element.children(""+opts.listParent+"").css({height:260, overflowY:"auto"});
+                }
+
+                function openClose(thisNum){
+                    if($title.eq(thisNum).attr("disabled")!="disabled"){
+                        if(!$title.eq(thisNum).hasClass("active")){
+                            $title.removeClass("active").siblings($listWrap).removeClass("active");
+                            $title.eq(thisNum).addClass("active").siblings($listWrap).addClass("active");
+                            if ($title.eq(thisNum).siblings($listWrap).height()>=scrollHeight) {
+                                $title.eq(thisNum).siblings($listWrap).css({height:scrollHeight, overflowY:"auto"});
                             }else{
-                                $element.children(""+opts.listParent+"").css({height:""});
+                                $title.eq(thisNum).siblings($listWrap).css({height:""});
                             }
                         }else{
-                            $element.children(""+opts.listTitle+"").removeClass("active");
-                            $element.children(""+opts.listParent+"").removeClass("active");
+                            $title.eq(thisNum).removeClass("active").siblings($listWrap).removeClass("active");
                         }
                     }
-                },
-                listSelect : function(target) {
-                    var tagClone = $(target).contents().clone();    // 셀렉트박스 리스트내의 내용들 복사
-                    if($($element[0]).attr("id")=="selectBox1"){
-                        console.log($($element[0]).attr("id"))
-                        $("#selectBox3").children(".select_tit").empty().append("캐릭터를 선택해주세요.3");
-                    }
-                    $element.children(""+opts.listTitle+"").empty().append(tagClone);    // 셀렉트박스 리스트내의 복사한 내용을 선택 붙여넣기(기존 .select_tit 내용 삭제)
-                    $element.children(""+opts.listTitle+"").removeClass("active");    // active 클래스 삭제
-                    $element.children(""+opts.listTitle+"").addClass("on");
-                    $element.children(""+opts.listParent+"").removeClass("active");
                 }
+
+                function listSelect(thisNum){
+                    var tagClone = $listWrap.eq(targetNum).children($list).eq(thisNum).contents().clone();
+                    $title.eq(targetNum).empty().append(tagClone);
+                    $title.removeClass("active").siblings($listWrap).removeClass("active");
+                }
+
+                return {
+                    init:init
+                };
+
+            })(window, document, $);
+
+            $(document).ready(function() {
+                selectboxController.init();
+            });
+
+            for (var i = 1; i < 9; i++) {
+                $(".s1 .select_list").append("<li><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
             }
-            consTructors.init();
-        }
-
-    })(jQuery);
-
-    $("#selectBox1").selectBox({
-        listTitle:".select_tit",
-        listParent:".select_list1",
-        listChild:"li",
-        callBack:function(num){
-            console.log("1_"+num)
-        }
-    });
-
-    $("#selectBox2").selectBox({
-        listTitle:".select_tit",
-        listParent:".select_list2",
-        listChild:"li",
-        disabled:true,
-        callBack:function(num){
-            console.log("2_"+num)
-        }
-    });
-
-    $("#selectBox3").selectBox({
-        listTitle:".select_tit",
-        listParent:".select_list3",
-        listChild:"li",
-        callBack:function(num){
-            console.log("3_"+num)
-        }
-    });
-
-    for (var i = 1; i < 8; i++) {
-        $("#selectBox1 .select_list").append("<li><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
-    }
-
-
-    // (function($) {
-    //
-    //     var moduleName = "selectBox";
-    //
-    //     $.fn[moduleName] = function(options) {
-    //         var opts = $.extend({}, $.fn[moduleName].defaults, options || {});
-    //         var $element = $(this);
-    //         appModule.init($element, opts);
-    //     };
-    //
-    //     window.appModule = window.appModule || {};
-    //     appModule = {
-    //         init : function($element, opts) {
-    //             // appModule.idx = 0;
-    //             $element.children(""+opts.listTitle+"").attr({"disabled":opts.disabled});
-    //             $element.children(""+opts.listTitle+"").on("click", function(e){
-    //                 e.preventDefault();
-    //                 appModule.selectOpenClose($element, opts);
-    //             });
-    //
-    //             $element.children(""+opts.listParent+"").children(""+opts.listChild+"").on("click", function(e){
-    //                 e.preventDefault();
-    //                 var target = $(this);
-    //                 appModule.listSelect($element, opts, target);
-    //                 if (typeof opts.callBack == "function"){
-    //                     opts.callBack(target.index());
-    //                 }
-    //             });
-    //         },
-    //         selectOpenClose : function($element, opts) {
-    //             if($element.children(""+opts.listTitle+"").attr("disabled")!="disabled"){
-    //                 if(!$element.children(""+opts.listParent+"").hasClass("active")){
-    //                     $element.children(""+opts.listTitle+"").addClass("active");
-    //                     $element.children(""+opts.listParent+"").addClass("active");
-    //                 }else{
-    //                     $element.children(""+opts.listTitle+"").removeClass("active");
-    //                     $element.children(""+opts.listParent+"").removeClass("active");
-    //                 }
-    //             }
-    //         },
-    //         listSelect : function($element, opts, target) {
-    //             var tagClone = $(target).contents().clone();
-    //             $element.children(""+opts.listTitle+"").empty().append(tagClone);
-    //             $element.children(""+opts.listTitle+"").removeClass("active");
-    //             $element.children(""+opts.listParent+"").removeClass("active");
-    //             // appModule.idx = appModule.idx+1;
-    //             // console.log(appModule.idx)
-    //             // // $(".select_box").eq(appModule.idx).children(".select_tit").removeAttr("disabled");
-    //             // $(".select_box").children(".select_tit").attr({"disabled":true});
-    //             // $(".select_box").eq(appModule.idx).children(".select_tit").attr({"disabled":false});
-    //         }
-    //     };
-    //
-    //     $.fn[moduleName].defaults = {
-    //         listTitle:".select_tit",
-    //         listParent:".select_list",
-    //         listChild:"li",
-    //         disabled:false,
-    //         callBack:null
-    //     };
-    //
-    // })(jQuery);
-    //
-    // $("#selectBox1").selectBox({
-    //     listTitle:".select_tit",
-    //     listParent:".select_list1",
-    //     listChild:"li",
-    //     callBack:function(num){
-    //         console.log("1_"+num)
-    //     }
-    // });
-    //
-    // $("#selectBox2").selectBox({
-    //     listTitle:".select_tit",
-    //     listParent:".select_list2",
-    //     listChild:"li",
-    //     callBack:function(num){
-    //         console.log("2_"+num)
-    //     }
-    // });
-    //
-    // $("#selectBox3").selectBox({
-    //     listTitle:".select_tit",
-    //     listParent:".select_list3",
-    //     listChild:"li",
-    //     callBack:function(num){
-    //         console.log("3_"+num)
-    //     }
-    // });
-
-</script>
+        })();
+    </script>
 </body>
 </html>
