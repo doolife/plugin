@@ -16,7 +16,7 @@
 <style>
 body {height:1500px;}
 .btn_wrap {position:fixed; right:100px; top:100px;}
-.btn_wrap>button[data-layer="open"] {margin:30px 0 0 20px;}
+.btn_wrap>button[data-dlayer="open"] {margin:30px 0 0 20px;}
 .layer_pop {display:none;}
 .layer_close {position:absolute; right:10px; top:10px;}
 #layerPop1 {width:300px; height:1000px; background:green;}
@@ -26,55 +26,67 @@ body {height:1500px;}
 </head>
 <body>
 <div class="btn_wrap">
-    <button type="button" data-name="#layerPop1" data-opacity="0.7" data-layer="open">열기1</button>
-    <button type="button" data-name="#layerPop2" data-opacity="0.5" data-layer="open">열기2</button>
-    <button type="button" data-name="#layerPop3" data-opacity="0.3" data-layer="open">열기3</button>
+    <button type="button" data-dname="#layerPop1" data-dopacity="0.7" data-dlayer="open">열기1</button>
+    <button type="button" data-dname="#layerPop2" data-dopacity="0.5" data-dlayer="open">열기2</button>
+    <button type="button" data-dname="#layerPop3" data-dopacity="0.3" data-dlayer="open">열기3</button>
 </div>
 
 <div id="layerPop1" class="layer_pop">
-    <button type="button" class="layer_close" data-layer="close">닫기1</button>
+    <button type="button" class="layer_close" data-dlayer="close">닫기1</button>
 </div>
 <div id="layerPop2" class="layer_pop">
-    <button type="button" class="layer_close" data-layer="close">닫기2</button>
+    <button type="button" class="layer_close" data-dlayer="close">닫기2</button>
 </div>
 <div id="layerPop3" class="layer_pop">
-    <button type="button" class="layer_close" data-layer="close">닫기3</button>
+    <button type="button" class="layer_close" data-dlayer="close">닫기3</button>
 </div>
 
 <script>
     var appModule = appModule || {};
     appModule = (function(appModule, $, undefined){
 
-        var name, width, height, top, left, opacity, scTop, winHeight, winWidth;    // opction 전역 변수
+        var name, width, height, top, left, opacity, scTop, winHeight, winWidth, resizeChk;    // opction 전역 변수
         var layerModule = {
             init : function(){
                 layerModule.btnControls();    // 버튼 컨트롤 함수 호출
+                $( window ).resize(function() {
+                    if(resizeChk==true){    // 레이어가 떠있을때만 리사이즈 적용
+                        winHeight = $(window).width();    // window resize 값을 수정
+                        layerModule.resizeLayer();
+                    }
+                });
             },
             btnControls : function(){
-                $(document).on("click", "[data-layer='open']", function(){    // 레이어 open 버튼 클릭
+                $(document).on("click", "[data-dlayer='open']", function(){    // 레이어 open 버튼 클릭
                     var target = $(this);
-                    // console.log(target.data());
                     layerModule.layerOption(target);    // layerOption 함수 호출
                     layerModule.layerOpen(name, opacity);    // layerOpen 함수 호출
                 });
 
-                $(document).on("click", "[data-layer='close']", function(){    // 레이어 close 버튼 클릭
+                $(document).on("click", "[data-dlayer='close']", function(){    // 레이어 close 버튼 클릭
+                    //e.preventDefault();
+                    layerModule.layerClose();    // layerClose 함수 호출
+                });
+
+                $(document).on("click", "[data-dlayer='mask']", function(){    // 레이어 mask 클릭
                     //e.preventDefault();
                     layerModule.layerClose();    // layerClose 함수 호출
                 });
             },
             layerOpen : function(name, opacity){
+                resizeChk = true;
                 if(winHeight<height) top = $(window).scrollTop()+scTop;    // 화면사이즈보다 컨텐츠 높이가 클 경우 스크롤 top 에서 떨어진 값을 준다
                 $(name).css({width:width, height:height, position:"absolute", left:left, top:top}).fadeIn(500);    // 화면사이즈보다 컨텐츠 높이가 작을 경우 수직 가운데 정렬 하면서 fadin
-                $(name).before($("<div id='mask' style='width:100%; height:100%; position:fixed; left:0; top:0; opacity:"+opacity+"; background:#000;'></div>"));    // 열려질 레이어팝업 태그 위쪽에 마스크 태그 생성
+                $(name).before($("<div id='mask' style='width:100%; height:100%; position:fixed; left:0; top:0; opacity:"+opacity+"; background:#000;' data-dlayer='mask'></div>"));    // 열려질 레이어팝업 태그 위쪽에 마스크 태그 생성
             },
             layerClose : function(){
+                resizeChk = false;
                 $(name).css({display:"none"});    // 레이어팝업 숨김
                 $("#mask").remove();    // 마스크 태그 삭제
             },
             layerOption : function(target){    // 인자값으로 this 를 받음
-                name = $(target).attr("data-name"),    // 버튼 name 값
-                opacity = $(target).attr("data-opacity"),    // 버튼 opacity 값
+                name = $(target).attr("data-dname"),    // 버튼 name 값
+                opacity = $(target).attr("data-dopacity"),    // 버튼 opacity 값
                 scTop = 100,    // scrollTop에서 떨어진 값
                 winHeight = $(window).height(),    // window 높이
                 winWidth = $(window).width(),    // window 넓이
@@ -82,6 +94,9 @@ body {height:1500px;}
                 height = $(name).height(),    // 컨텐츠 높이
                 top = (winHeight-height) / 2 + $(window).scrollTop(), // 수직가운데 : (윈도우높이 - 컨텐츠높이) / 2 + 스크롤 top 값
                 left = (winWidth-width) / 2 + $(window).scrollLeft(); // 수평가운데 : (윈도우넓이 - 컨텐츠넓이) / 2 + 스크롤 left 값
+            },
+            resizeLayer : function(){
+                $(name).css({left:(winHeight-width) / 2 + $(window).scrollLeft()});    // 가로 정렬 리사이즈
             }
         };
 
