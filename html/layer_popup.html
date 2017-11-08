@@ -32,12 +32,15 @@ body {height:1500px;}
 </div>
 
 <div id="layerPop1" class="layer_pop">
+    <span>1</span>
     <button type="button" class="layer_close" data-dlayer="close">닫기1</button>
 </div>
 <div id="layerPop2" class="layer_pop">
+    <span>2</span>
     <button type="button" class="layer_close" data-dlayer="close">닫기2</button>
 </div>
 <div id="layerPop3" class="layer_pop">
+    <span>3</span>
     <button type="button" class="layer_close" data-dlayer="close">닫기3</button>
 </div>
 
@@ -50,8 +53,8 @@ body {height:1500px;}
             init : function(){
                 layerModule.btnControls();    // 버튼 컨트롤 함수 호출
                 $( window ).resize(function() {
-                    if(resizeChk==true){    // 레이어가 떠있을때만 리사이즈 적용
-                        winHeight = $(window).width();    // window resize 값을 수정
+                    if(resizeChk==true){    // 레이어팝업이 떠있을경우 리사이즈 적용
+                        winWidth = $(window).width();    // window resize 값을 수정
                         layerModule.resizeLayer();
                     }
                 });
@@ -96,7 +99,9 @@ body {height:1500px;}
                 left = (winWidth-width) / 2 + $(window).scrollLeft(); // 수평가운데 : (윈도우넓이 - 컨텐츠넓이) / 2 + 스크롤 left 값
             },
             resizeLayer : function(){
-                $(name).css({left:(winHeight-width) / 2 + $(window).scrollLeft()});    // 가로 정렬 리사이즈
+                if(winWidth>=width){    // 윈도우 가로사이즈가 레이어팝업 가로사이즈보다 클 경우만 실행
+                    $(name).css({left:(winWidth-width) / 2 + $(window).scrollLeft()});    // 가로 정렬 리사이즈
+                }
             }
         };
 
