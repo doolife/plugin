@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>img slider</title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="../css/base.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <!--[if lt ie 9]>
+    <script src="../js/html5.js"></script>
+    <script src="../js/respond.js"></script>
+    <![endif]-->
+    <style>
+        .slide_wrap {margin:0 auto 0; width:760px; height:924px; position:relative; overflow:hidden;}
+        .btn {margin-top:-25px; width:50px; height:50px; position:absolute; top:50%; background-color:rgba(47, 47, 47, 0.3); z-index:1;}
+        [data-btn="prev"] {left:0;}
+        [data-btn="next"] {right:0;}
+        [data-slider="wrap"] {font-size:0; letter-spacing:0; word-spacing:0; position:absolute; white-space:nowrap;}
+        [data-slider="list"] {display:inline-block; position:relative;}
+        span {font-size:12px; position:absolute; left:50px; top:50px;}
+        [data-paging="wrap"] {width:100%; text-align:center; position:absolute; left:0; bottom:30px; z-index:1;}
+        [data-paging="list"] {margin:0 5px 0 5px; width:30px; height:30px; display:inline-block; line-height:30px; background:#ddd;}
+        [data-paging="list"]>button {width:100%; height:100%; display:block;}
+        [data-paging="list"].on {background:#000;}
+        [data-paging="list"].on>button {color:#fff;}
+    </style>
+</head>
+<body>
+    <div id="slider1" class="slide_wrap">
+        <button type="button" class="btn" data-btn="prev">prev1</button>
+        <button type="button" class="btn" data-btn="next">next1</button>
+        <ul data-slider="wrap">
+            <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
+            <li data-slider="list"><span>2</span><img src="../images/slider/03.jpg" alt="" /></li>
+        </ul>
+    </div>
+    <div id="slider2" class="slide_wrap">
+        <button type="button" class="btn" data-btn="prev">prev2</button>
+        <button type="button" class="btn" data-btn="next">next2</button>
+        <ul data-slider="wrap">
+            <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
+            <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
+            <li data-slider="list"><span>3</span><img src="../images/slider/05.jpg" alt="" /></li>
+            <li data-slider="list"><span>4</span><img src="../images/slider/06.jpg" alt="" /></li>
+            <li data-slider="list"><span>5</span><img src="../images/slider/07.jpg" alt="" /></li>
+            <li data-slider="list"><span>6</span><img src="../images/slider/01.jpg" alt="" /></li>
+            <li data-slider="list"><span>7</span><img src="../images/slider/03.jpg" alt="" /></li>
+        </ul>
+    </div>
+    <div id="slider3" class="slide_wrap">
+        <button type="button" class="btn" data-btn="prev">prev3</button>
+        <button type="button" class="btn" data-btn="next">next3</button>
+        <ul data-slider="wrap">
+            <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
+            <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
+            <li data-slider="list"><span>3</span><img src="../images/slider/05.jpg" alt="" /></li>
+            <li data-slider="list"><span>4</span><img src="../images/slider/02.jpg" alt="" /></li>
+            <li data-slider="list"><span>5</span><img src="../images/slider/03.jpg" alt="" /></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var sliderModule = sliderModule || {};
+        sliderModule = (function(sliderModule, $, undefined){
+
+            var _btn = "[data-btn]",
+                _wrap = "[data-slider='wrap']",
+                _list = "[data-slider='list']",
+                _pagingWrap = "data-paging='wrap'",
+                _paging = "data-paging='list'",
+                _settings = true;
+
+            var init = function(name, num){
+                var first = $(name).find(_list).first(_list).clone();
+                var last = $(name).find(_list).last(_list).clone();
+                $(name).find(_wrap).append(first);
+                $(name).find(_wrap).prepend(last);
+                $.each($(name), function(i, item) {
+                    var obj     = {};
+                    obj.id  = item;
+                    obj.idx = num;
+                    obj.len = $(item).find(_list).length;
+                    sliderAnimation(obj);
+                    controls(obj);
+                });
+            };
+
+            function controls(obj){
+                $(obj.id).find(_btn).on("click", function(e){
+                    var target = $(this).data("btn");
+                    prevnext(obj, target);
+                });
+
+                $(obj.id).find("["+_paging+"]").on("click", function(e){
+                    var thisNum = $(this).index();
+                    obj.idx = thisNum+1;
+                    _settings = false;
+                    sliderAnimation(obj);
+                });
+            };
+
+            function prevnext(obj, target){
+                _settings = false;
+                if($(obj.id).find(_wrap).is(":not(:animated)")){
+                    if(target=="next"){
+                        obj.idx = obj.idx+1;
+                        sliderAnimation(obj);
+                    }else if(target=="prev"){
+                        obj.idx = obj.idx-1;
+                        sliderAnimation(obj);
+                    }
+                }
+            };
+
+            function sliderAnimation(obj){
+                if(_settings!=true){
+                    $(obj.id).find(_wrap).stop().animate({left:-$(obj.id).width()*obj.idx}, function(){
+                        var cycle = (0===obj.idx || obj.len-1===obj.idx);
+                        if(cycle){
+                            obj.idx = (obj.idx === 0)? obj.len-2 : 1;
+                            $(obj.id).find(_wrap).css({left:-$(obj.id).width()*obj.idx});
+                        }
+                        console.log(obj.idx)
+                        sliderPaging(obj);
+                    });
+                }else{
+                    $(obj.id).find(_wrap).css({left:-$(obj.id).width()*obj.idx});
+                    pagingSet(obj);
+                    sliderPaging(obj);
+                }
+            }
+
+            function sliderPaging(obj){
+                $(obj.id).find("["+_paging+"]").removeClass("on");
+                $(obj.id).find("["+_paging+"]").eq(obj.idx-1).addClass("on");
+            }
+
+            function pagingSet(obj){
+                $(obj.id).find(_wrap).after("<ul "+_pagingWrap+">");
+                for ( var i=1 ; i<obj.len-1 ; i++ ){
+                    $(obj.id).find("["+_pagingWrap+"]").append("<li "+_paging+"><button type='button'>"+i+"");
+                }
+            }
+
+            return{
+                init : init
+            };
+        })(window.sliderModule || {},jQuery);
+
+        sliderModule.init("#slider1", 1);
+        sliderModule.init("#slider2", 3);
+        sliderModule.init("#slider3", 2);
+    </script>
+</body>
+</html>

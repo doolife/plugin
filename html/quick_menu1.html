@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title>퀵메뉴</title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.2.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+html, body {min-width:1100px;}
+.wrap {position:relative; overflow-x:hidden;}
+header {height:700px; position:relative;}
+header:before {content:"확인용구분선"; width:100%; height:1px; text-align:center; position:absolute; top:400px; left:0; background:#000;}
+/* side_menu */
+#quickMenu {width:100px; position:absolute; right:0; top:400px; background:#ddd;}
+#quickMenu>.btn_slide {margin-top:-50px; width:50px; height:100px; display:block; background:#fff; position:absolute; top:50%; left:-50px; border:1px solid #ddd;}
+#quickMenu>.btn_slide:before {content:"<";}
+#quickMenu>.btn_slide.on:before {content:">";}
+#quickMenu>.menu_list>li {width:100%; height:100px;}
+#quickMenu>.menu_list>li.active {background:brown;}
+#quickMenu>.menu_list>li.active>a {color:#fff;}
+#quickMenu>.menu_list>li>a {width:100%; height:100%; display:block;}
+#quickMenu>.btn_top {width:100px; height:100px; display:block; background:#fff; position:absolute; bottom:-100px; left:0;}
+section {height:1000px; text-align:center;}
+.section1 {background:#f57eff;}
+.section2 {background:#29f969;}
+.section3 {background:#fbd637;}
+.section4 {background:#ff0000;}
+.section5 {height:2500px; background:#0b8ebf;}
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <header>header</header>
+        <aside id="quickMenu">
+            <button type="button" class="btn_slide" data-btn="arrow"></button>
+            <ul class="menu_list" data-qucik="wrap">
+                <li data-list="link"><a href="http://www.naver.com" target="_blank">naver_link</a></li>
+                <li data-list="list"><a href="#">2</a></li>
+                <li data-list="link"><a href="http://www.daum.net" target="_blank">daum_link</a></li>
+                <li data-list="list"><a href="#">4</a></li>
+            </ul>
+            <button type="button" class="btn_top" data-btn="top">TOP</button>
+        </aside>
+        <section class="section1" data-contents="con">1</section>
+        <section class="section2" data-contents="con">2</section>
+        <section class="section3" data-contents="con">3</section>
+        <section class="section4" data-contents="con">4</section>
+        <section class="section5">5</section>
+    </div>
+    <script>
+        var quickMenu = (function (window, document, $, undefined) {
+
+            var top, fixTop, qspeed, cspeed, tspeed, delay, timeout, $wrap, $list, $contents, $btnTop, hide, _settings = true, setSp = true;    // 엘리먼트 및 옵션 전역변수
+
+            var init = function(opts) {
+                $wrap = $(opts.element), $list = $wrap.find("[data-list]"), $contents = $("[data-contents='con']"), $btnArrow = $("[data-btn='arrow']"), $btnTop = $("[data-btn='top']");    // 엘리먼트 변수
+                fixTop = opts.fix, qspeed = opts.qspeed, cspeed = opts.cspeed, tspeed = opts.tspeed, delay = opts.delay, hide = opts.hide;    // 옵션 변수
+
+                controls();    // 스크롤 및 버튼 컨트롤러 함수 호출
+                arrowSlide();    // 스크롤 및 버튼 컨트롤러 함수 호출
+            };
+
+            var controls = function(){
+                top = $wrap.offset().top;    // 퀵메뉴 상단 위치값을 변수에 저장
+
+                $(window).on("scroll", function(){
+                    clearTimeout(timeout);    // setTimeout을 계속 해제하기때문에 밑에 구문이 실행안됨(스크롤 동작이 멈췄을때 먼저 실행후 밑의 구문을 실행)
+                    timeout = setTimeout(function(){    // 스크롤 동작 멈췄을때 delay 시간이 지나면 시작
+                        scrollAction();    // scrollAction 함수 호출
+                    }, delay);    // 스크롤 정지 체크 시간
+                });
+
+                $list.on("click", function(e){
+                    var target = $(this).index(); // $list.index(this)    // 내가 클릭한 index 값을 변수에 저장
+                    listSlide(target, e);    // listSlide 함수 호출하면서 변수를 인자값으로 보냄
+                });
+
+                $btnArrow.on("click", function(e){
+                    arrowSlide();    // 화살표버튼 클릭시 arrowSlide 함수 호출
+                });
+
+
+                $btnTop.on("click", function(e){
+                    e.preventDefault();
+                    $("html, body").stop().animate({scrollTop:0}, tspeed);    // TOP버튼 클릭시 스크롤이 최상단으로 이동
+                });
+            };
+
+            function scrollAction(){
+                var scltop     = $(window).scrollTop(),    // 스크롤값을 변수에 저장
+                    firstTop   = $contents.eq(0).offset().top,    // 첫번째 컨텐츠 위치값을 저장
+                    lastBottom = $contents.eq($contents.length-1).offset().top + $contents.eq($contents.length-1).height();    // 마지막 컨텐츠 하단 위치값을 저장
+                if(scltop >= top-fixTop){    // 스크롤 위치값이 퀵메뉴 위치값보다 같거나 클경우 실행
+                    if(_settings!=true){
+                        $wrap.stop().animate({top:$(window).scrollTop()+fixTop}, qspeed);    // 퀵메뉴가 스크롤을 따라다니는 애니메이션
+                    }else{
+                        $wrap.css({top:$(window).scrollTop()+fixTop});    // 새로고침시 스크롤이 내려가있을 경우
+                        _settings = false;
+                    }
+                }else{
+                    $wrap.stop().animate({top:top}, qspeed);    // css로 정해놓은 퀵메뉴 상단값으로 이동
+                }
+                for( var i=0, len=$list.length ; i<len ; i++ ){    // 퀵메뉴 갯수만큼 for문 돌림
+                    var conTop = $contents.eq(i).offset().top;    // 각각의 컨텐츠 위치값을 변수에 저장
+                    if(conTop<=scltop){    // 스크롤 위치값이 각각의 컨텐츠 위치값보다 같거나 클경우
+                        if($list.eq(i).data("list")=="link"){
+                            $list.removeClass("active");
+                        }else{
+                            $list.removeClass("active");    // 퀵메뉴 li class를 모두 없앤다
+                            $list.eq(i).addClass("active");    // 현재 보이는 컨텐츠에 맞는 퀵메뉴 li class를 추가한다(바로 위 구문에서 다 없애고 현재것만 추가하는 방식)
+                        }
+                    }
+                    if(scltop<firstTop || scltop>lastBottom){    // 스크롤 위치값이 첫번째 컨텐츠 위치값보다 작거나 또는 마지막 컨텐츠의 하단 위치값보다 클경우(둘조건중 하나만 해당해도 실행)
+                        $list.removeClass("active");    // 퀵메뉴 li class를 모두 없앤다
+                    }
+                }
+            }
+
+            function arrowSlide(){    // 버튼 클릭후 스크롤을 빠르게하면 열고 닫히는 애니메이션이 스크롤 애니메이션과 겹쳐 멈추는 현상때문에 css애니메이션으로 구현
+                setSp = (setSp==true) ? setSp = "0s" : setSp = "0.4s";    // 상단에 setSp 변수의 시작값을 true로 설정하여 if인 "0s"값을 반환, 클릭이후에는 setSp 변수에 "0s"값이 들어가있어서 (setSp==true)는 false임 그래서 "0.4s"값이 들어감(초기값과 클릭한 이후 값을 삼항연산자로 표현(애니메이션이 필요할때와 필요하지않을때를 위해 구현))
+                if(hide!=true){    // 옵션 hide가 false일 경우
+                    $wrap.css({transition:"transform "+setSp+"", transform:"translateX(0px)"}).find($btnArrow).addClass("on");    // 숨기지않는다
+                    hide = true;    // 옵션 hide에 true를 넣는다
+                }else{    // 옵션 hide가 true일 경우
+                    $wrap.css({transition:"transform "+setSp+"", transform:"translateX("+$wrap.width()+"px)"}).find($btnArrow).removeClass("on");    // 숨긴다
+                    hide = false;    // 옵션 hide에 false를 넣는다
+                }
+            }
+
+            function listSlide(thisNum, e){    // 인자값으로 index 와 event 받음
+                if($list.eq(thisNum).data("list")!="link"){    // 각각의 li에 data-list값이 link가 아닐 경우 실행(list일 경우 실행)
+                    e.preventDefault();    // data-quick값이 link가 아닌 경우 링크 막기
+                    $("html, body").stop().animate({scrollTop:$contents.eq(thisNum).offset().top}, cspeed);    // 클릭한 퀵메뉴의 index와 같은 컨텐츠 위치로 이동(퀵메뉴 data-list값이 list인 애들의 위치로만 이동)
+                }
+            }
+
+            return {
+                options:init    // init함수를 options이란 이름으로 외부에서 사용가능
+            };
+
+        })(window, document, $);
+
+        new quickMenu.options({
+            element:"#quickMenu",    // 엘리먼트
+            fix:100,    // 스크롤시 상단에서 떨어진 값
+            qspeed:300,    // 스크롤시 퀵메뉴 이동하는 스피드
+            cspeed:600,    // 퀵메뉴 클릭시 이동하는 스피드
+            tspeed:800,    // TOP버튼 클릭시 퀵메뉴 이동하는 스피드
+            delay:10,    // 스크롤 정지 체크 시간
+            hide:true    // true : hide / false : show
+        });
+    </script>
+</body>
+</html>

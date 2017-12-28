@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> pixel animation </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.2.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+    .pixel_ani {width:65px; height:150px; position:absolute; left:100px; top:100px; overflow:hidden;}
+    .pixel_ani>li {position:absolute;}
+    .pixel_ani>li.obj1 {width:16px; height:11px; background:url("../images/pixel/pixel_img1.png") no-repeat left top; left:42px; top:126px;}
+    .pixel_ani>li.obj2 {width:39px; height:20px; background:url("../images/pixel/pixel_img2.png") no-repeat left top; left:19px; top:116px;}
+    .pixel_ani>li.obj3 {width:11px; height:12px; background:url("../images/pixel/pixel_img3.png") no-repeat left top; left:5px; top:115px;}
+    .pixel_ani>li.obj4 {width:12px; height:11px; background:url("../images/pixel/pixel_img4.png") no-repeat left top; left:23px; top:102px;}
+    .pixel_ani>li.obj5 {width:12px; height:16px; background:url("../images/pixel/pixel_img5.png") no-repeat left top; left:47px; top:102px;}
+</style>
+</head>
+<body>
+    <ul class="pixel_ani">
+        <li class="obj1"></li>
+        <li class="obj2"></li>
+        <li class="obj3"></li>
+        <li class="obj4"></li>
+        <li class="obj5"></li>
+    </ul>
+    <script src="../js/TweenMax.min.js"></script>
+    <script>
+        var pixelModule = pixelModule || {};
+        pixelModule = (function(pixelModule, $, undefined){
+
+            // var pixelAnimate = new TimelineLite({paused:true});
+            //     pixelAnimate.from([$(".obj1")], 1.8, {y:-200, ease:Circ.easeOut})
+            //     .from([$(".obj2")], 1.3, {x:-150, ease:Circ.easeOut})
+            //     .from([$(".obj3")], 1.8, {y:-150, ease:Circ.easeOut})
+            //     .from([$(".obj4")], 1.8, {y:-150, ease:Circ.easeOut})
+            //     .from([$(".obj5")], 1.8, {y:-150, ease:Circ.easeOut});
+
+            var pixelAnimate = new TimelineMax({paused: true, repeat:20, repeatDelay:3});
+            var bezierPath = [{y:0, rotation:0}, {y:-150, rotation:180}];
+                pixelAnimate.from([$(".obj1")], 2.3, { bezier: {type:"soft", values:bezierPath}})
+                .from([$(".obj2")], 2.3, { bezier: {type:"soft", values:bezierPath}})
+                .from([$(".obj3")], 2.3, { bezier: {type:"soft", values:bezierPath}})
+                .from([$(".obj4")], 2.3, { bezier: {type:"soft", values:bezierPath}})
+                .from([$(".obj5")], 2.3, { bezier: {type:"soft", values:bezierPath}});
+
+            var pixel = {
+                init : function(){
+                    pixelAnimate.play();
+                }
+            };
+
+            return{
+                init : pixel.init
+            };
+
+        })(window.pixelModule || {},jQuery);
+
+        pixelModule.init();
+    </script>
+</body>
+</html>
