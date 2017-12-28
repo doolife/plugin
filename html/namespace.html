@@ -4,65 +4,35 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
-<title>namespace</title>
+<title> javascript namespace </title>
 <meta name="Keywords" content="">
 <meta name="Description" content="">
 <link rel="stylesheet" href="../css/base.css" />
-<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery-3.1.1.min.js"></script>
 <!--[if lt ie 9]>
 <script src="../js/html5.js"></script>
 <script src="../js/respond.js"></script>
 <![endif]-->
+<style>
+
+</style>
 </head>
 <body>
-    <script type="text/javascript">
-        var appModule = appModule || {};
-        appModule = (function(appModule, $, undefined){
-            var name = "doonam";
-            var init = {
-                houseinfo : {
-                    houseowner : "이재성",
-                    address : "경기도 의왕시 삼동 부곡중앙남 2길 3",
-                    numbers : "더스카이 아파트 902호"
-                },
-                convenience : {
-                    subway : "의왕역 5분거리",
-                    market : "도깨비 시장 1분거리"
-                }
-            };
+네임스페이스 테스트
+<script>
+    var NAMESPACE = (function(NAMESPACE, $, undefined){
 
-            var controls = {
-                action : {
-                    mouse : function(num){
-                        return num*5;
-                    },
-                    wheel : function(){
+        var name  = "doonam";
+        function init(){
+            console.log("init")
+        };
+        NAMESPACE.controls = function(){
+            console.log("controls")
+        };
+        return NAMESPACE;
 
-                    },
-                    click : function(){
-                        setTimeout(function() {
-                            console.log("111")
-                        }, 3000);
-                    }
-                },
-                motion : {
-                    index : function(){
-
-                    },
-                    info : function(){
-
-                    }
-                }
-            };
-
-        	return{
-        		init : init,
-                controls : controls,
-                mouse : controls.action.mouse,
-                name : name
-        	};
-        })(window.appModule || {},jQuery);
-        console.log(appModule)
-    </script>
+    })(window.NAMESPACE || {},jQuery);
+    NAMESPACE.controls();
+</script>
 </body>
 </html>
