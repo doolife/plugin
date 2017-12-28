@@ -54,65 +54,67 @@
         </ul>
     </div>
     <script>
-        var selectboxController = (function (window, document, $, undefined) {
+        (function(){
+            var selectboxController = (function (window, document, $, undefined) {
 
-            var scrollHeight = 300;
-            var targetNum;
-            var $title = $("[data-select='title']"),
-                $listWrap = $("[data-select='listWrap']"),
-                $list = $("[data-select='list']");
+                var scrollHeight = 300;
+                var targetNum;
+                var $title = $("[data-select='title']"),
+                    $listWrap = $("[data-select='listWrap']"),
+                    $list = $("[data-select='list']");
 
-            var init = function() {
-                btnControls();
-            };
+                var init = function() {
+                    btnControls();
+                };
 
-            function btnControls(){
-                $title.on("click", function(e){
-                    var target = $title.index(this);
-                        targetNum = target;
-                    openClose(targetNum);
-                });
-                $listWrap.children($list).on("click", function(e){
-                    var target = $listWrap.eq(targetNum).children($list).index(this);
-                    listSelect(target);
-                });
-            }
+                function btnControls(){
+                    $title.on("click", function(e){
+                        var target = $title.index(this);
+                            targetNum = target;
+                        openClose(targetNum);
+                    });
+                    $listWrap.children($list).on("click", function(e){
+                        var target = $listWrap.eq(targetNum).children($list).index(this);
+                        listSelect(target);
+                    });
+                }
 
-            function openClose(thisNum){
-                if($title.eq(thisNum).attr("disabled")!="disabled"){
-                    if(!$title.eq(thisNum).hasClass("active")){
-                        $title.removeClass("active").siblings($listWrap).removeClass("active");
-                        $title.eq(thisNum).addClass("active").siblings($listWrap).addClass("active");
-                        if ($title.eq(thisNum).siblings($listWrap).height()>=scrollHeight) {
-                            $title.eq(thisNum).siblings($listWrap).css({height:scrollHeight, overflowY:"auto"});
+                function openClose(thisNum){
+                    if($title.eq(thisNum).attr("disabled")!="disabled"){
+                        if(!$title.eq(thisNum).hasClass("active")){
+                            $title.removeClass("active").siblings($listWrap).removeClass("active");
+                            $title.eq(thisNum).addClass("active").siblings($listWrap).addClass("active");
+                            if ($title.eq(thisNum).siblings($listWrap).height()>=scrollHeight) {
+                                $title.eq(thisNum).siblings($listWrap).css({height:scrollHeight, overflowY:"auto"});
+                            }else{
+                                $title.eq(thisNum).siblings($listWrap).css({height:""});
+                            }
                         }else{
-                            $title.eq(thisNum).siblings($listWrap).css({height:""});
+                            $title.eq(thisNum).removeClass("active").siblings($listWrap).removeClass("active");
                         }
-                    }else{
-                        $title.eq(thisNum).removeClass("active").siblings($listWrap).removeClass("active");
                     }
                 }
+
+                function listSelect(thisNum){
+                    var tagClone = $listWrap.eq(targetNum).children($list).eq(thisNum).contents().clone();
+                    $title.eq(targetNum).empty().append(tagClone);
+                    $title.removeClass("active").siblings($listWrap).removeClass("active");
+                }
+
+                return {
+                    init:init
+                };
+
+            })(window, document, $);
+
+            $(document).ready(function() {
+                selectboxController.init();
+            });
+
+            for (var i = 1; i < 9; i++) {
+                $(".s1 .select_list").append("<li><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
             }
-
-            function listSelect(thisNum){
-                var tagClone = $listWrap.eq(targetNum).children($list).eq(thisNum).contents().clone();
-                $title.eq(targetNum).empty().append(tagClone);
-                $title.removeClass("active").siblings($listWrap).removeClass("active");
-            }
-
-            return {
-                init:init
-            };
-
-        })(window, document, $);
-
-        $(document).ready(function() {
-            selectboxController.init();
-        });
-
-        for (var i = 1; i < 9; i++) {
-            $(".s1 .select_list").append("<li><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
-        }
+        })();
     </script>
 </body>
 </html>
