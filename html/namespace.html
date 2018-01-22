@@ -18,21 +18,40 @@
 </style>
 </head>
 <body>
-네임스페이스 테스트
+namespace basic
 <script>
-    var NAMESPACE = (function(NAMESPACE, $, undefined){
+    var NAMESPACE = (function(window, document, $, undefined){
 
-        var name  = "doonam";
-        function init(){
-            console.log("init")
-        };
-        NAMESPACE.controls = function(){
-            console.log("controls")
-        };
-        return NAMESPACE;
+        var name = "doonam"
 
-    })(window.NAMESPACE || {},jQuery);
-    NAMESPACE.controls();
+        var init = function(){
+            console.log(controls)
+        };
+
+        var controls = {
+            mouseClick : function(){
+                console.log("mouseClick")
+            },
+            mouseEnter : function(){
+                console.log("mouseEnter")
+            },
+            mouseLeave : function(){
+                console.log("mouseLeave")
+            }
+        };
+
+        function objMove(){
+
+        }
+
+        return {
+            init:init,
+            controls:controls
+        };
+
+    })(window, document, $);
+
+    console.log(NAMESPACE)
 </script>
 </body>
 </html>
