@@ -15,74 +15,76 @@
 <![endif]-->
 <style>
 img {max-width:100%;}
-button[data-btn] {width:100%; height:50px; background-color:#ddd;}
-.dropdown_con {margin:0 auto 0; max-width:760px; display:none;}
+.btn_dropdown {width:100%; height:50px; background-color:#ddd;}
+.dropdown_con {margin:0 auto 0; max-width:760px;}
 </style>
 </head>
 <body>
-    <button  type="button" data-name="#dropdown1" data-btn="menu">dropdown1</button>
-    <div id="dropdown1" class="dropdown_con">
+    <button  type="button" class="btn_dropdown" data-btn="menu">dropdown1</button>
+    <div class="dropdown_con" data-dropdown="contents">
         <img src="../images/slider/00.jpg" alt="" />
     </div>
-    <button  type="button" data-name="#dropdown2" data-btn="menu">dropdown2</button>
-    <div id="dropdown2" class="dropdown_con">
+    <button  type="button" class="btn_dropdown" data-btn="menu">dropdown2</button>
+    <div class="dropdown_con" data-dropdown="contents">
         <img src="../images/slider/01.jpg" alt="" />
     </div>
-    <button  type="button" data-name="#dropdown3" data-btn="menu">dropdown3</button>
-    <div id="dropdown3" class="dropdown_con">
+    <button  type="button" class="btn_dropdown" data-btn="menu">dropdown3</button>
+    <div class="dropdown_con" data-dropdown="contents">
         <img src="../images/slider/02.jpg" alt="" />
     </div>
-    <button  type="button" data-name="#dropdown4" data-btn="menu">dropdown4</button>
-    <div id="dropdown4" class="dropdown_con">
+    <button  type="button" class="btn_dropdown" data-btn="menu">dropdown4</button>
+    <div class="dropdown_con" data-dropdown="contents">
         <img src="../images/slider/03.jpg" alt="" />
     </div>
 <script>
-    var appModule = appModule || {};
-    appModule = (function(appModule, $, undefined){
+    var DROPDOWN = (function (window, document, $, undefined) {
 
-        var scTop;
-        var $btnMenu = $("[data-btn='menu']");
-        appModule.init = function(num){
-            $btnMenu.on("click", function(){
-                var name = $(this).data("name");
-                scTop = $(this).offset().top;
-                dropdown.visibleChk(name);
-            });
-            $btnMenu.eq(num).trigger("click");
+        var $btn = $("[data-btn='menu']"), $con = $("[data-dropdown='contents']");
+
+        var init = function(opts) {
+            constructor.btnControls();
+            constructor.setDropDown(opts.idx);
+            constructor.callbackScroll($btn.eq(opts.idx).offset().top);
         };
 
-        var dropdown = {
-            visibleChk : function(name){
-                if (!$(name).is(":visible")){
-                    dropdown.slideDown(name);
+        var constructor = {
+            btnControls : function(){
+                $btn.on("click", function(){
+                    var target = $($btn).index(this);
+                    constructor.visibleChk(target);
+                });
+            },
+            visibleChk : function(idx){
+                if (!$con.eq(idx).is(":visible")){
+                    constructor.slideDown(idx);
+                    constructor.callbackScroll($btn.eq(idx).offset().top);
                 }else{
-                    dropdown.slideUp(name);
+                    constructor.slideUp(idx);
                 }
             },
-            slideDown : function(name){
-                $(name).slideDown(500,
-                    function (){
-                        dropdown.callbackScroll();
-                    }
-                );
+            slideDown : function(idx){
+                $con.slideUp(500).eq(idx).slideDown(500);
             },
-            slideUp : function(name){
-                $(name).slideUp(500,
-                    function (){
-                        dropdown.callbackScroll();
-                    }
-                );
+            slideUp : function(idx){
+                $con.eq(idx).slideUp(500);
             },
-            callbackScroll : function(){
+            callbackScroll : function(scTop){
                 $("body, html").animate({scrollTop:scTop}, 500);
+            },
+            setDropDown : function(idx){
+                $con.slideUp(0).eq(idx).slideDown(0);
             }
         };
 
-        return appModule;
+        return {
+            options:init
+        };
 
-    })(window.appModule || {},jQuery);
+    })(window, document, $);
 
-    appModule.init(0);
+    new DROPDOWN.options({
+        idx:3
+    });
 </script>
 </body>
 </html>
