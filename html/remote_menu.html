@@ -15,7 +15,7 @@
 <![endif]-->
 <style>
 /* mobile */
-.remote_menu { width: 256px; height: 100%; position: fixed; right: -256px; opacity: 0; background: url("../images/remote_bg_m.gif") no-repeat center top; background-size: contain; z-index: 9100025; }
+.remote_menu { width: 256px; height: 100%; position: fixed; right: -256px; top: 0; display: none; background: url("../images/remote_bg_m.gif") no-repeat center top; background-size: contain; z-index: 9100025; }
 .remote_menu .remote_overflow { height: 100%; overflow-y: auto; }
 .remote_menu:before { content: ""; display: block; width: 100%; position: absolute; top: 122px; left: 0; bottom: 0; background-color: #141414; }
 .remote_menu a { text-decoration: none; }
@@ -41,6 +41,7 @@
 /* web */
 @media screen and (min-width: 769px) {
     .remote_menu { width: 178px; height: auto; position: absolute; right: -180px; background: url("../images/remote_bg.png") no-repeat center top; border: 1px solid rgba(0, 0, 0, 0.9); border-radius: 5px; z-index: 9999; }
+    .remote_menu.fix { position: fixed; }
     .remote_menu .remote_overflow { height: auto; overflow-y: hidden; }
     .remote_menu:before { top: 50px; background-color: rgba(20, 20, 20, 0.9); }
     .remote_menu .remote_arrow { top: 10px; }
@@ -120,7 +121,7 @@ header {height:800px;}
                 $snb = $gnb.find("[data-list='list']"),
                 $con = $("[data-contents='con']"), $scon = $("[data-contents='scon']"), $btnArrow = $("[data-btn='arrow']");
 
-            var timeout, resizeTimer, isMobile, resizeWidth, _settings = true, gnbNum, snbNum, removeChk = false;
+            var resizeTimer, isMobile, resizeWidth, _settings = true, gnbNum, snbNum, removeChk = false, scChk = false;
 
             arrowSlide();
             controls();
@@ -140,23 +141,23 @@ header {height:800px;}
 
                 $(window).on("resize", function(){
                     isMobile = (window.matchMedia("(min-width:769px)").matches) ? false : true;
+                    resizeWidth = $wrap.outerWidth();
                     clearTimeout(resizeTimer);
                     resizeTimer = setTimeout(function() {
-                        resizeWidth = $wrap.outerWidth();
                         if(opts.show){
                             $wrap.css({right:-resizeWidth});
                         }else{
                             mobileMask();
                         }
                         scrollAction();
-                    }, 150);
+                    }, 0);
                 }).resize();
 
                 $(window).on("scroll", function(){
-                    clearTimeout(timeout);
-                    timeout = setTimeout(function(){
+                    if(scChk){
                         scrollAction();
-                    }, opts.delay);
+                    }
+                    scChk = true;
                 });
 
                 $btnArrow.on("click", function(e){
@@ -172,17 +173,12 @@ header {height:800px;}
                 var scltop = $(window).scrollTop();
                 if(!isMobile){
                     if(scltop >= opts.top - opts.fix) {
-                        if(!_settings) {
-                            $wrap.stop().animate({top: $(window).scrollTop() + opts.fix}, opts.qspeed);
-                        } else {
-                            $wrap.css({top: $(window).scrollTop() + opts.fix});
-                            _settings = false;
-                        }
-                    } else {
-                        $wrap.css({top: opts.top});
+                        $wrap.addClass("fix").css({top:opts.fix});
+                    }else{
+                        $wrap.removeClass("fix").css({top:opts.top});
                     }
                 }else{
-                    $wrap.css({top: 0});
+                    $wrap.removeClass("fix").css({top:""});
                 }
 
                 if(opts.quick) {
@@ -210,7 +206,7 @@ header {height:800px;}
                 if(!removeChk) {
                     $gnb.removeClass("active");
                     $gnb.find($snb).removeClass("active");
-                    $wrap.css({opacity:1});
+                    $wrap.css({display:"block"});
                     if(endScroll){
                         $gnb.eq($gnb.length-1).addClass("active");
                         $gnb.eq($gnb.length-1).find($snb).eq($gnb.eq($gnb.length-1).find($snb).length-1).addClass("active");
@@ -221,8 +217,12 @@ header {height:800px;}
                 } else {
                     $gnb.removeClass("active");
                     $gnb.find($snb).removeClass("active");
-                    $wrap.css({opacity:0});
-                    opts.show = false;
+                    $wrap.css({display:"none"});
+                    if(isMobile){
+                        opts.show = false;
+                    }else{
+                        opts.show = (opts.show) ? false : true;
+                    }
                     arrowSlide();
                 }
             }
@@ -268,8 +268,7 @@ header {height:800px;}
                 fix:100,    // 스크롤시 상단에서 떨어진 값
                 qspeed:300,    // 스크롤시 퀵메뉴 따라다니는 스피드
                 cspeed:600,    // 퀵메뉴 클릭시 이동하는 스피드
-                delay:0,    // 스크롤 정지 체크 시간
-                show:false,    // true : 보이기 / false : 숨기기
+                show:true,    // true : 보이기 / false : 숨기기
                 quick:true      // true : 퀵메뉴 / flase : 네비게이션
             });
         });
