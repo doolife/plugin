@@ -14,10 +14,11 @@
     <script src="../js/respond.js"></script>
     <![endif]-->
     <style>
-        .slide_wrap {margin:0 auto 0; width:760px; height:924px; position:relative; overflow:hidden;}
-        .btn {margin-top:-25px; width:50px; height:50px; position:absolute; top:50%; background-color:rgba(47, 47, 47, 0.3); z-index:1;}
-        [data-btn="prev"] {left:0;}
-        [data-btn="next"] {right:0;}
+        .slider_wrap {margin:0 auto 0; width:760px; height:924px; position:relative;}
+        .slider_btn {margin-top:-25px; width:50px; height:50px; position:absolute; top:50%; background-color:rgba(47, 47, 47, 0.3); z-index:1;}
+        [data-btn="prev"] {left:-50px;}
+        [data-btn="next"] {right:-50px;}
+        .slider_cover {width:100%; height:100%; position:relative; overflow:hidden;}
         [data-gallery="wrap"] {font-size:0; letter-spacing:0; word-spacing:0; position:absolute; white-space:nowrap;}
         [data-slider="list"] {display:inline-block; position:relative;}
         span {font-size:12px; position:absolute; left:50px; top:50px;}
@@ -29,55 +30,61 @@
     </style>
 </head>
 <body>
-    <div class="slide_wrap" data-id="slider" data-idx="1">
-        <button type="button" class="btn" data-btn="prev">prev1</button>
-        <button type="button" class="btn" data-btn="next">next1</button>
-        <ul data-gallery="wrap">
-            <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
-            <li data-slider="list"><span>2</span><img src="../images/slider/03.jpg" alt="" /></li>
-        </ul>
+    <div id="slider1" class="slider_wrap">
+        <button type="button" class="slider_btn" data-btn="prev">prev1</button>
+        <button type="button" class="slider_btn" data-btn="next">next1</button>
+        <div class="slider_cover">
+            <ul data-gallery="wrap">
+                <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
+                <li data-slider="list"><span>2</span><img src="../images/slider/03.jpg" alt="" /></li>
+            </ul>
+        </div>
     </div>
-    <div class="slide_wrap" data-id="slider" data-idx="3">
-        <button type="button" class="btn" data-btn="prev">prev2</button>
-        <button type="button" class="btn" data-btn="next">next2</button>
-        <ul data-gallery="wrap">
-            <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
-            <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
-            <li data-slider="list"><span>3</span><img src="../images/slider/05.jpg" alt="" /></li>
-            <li data-slider="list"><span>4</span><img src="../images/slider/06.jpg" alt="" /></li>
-            <li data-slider="list"><span>5</span><img src="../images/slider/07.jpg" alt="" /></li>
-            <li data-slider="list"><span>6</span><img src="../images/slider/01.jpg" alt="" /></li>
-            <li data-slider="list"><span>7</span><img src="../images/slider/03.jpg" alt="" /></li>
-        </ul>
+    <div id="slider2" class="slider_wrap">
+        <button type="button" class="slider_btn" data-btn="prev">prev2</button>
+        <button type="button" class="slider_btn" data-btn="next">next2</button>
+        <div class="slider_cover">
+            <ul data-gallery="wrap">
+                <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
+                <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
+                <li data-slider="list"><span>3</span><img src="../images/slider/05.jpg" alt="" /></li>
+                <li data-slider="list"><span>4</span><img src="../images/slider/06.jpg" alt="" /></li>
+                <li data-slider="list"><span>5</span><img src="../images/slider/07.jpg" alt="" /></li>
+                <li data-slider="list"><span>6</span><img src="../images/slider/01.jpg" alt="" /></li>
+                <li data-slider="list"><span>7</span><img src="../images/slider/03.jpg" alt="" /></li>
+            </ul>
+        </div>
     </div>
-    <div class="slide_wrap" data-id="slider" data-idx="2">
-        <button type="button" class="btn" data-btn="prev">prev3</button>
-        <button type="button" class="btn" data-btn="next">next3</button>
-        <ul data-gallery="wrap">
-            <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
-            <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
-            <li data-slider="list"><span>3</span><img src="../images/slider/05.jpg" alt="" /></li>
-            <li data-slider="list"><span>4</span><img src="../images/slider/02.jpg" alt="" /></li>
-            <li data-slider="list"><span>5</span><img src="../images/slider/03.jpg" alt="" /></li>
-        </ul>
+    <div id="slider3" class="slider_wrap">
+        <button type="button" class="slider_btn" data-btn="prev">prev3</button>
+        <button type="button" class="slider_btn" data-btn="next">next3</button>
+        <div class="slider_cover">
+            <ul data-gallery="wrap">
+                <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
+                <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
+                <li data-slider="list"><span>3</span><img src="../images/slider/05.jpg" alt="" /></li>
+                <li data-slider="list"><span>4</span><img src="../images/slider/02.jpg" alt="" /></li>
+                <li data-slider="list"><span>5</span><img src="../images/slider/03.jpg" alt="" /></li>
+            </ul>
+        </div>
     </div>
     <script type="text/javascript">
         var sliderModule = (function (window, document, $, undefined) {
 
-            var $el = $("[data-id='slider']"),
-                $btn = $("[data-btn]"),
+            var $btn = $("[data-btn]"),
                 $wrap = $("[data-gallery='wrap']"),
                 $list = $("[data-slider='list']"),
                 _pagingWrap = "data-paging='wrap'",
                 _paging = "data-paging='list'";
 
 
-            var init = function(){
-                $.each($el, function(i, item) {
-                    var obj = {};
-                    obj.element  = $(item);
-                    obj.idx = $(item).data("idx");
+            var init = function(opts){
+                $.each(opts.element, function(i, item) {
+                    var obj     = {};
+                    obj.element  = item;
+                    obj.idx = opts.idx[i];
                     obj.len = $(item).find($list).length;
+                    obj.paging = opts.paging[i];
                     obj.setChk = true;
 
                     var first = $(obj.element).find($list).first($list).clone();
@@ -119,8 +126,10 @@
                 if(obj.setChk==true){
                     obj.idx = (obj.idx>obj.len || obj.idx<=0) ? 1 : obj.idx;
                     $(obj.element).find($wrap).css({left:-$(obj.element).width()*obj.idx});
-                    pagingSet(obj);
-                    sliderPaging(obj);
+                    if(obj.paging==true){
+                        pagingSet(obj);
+                        sliderPaging(obj);
+                    }
                     obj.setChk = false;
                 }else{
                     $(obj.element).find($wrap).stop().animate({left:-$(obj.element).width()*obj.idx}, function(){
@@ -129,7 +138,9 @@
                             obj.idx = (obj.idx === 0)? obj.len : 1;
                             $(obj.element).find($wrap).css({left:-$(obj.element).width()*obj.idx});
                         }
-                        sliderPaging(obj);
+                        if(obj.paging==true){
+                            sliderPaging(obj);
+                        }
                     });
                 }
             }
@@ -147,9 +158,15 @@
             }
 
             return{
-                init:init()
+                option:init
             };
         })(window, document, $);
+
+        new sliderModule.option({
+            element:["#slider1", "#slider2", "#slider3"],
+            idx:[1, 5, 3],
+            paging:[true, false, true]
+        });
     </script>
 </body>
 </html>
