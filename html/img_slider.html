@@ -55,6 +55,15 @@
             </ul>
         </div>
     </div>
+    <div id="paging2">
+        <button type="button" data-list="paging">1</button>
+        <button type="button" data-list="paging">2</button>
+        <button type="button" data-list="paging">3</button>
+        <button type="button" data-list="paging">4</button>
+        <button type="button" data-list="paging">5</button>
+        <button type="button" data-list="paging">6</button>
+        <button type="button" data-list="paging">7</button>
+    </div>
     <div id="slider3" class="slider_wrap">
         <button type="button" class="slider_btn" data-btn="prev">prev3</button>
         <button type="button" class="slider_btn" data-btn="next">next3</button>
@@ -74,6 +83,7 @@
             var $btn = $("[data-btn]"),
                 $wrap = $("[data-gallery='wrap']"),
                 $list = $("[data-slider='list']"),
+                $paging = $("[data-list='paging']"),
                 _pagingWrap = "data-paging='wrap'",
                 _paging = "data-paging='list'";
 
@@ -85,6 +95,9 @@
                     obj.idx = opts.idx[i];
                     obj.len = $(item).find($list).length;
                     obj.paging = opts.paging[i];
+                    if(opts.pelement != undefined){
+                        obj.pelement = opts.pelement[i];
+                    }
                     obj.setChk = true;
 
                     var first = $(obj.element).find($list).first($list).clone();
@@ -104,6 +117,12 @@
                 });
 
                 $(obj.element).find("["+_paging+"]").on("click", function(e){
+                    var thisNum = $(this).index();
+                    obj.idx = thisNum+1;
+                    sliderAnimation(obj);
+                });
+
+                $(obj.pelement).find($paging).on("click", function(e){
                     var thisNum = $(this).index();
                     obj.idx = thisNum+1;
                     sliderAnimation(obj);
@@ -165,7 +184,8 @@
         new sliderModule.option({
             element:["#slider1", "#slider2", "#slider3"],
             idx:[1, 5, 3],
-            paging:[true, false, true]
+            paging:[true, false, true],
+            pelement:["", "#paging2", ""],
         });
     </script>
 </body>
