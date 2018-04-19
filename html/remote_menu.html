@@ -1,68 +1,30 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
-<title>remote menu</title>
-<meta name="Keywords" content="">
-<meta name="Description" content="">
-<link rel="stylesheet" href="../css/base.css" />
-<script src="../js/jquery-3.2.1.min.js"></script>
-<!--[if lt ie 9]>
-<script src="../js/html5.js"></script>
-<script src="../js/respond.js"></script>
-<![endif]-->
-<style>
-/* mobile */
-.remote_menu { width: 256px; height: 100%; position: fixed; right: -256px; top: 0; display: none; background: url("../images/remote_bg_m.gif") no-repeat center top; background-size: contain; z-index: 9100025; }
-.remote_menu .remote_overflow { height: 100%; overflow-y: auto; }
-.remote_menu:before { content: ""; display: block; width: 100%; position: absolute; top: 122px; left: 0; bottom: 0; background-color: #141414; }
-.remote_menu a { text-decoration: none; }
-.remote_menu .remote_arrow { width: 41px; height: 72px; position: absolute; left: -42px; top: 120px; background: url("../images/remote_arrow.png") no-repeat 0 0; z-index: 1; }
-.remote_menu .remote_arrow.on { left: -11px; background-position: -41px 0; }
-.remote_menu .menu_list { margin: 0 0 28px 40px; position: relative; }
-.remote_menu .menu_list:before { content: ""; display: block; overflow: hidden; }
-.remote_menu .menu_list li { width: 100%; text-align: left; position: relative; }
-.remote_menu .menu_list li a { width: 100%; height: 27px; line-height: 27px; display: block; color: #6f6b5f; font-size: 14px; letter-spacing: -1px; transition: 0.4s ease; }
-.remote_menu .menu_list li.active > a { color: #ddb382; }
-.remote_menu .menu_list > li { margin-top: 15px; }
-.remote_menu .menu_list > li:first-child { margin-top: 20px; }
-.remote_menu .menu_list > li > a { height: 37px; line-height: 37px; font-size: 16px; font-weight: bold; }
-.remote_menu .remote_etc { padding: 0 0 28px 40px; position: relative; overflow: hidden; }
-.remote_menu .remote_etc:before { content: ""; display: block; margin-left: -88px; width: 176px; height: 1px; position: absolute; left: 50%; top: 0; background-color: rgba(255, 255, 255, 0.1); }
-.remote_menu .remote_etc span { display: inline-block; }
-.remote_menu .remote_etc .remote_link { margin-top: 23px; width: 100%; height: 15px; display: block; text-align: left; color: #6f6b5f; font-size: 12px; position: relative; }
-.remote_menu .remote_etc .remote_link:before { content: ""; display: inline-block; margin: -1px 8px 0 0; width: 15px; height: 16px; vertical-align: middle; background: url("../images/remote_etc_bg.png") no-repeat 0 0; }
-.remote_menu .remote_etc .remote_link.remote_home:before { background-position: 0 0; }
-.remote_menu .remote_etc .remote_link.remote_nshop:before { background-position: -16px 0; }
-.remote_menu .remote_etc .remote_link:first-child { margin-top: 27px; }
-
-/* web */
-@media screen and (min-width: 769px) {
-    .remote_menu { width: 178px; height: auto; position: absolute; right: -180px; background: url("../images/remote_bg.png") no-repeat center top; border: 1px solid rgba(0, 0, 0, 0.9); border-radius: 5px; z-index: 9999; }
-    .remote_menu.fix { position: fixed; }
-    .remote_menu .remote_overflow { height: auto; overflow-y: hidden; }
-    .remote_menu:before { top: 50px; background-color: rgba(20, 20, 20, 0.9); }
-    .remote_menu .remote_arrow { top: 10px; }
-    .remote_menu .menu_list { margin-left: 0; }
-    .remote_menu .menu_list li { text-align: center; }
-    .remote_menu .menu_list li:hover > a { color: #ddb382; }
-    .remote_menu .remote_etc { padding-left: 0; text-align: center; }
-    .remote_menu .remote_etc:before { margin-left: 0; width: 100%; height: 2px; left: 0; background: url("../images/remote_line.png") no-repeat center top; }
-    .remote_menu .remote_etc .remote_link { text-align: left; }
-}
-
-.remote_wrap {min-width:1100px; position:relative; overflow:hidden;}
-header {height:800px;}
-.section1_1 {height:700px; background:cornflowerblue;}
-.section1_2 {height:700px; background:greenyellow;}
-.section1_3 {height:700px; background:orangered;}
-.section2_1 {height:700px; background:forestgreen;}
-.section2_2 {height:700px; background:hotpink;}
-.section2_3 {height:700px; background:violet;}
-.section3 {height:700px;}
-</style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>remote menu</title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/remote.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <!--[if lt ie 9]>
+    <script src="../js/html5.js"></script>
+    <script src="../js/respond.js"></script>
+    <![endif]-->
+    <style>
+    .remote_wrap {min-width:1100px; position:relative; overflow:hidden;}
+    header {height:800px;}
+    .section1_1 {height:700px; background:cornflowerblue;}
+    .section1_2 {height:700px; background:greenyellow;}
+    .section1_3 {height:700px; background:orangered;}
+    .section2_1 {height:700px; background:forestgreen;}
+    .section2_2 {height:700px; background:hotpink;}
+    .section2_3 {height:700px; background:violet;}
+    .section3 {height:700px;}
+    </style>
 </head>
 <body>
     <div class="remote_wrap">
@@ -114,161 +76,239 @@ header {height:800px;}
         </section>
     </div>
     <script>
-        var remote = function(opts){
+        function Remote(opts) {
+            this.opts = opts;
 
-            var $wrap = $(opts.element),
-                $gnb = $wrap.find($("[data-remote='wrap']")).children("[data-list='list']"),
-                $snb = $gnb.find("[data-list='list']"),
-                $con = $("[data-contents='con']"), $scon = $("[data-contents='scon']"), $btnArrow = $("[data-btn='arrow']");
+            this.$wrap = $(opts.element);
+            this.$gnb = this.$wrap.find($("[data-remote='wrap']")).children("[data-list='list']");
+            this.$snb = this.$gnb.find("[data-list='list']");
+            this.$cnb = this.$wrap.find($("[data-remote='wrap']")).find("[data-list='list']");
+            this.$cnbli = this.$wrap.find($("[data-remote='wrap']")).find("li");
+            this.$con = $("[data-contents='con']");
+            this.$scon = $("[data-contents='scon']");
+            this.$btnArrow = $("[data-btn='arrow']");
 
-            var resizeTimer, isMobile, resizeWidth, _settings = true, gnbNum, snbNum, removeChk = false, scChk = false;
-
-            arrowSlide();
-            controls();
-
-            function controls(){
-                if(opts.quick) {
-                    $gnb.children("a").on("click", function(e){
-                        var hash = $(this).attr("href"), reStr = hash.replace(/#/g, "");
-                        listSlide(reStr);
-                    });
-
-                    $snb.children("a").on("click", function(e){
-                        var hash = $(this).attr("href"), reStr = hash.replace(/#/g, "");
-                        listSlide(reStr);
-                    });
-                }
-
-                $(window).on("resize", function(){
-                    isMobile = (window.matchMedia("(min-width:769px)").matches) ? false : true;
-                    resizeWidth = $wrap.outerWidth();
-                    clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(function() {
-                        if(opts.show){
-                            $wrap.css({right:-resizeWidth});
-                        }else{
-                            mobileMask();
-                        }
-                        scrollAction();
-                    }, 0);
-                }).resize();
-
-                $(window).on("scroll", function(){
-                    if(scChk){
-                        scrollAction();
-                    }
-                    scChk = true;
-                });
-
-                $btnArrow.on("click", function(e){
-                    arrowSlide();
-                });
-
-                $(document).on("click", "[data-remote='mask']", function(e){
-                    arrowSlide();
-                });
+            this.state = {
+                isMobile: false,
+                resizeWidth: false,
+                gnbNum: false,
+                snbNum: false,
+                removeChk: false,
+                scrollTop: $(window).scrollTop(),
+                scrollTopSave: false,
+                scChk: true
             };
 
-            function scrollAction(){
-                var scltop = $(window).scrollTop();
-                if(!isMobile){
-                    if(scltop >= opts.top - opts.fix) {
-                        $wrap.addClass("fix").css({top:opts.fix});
-                    }else{
-                        $wrap.removeClass("fix").css({top:opts.top});
-                    }
-                }else{
-                    $wrap.removeClass("fix").css({top:""});
-                }
+            this.arrowSlide();
+            this.controls();
+        }
 
-                if(opts.quick) {
-                    quickAnchor(scltop)
-                }
-            }
+        Remote.prototype = {
+            controls: function () {
+                var context = this;
+                if (this.opts.quick) {
+                    this.$gnb.children("a").on("click", function () {
+                        var hash = $(this).attr("href"),
+                            reStr = hash.replace(/#/g, "");
 
-            function quickAnchor(scltop){
-                var firstTop = $con.eq(0).offset().top,
-                    lastBottom = $con.eq($con.length - 1).offset().top + $con.eq($con.length - 1).height(),
-                    endScroll = $(window).scrollTop() == $(document).height() - $(window).height();
-                for(var i = 0, len = $con.length; i < len; i++) {
-                    var conTop = $con.eq(i).offset().top;
-                    if(conTop <= scltop) {
-                        gnbNum = i;
-                        for(var j = 0, slen = $con.eq(i).children($scon).length; j < slen; j++) {
-                            var sconTop = $con.eq(i).children($scon).eq(j).offset().top;
-                            if(sconTop <= scltop) {
-                                snbNum = j;
-                            }
+                        context.mobileBodyFix();
+                        context.listSlide(reStr);
+                    });
+
+                    this.$snb.children("a").on("click", function () {
+                        var hash = $(this).attr("href"),
+                            reStr = hash.replace(/#/g, "");
+
+                        context.mobileBodyFix();
+                        context.listSlide(reStr);
+                    });
+                } else {
+                    if (!this.opts.type) {
+                        this.$gnb.children("a").on("click", () => {
+                            this.mobileBodyFix();
+                        if (this.state.isMobile) {
+                            this.arrowSlide();
                         }
+                    });
+                    } else {
+                        this.$cnbli.children("a").on("click", () => {
+                            this.mobileBodyFix();
+                        if (this.state.isMobile) {
+                            this.arrowSlide();
+                        }
+                    });
                     }
-                    removeChk = (scltop < firstTop || scltop > lastBottom) ? true : false;
                 }
-                if(!removeChk) {
-                    $gnb.removeClass("active");
-                    $gnb.find($snb).removeClass("active");
-                    $wrap.css({display:"block"});
-                    if(endScroll){
-                        $gnb.eq($gnb.length-1).addClass("active");
-                        $gnb.eq($gnb.length-1).find($snb).eq($gnb.eq($gnb.length-1).find($snb).length-1).addClass("active");
-                    }else{
-                        $gnb.eq(gnbNum).addClass("active");
-                        $gnb.eq(gnbNum).find($snb).eq(snbNum).addClass("active");
+
+                $(window).on("resize", () => {
+                    this.state.isMobile = (!window.matchMedia("(min-width:769px)").matches);
+                this.state.resizeWidth = this.$wrap.outerWidth();
+                if (this.opts.show) {
+                    this.opts.show = false;
+                    this.arrowSlide();
+                } else {
+                    this.mobileMask();
+                }
+                this.scrollAction();
+            }).resize();
+
+                $(window).on("scroll", () => {
+                    if (this.state.isMobile) {
+                    if (!this.state.scChk) return false;
+                }
+                this.state.scrollTop = $(window).scrollTop();
+                this.scrollAction();
+            });
+
+                this.$btnArrow.on("click", () => {
+                    this.mobileBodyFix();
+                this.arrowSlide();
+            });
+
+                $(document).on("click", "[data-remote='mask']", () => {
+                    this.mobileBodyFix();
+                this.arrowSlide();
+            });
+            },
+
+            navAnchor: function (num) {
+                if (!this.opts.type) {
+                    this.$gnb.removeClass("active");
+                    this.$gnb.eq(num).addClass("active");
+                } else {
+                    this.$cnb.parent("ul").parent("li").removeClass("active");
+                    this.$cnb.removeClass("active");
+                    this.$cnb.eq(num).parent("ul").parent("li").addClass("active");
+                    this.$cnb.eq(num).addClass("active");
+                }
+            },
+
+            scrollAction: function () {
+                var scltop = $(window).scrollTop();
+                if (!this.state.isMobile) {
+                    if (scltop >= this.opts.top - this.opts.fix) {
+                        this.$wrap.addClass("fix").css({top: this.opts.fix});
+                    } else {
+                        this.$wrap.removeClass("fix").css({top: this.opts.top});
                     }
                 } else {
-                    $gnb.removeClass("active");
-                    $gnb.find($snb).removeClass("active");
-                    $wrap.css({display:"none"});
-                    if(isMobile){
-                        opts.show = false;
-                    }else{
-                        opts.show = (opts.show) ? false : true;
+                    this.$wrap.removeClass("fix").css({top: ""});
+                }
+
+                this.quickAnchor(scltop)
+            },
+
+            quickAnchor: function (scltop) {
+                if (this.opts.quick) {
+                    var firstTop = this.$con.eq(0).offset().top,
+                        // lastBottom = this.$con.eq(this.$con.length - 1).offset().top + this.$con.eq(this.$con.length - 1).height(),
+                        endScroll = $(window).scrollTop() === $(document).height() - $(window).height();
+                    for (var i = 0, len = this.$con.length; i < len; i++) {
+                        var conTop = this.$con.eq(i).offset().top;
+                        if (conTop <= scltop) {
+                            this.state.gnbNum = i;
+                            for (var j = 0, slen = this.$con.eq(i).children(this.$scon).length; j < slen; j++) {
+                                var sconTop = this.$con.eq(i).children(this.$scon).eq(j).offset().top;
+                                if (sconTop <= scltop) {
+                                    this.state.snbNum = j;
+                                }
+                            }
+                        }
+                        // removeChk = (scltop < firstTop || scltop > lastBottom) ? true : false;
+                        this.state.removeChk = (scltop < firstTop);
                     }
-                    arrowSlide();
-                }
-            }
 
-            function arrowSlide(){
-                if(opts.show) {
-                    $wrap.stop().animate({right:0}, 250).find($btnArrow).addClass("on");
-                    opts.show = false;
-                }else{
-                    $wrap.stop().animate({right:-resizeWidth}, 250).find($btnArrow).removeClass("on");
-                    opts.show = true;
-                }
-                mobileMask();
-            }
-
-            function mobileMask(){
-                $("#mask").remove();
-                if(isMobile){
-                    if(!opts.show){
-                        $wrap.before($("<div id='mask' style='width:100%; height:100%; position:fixed; left:0; top:0; opacity:0.8; background:#000; z-index:9100025;' data-remote='mask'></div>"));
-                        $("body, html").css({height:"auto", overflow:"hidden"});
-                    }else{
-                        $("body, html").css({height:"", overflow:""});
+                    if (!this.state.removeChk) {
+                        this.$gnb.removeClass("active");
+                        this.$gnb.find(this.$snb).removeClass("active");
+                        if (endScroll) {
+                            this.$gnb.eq(this.$gnb.length - 1).addClass("active");
+                            this.$gnb.eq(this.$gnb.length - 1).find(this.$snb).eq(this.$gnb.eq(this.$gnb.length - 1).find(this.$snb).length - 1).addClass("active");
+                        } else {
+                            this.$gnb.eq(this.state.gnbNum).addClass("active");
+                            this.$gnb.eq(this.state.gnbNum).find(this.$snb).eq(this.state.snbNum).addClass("active");
+                        }
+                    } else {
+                        this.$gnb.removeClass("active");
+                        this.$gnb.find(this.$snb).removeClass("active");
                     }
-                }else{
-                    $("body, html").css({height:"", overflow:""});
                 }
-            }
 
-            function listSlide(id){
+                this.remoteShowHide();
+            },
+
+            remoteShowHide: function () {
+                if (!this.state.removeChk) {
+                    this.$wrap.css({display: "block"});
+                } else {
+                    if (this.state.isMobile) {
+                        this.opts.show = false;
+                    } else {
+                        this.opts.show = (!this.opts.show);
+                    }
+                    this.arrowSlide();
+                    this.$wrap.css({display: "none"});
+                }
+            },
+
+            arrowSlide: function () {
+                if (this.opts.show) {
+                    this.$wrap.stop().animate({right: 0}, 250).find(this.$btnArrow).addClass("on");
+                    this.state.scChk = false;
+                    this.opts.show = false;
+                } else {
+                    this.$wrap.stop().animate({right: -this.state.resizeWidth}, 250).find(this.$btnArrow).removeClass("on");
+                    this.state.scChk = true;
+                    this.opts.show = true;
+                }
+                this.mobileMask();
+            },
+
+            mobileBodyFix: function () {
+                if (this.opts.show) {
+                    this.state.scrollTopSave = this.state.scrollTop;
+                    if (this.state.isMobile) {
+                        $("body").css({height: "auto", position: "fixed", overflow: "hidden", marginTop: -this.state.scrollTop});
+                    }
+                } else {
+                    if (this.state.isMobile) {
+                        $("body").css({height: "", position: "", overflow: "", marginTop: ""});
+                        $("html, body").scrollTop(this.state.scrollTopSave);
+                    }
+                }
+            },
+
+            mobileMask: function () {
+                $("#mobileMask").remove();
+                if (this.state.isMobile) {
+                    if (!this.opts.show) {
+                        this.$wrap.before($("<div id='mobileMask' data-remote='mask'></div>"));
+                        $("html").css({height: "auto", overflow: "hidden"});
+                    } else {
+                        $("html").css({height: "", overflow: ""});
+                    }
+                } else {
+                    $("html").css({height: "", overflow: ""});
+                    $("body").css({height: "", position: "", overflow: "", marginTop: ""});
+                }
+            },
+
+            listSlide(id) {
                 var conOffset = $("[data-id='" + id + "']").offset().top;
-                $("html, body").stop().animate({scrollTop: conOffset}, opts.cspeed);
-                if(isMobile){
-                    arrowSlide();
+                $("html, body").stop().animate({scrollTop: conOffset}, this.opts.cspeed);
+                if (this.state.isMobile) {
+                    this.arrowSlide();
                 }
-            }
+            },
         };
 
         $(document).ready(function(){
-            new remote({
+            new Remote({
                 element:"#remoteMenu",  // element
                 top:920,    // 기본 상단에서 떨어진 값
                 fix:100,    // 스크롤시 상단에서 떨어진 값
-                qspeed:300,    // 스크롤시 퀵메뉴 따라다니는 스피드
                 cspeed:600,    // 퀵메뉴 클릭시 이동하는 스피드
-                show:true,    // true : 보이기 / false : 숨기기
+                show:false,    // true : 보이기 / false : 숨기기
                 quick:true      // true : 퀵메뉴 / flase : 네비게이션
             });
         });
