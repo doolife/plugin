@@ -1,5 +1,6 @@
 /* mobile */
 html, body {
+    width:100%;
     overscroll-behavior: none;
 }
 

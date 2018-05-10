@@ -33,7 +33,7 @@
     <div id="slider1" class="slider_wrap">
         <button type="button" class="slider_btn" data-btn="prev">prev1</button>
         <button type="button" class="slider_btn" data-btn="next">next1</button>
-        <div class="slider_cover">
+        <div data-gallery="cover" class="slider_cover">
             <ul data-gallery="wrap">
                 <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
                 <li data-slider="list"><span>2</span><img src="../images/slider/03.jpg" alt="" /></li>
@@ -43,7 +43,7 @@
     <div id="slider2" class="slider_wrap">
         <button type="button" class="slider_btn" data-btn="prev">prev2</button>
         <button type="button" class="slider_btn" data-btn="next">next2</button>
-        <div class="slider_cover">
+        <div data-gallery="cover" class="slider_cover">
             <ul data-gallery="wrap">
                 <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
                 <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
@@ -67,7 +67,7 @@
     <div id="slider3" class="slider_wrap">
         <button type="button" class="slider_btn" data-btn="prev">prev3</button>
         <button type="button" class="slider_btn" data-btn="next">next3</button>
-        <div class="slider_cover">
+        <div data-gallery="cover" class="slider_cover">
             <ul data-gallery="wrap">
                 <li data-slider="list"><span>1</span><img src="../images/slider/02.jpg" alt="" /></li>
                 <li data-slider="list"><span>2</span><img src="../images/slider/04.jpg" alt="" /></li>
@@ -82,6 +82,7 @@
 
             var $btn = $("[data-btn]"),
                 $wrap = $("[data-gallery='wrap']"),
+                $cover = $("[data-gallery='cover']"),
                 $list = $("[data-slider='list']"),
                 $paging = $("[data-list='paging']"),
                 _pagingWrap = "data-paging='wrap'",
@@ -144,18 +145,18 @@
             function sliderAnimation(obj){
                 if(obj.setChk==true){
                     obj.idx = (obj.idx>obj.len || obj.idx<=0) ? 1 : obj.idx;
-                    $(obj.element).find($wrap).css({left:-$(obj.element).width()*obj.idx});
+                    $(obj.element).find($wrap).css({left:-$(obj.element).find($cover).width()*obj.idx});
                     if(obj.paging==true){
                         pagingSet(obj);
                         sliderPaging(obj);
                     }
                     obj.setChk = false;
                 }else{
-                    $(obj.element).find($wrap).stop().animate({left:-$(obj.element).width()*obj.idx}, function(){
+                    $(obj.element).find($wrap).stop().animate({left:-$(obj.element).find($cover).width()*obj.idx}, function(){
                         var cycle = (0===obj.idx || obj.len+1===obj.idx);
                         if(cycle){
                             obj.idx = (obj.idx === 0)? obj.len : 1;
-                            $(obj.element).find($wrap).css({left:-$(obj.element).width()*obj.idx});
+                            $(obj.element).find($wrap).css({left:-$(obj.element).find($cover).width()*obj.idx});
                         }
                         if(obj.paging==true){
                             sliderPaging(obj);
