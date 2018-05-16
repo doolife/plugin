@@ -16,8 +16,13 @@
 <style>
 .btn_eq {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
 .btn_eq:before {content:"stop"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+.btn_eq.on:before {content:"play";}
 .btn_layer {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
-.btn_layer:before {content:"stop"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+.btn_layer:before {content:"layer"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+.btn_close1 {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
+.btn_close1:before {content:"close1"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+.btn_close2 {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
+.btn_close2:before {content:"close2"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
 #equalizer {margin:0 auto 0; width:40px; height:30px; position:relative; overflow:hidden; cursor:pointer; }
 #equalizer>span {width:3px; height:1px; display:inline-block; bottom:0; position:absolute; background-color:#000;
     animation-duration:500ms;
@@ -98,29 +103,40 @@
         <span class="bar5"></span>
         <span class="bar6"></span>
     </div>
-    <button type="button" class="btn_eq"></button>
+    <button type="button" class="btn_eq" data-btn="eq"></button>
     <audio controls="controls" data-media="audio"></audio>
     <button type="button" class="btn_layer"></button>
+    <button type="button" class="btn_close1"></button>
+    <button type="button" class="btn_close2"></button>
     <script>
         var equalizer = (function (window, document, $, undefined) {
 
-            var $parent, $children, $audio = $("[data-media='audio']");
-            var url, startSet = true, volume;
+            var $parent, $children, $audio = $("[data-media='audio']"), $btn = $("[data-btn='eq']");
+            var url, startSet = true, volume, playChk;
 
             var init = function(opts) {
                 $parent = $(opts.parent), $children = $(opts.children), url = opts.url, volume = opts.volume;
                 setEqualizer(opts.setStr);
+                $btn.on("click", function(){
+                    var chk = (playChk==true) ? false : true ;
+                    setEqualizer(chk);
+                });
             };
 
             function setEqualizer(str){     // audio 및 animation 관련 기능
+                console.log(str)
                 if(str==true){
                     $parent.children($children).removeClass("stop");    // equalizer 애니메이션 추가
                     setAudio();
                     $audio[0].play();   // audio 플레이
+                    $btn.addClass("on");
+                    playChk = str;
                 }else{
                     $parent.children($children).addClass("stop");    // equalizer 애니메이션 삭제
                     setAudio();
                     $audio[0].pause();   // audio 일시정지
+                    $btn.removeClass("on");
+                    playChk = str;
                 }
             }
 
@@ -147,16 +163,23 @@
             setStr:true    // 이퀄라이저 동작여부(true : play / false : pause)
         });
 
-        var eqStr = true;
-
-        $(".btn_eq").on("click", function(){
-            eqStr = (eqStr==true) ? false : true ;
-            equalizer.change(eqStr);
+        // var eqStr = true;
+        //
+        // $(".btn_eq").on("click", function(){
+        //     eqStr = (eqStr==true) ? false : true ;
+        //     equalizer.change(eqStr);
+        // });
+        //
+        $(".btn_layer").on("click", function(){
+            equalizer.change(false);
         });
 
-        $(".btn_layer").on("click", function(){
-            eqStr = (eqStr==true) ? false : true ;
-            equalizer.change(eqStr);
+        $(".btn_close1").on("click", function(){
+            equalizer.change(true);
+        });
+
+        $(".btn_close2").on("click", function(){
+            equalizer.change(false);
         });
     </script>
 </body>
