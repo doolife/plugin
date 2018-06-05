@@ -32,7 +32,7 @@
     animation-iteration-count:infinite;
 }
 
-#equalizer>.stop {
+#equalizer>span.stop {
     animation:none;
     animation-name:none;
 }
@@ -150,7 +150,7 @@
 
             return {
                 options:init,    // init함수를 options이란 이름으로 외부에서 사용가능
-                change:setEqualizer    // init함수를 options이란 이름으로 외부에서 사용가능
+                change:setEqualizer
             };
 
         })(window, document, $);
@@ -160,7 +160,7 @@
             children:"span",    // 자식 엘리먼트
             url:"../media/audio.mp3",   // 오디오 url
             volume:0.5,   // 볼륨
-            setStr:true    // 이퀄라이저 동작여부(true : play / false : pause)
+            setStr:false    // 이퀄라이저 동작여부(true : play / false : pause)
         });
 
         // var eqStr = true;
