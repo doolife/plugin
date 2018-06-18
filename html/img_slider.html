@@ -19,7 +19,7 @@
         [data-btn="prev"] {left:-50px;}
         [data-btn="next"] {right:-50px;}
         .slider_cover {width:100%; height:100%; position:relative; overflow:hidden;}
-        [data-gallery="wrap"] {font-size:0; letter-spacing:0; word-spacing:0; position:absolute; white-space:nowrap;}
+        [data-gallery="wrap"] {font-size:0; position:absolute;}
         [data-slider="list"] {display:inline-block; position:relative;}
         span {font-size:12px; position:absolute; left:50px; top:50px;}
         [data-paging="wrap"] {width:100%; text-align:center; position:absolute; left:0; bottom:30px; z-index:1;}
@@ -95,6 +95,8 @@
                     obj.element  = item;
                     obj.idx = opts.idx[i];
                     obj.len = $(item).find($list).length;
+                    obj.width = $(item).find($cover).width();
+                    obj.height = $(item).find($cover).height();
                     obj.paging = opts.paging[i];
                     if(opts.pelement != undefined){
                         obj.pelement = opts.pelement[i];
@@ -145,18 +147,18 @@
             function sliderAnimation(obj){
                 if(obj.setChk==true){
                     obj.idx = (obj.idx>obj.len || obj.idx<=0) ? 1 : obj.idx;
-                    $(obj.element).find($wrap).css({left:-$(obj.element).find($cover).width()*obj.idx});
+                    $(obj.element).find($wrap).css({width:obj.width*(obj.len+2), height:obj.height, left:-obj.width*obj.idx});
                     if(obj.paging==true){
                         pagingSet(obj);
                         sliderPaging(obj);
                     }
                     obj.setChk = false;
                 }else{
-                    $(obj.element).find($wrap).stop().animate({left:-$(obj.element).find($cover).width()*obj.idx}, function(){
+                    $(obj.element).find($wrap).stop().animate({left:-obj.width*obj.idx}, function(){
                         var cycle = (0===obj.idx || obj.len+1===obj.idx);
                         if(cycle){
                             obj.idx = (obj.idx === 0)? obj.len : 1;
-                            $(obj.element).find($wrap).css({left:-$(obj.element).find($cover).width()*obj.idx});
+                            $(obj.element).find($wrap).css({left:-obj.width*obj.idx});
                         }
                         if(obj.paging==true){
                             sliderPaging(obj);
