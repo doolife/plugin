@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>conformance test</title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="../css/base.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <!--[if lt ie 9]>
+    <script src="../js/html5.js"></script>
+    <script src="../js/respond.js"></script>
+    <![endif]-->
+    <style>
+        .conformance_wrap {margin:200px auto 0; width:700px; height:400px; position:relative; border:1px solid #ddd;}
+        .start_wrap {width:100%; height:100%; text-align:center; position:absolute; left:0; top:0; background:#fff; z-index:1;}
+        .start_wrap .btn_start {margin-top:300px; width:100px; height:50px; display:inline-block; background:lightgray;}
+        .conformance_wrap .conformance_test {width:100%; height:100%; text-align:center; position:absolute; left:0; top:0; background:#fff;}
+        .conformance_wrap .conformance_test:before {display:block; position:absolute; left:0; top:0;}
+        .conformance_wrap .conformance_test:nth-of-type(2):before {content:"1";}
+        .conformance_wrap .conformance_test:nth-of-type(3):before {content:"2";}
+        .conformance_wrap .conformance_test:nth-of-type(4):before {content:"3";}
+        .conformance_wrap .conformance_test:nth-of-type(5):before {content:"4";}
+        .conformance_wrap .conformance_test:nth-of-type(6):before {content:"5";}
+        .conformance_wrap .conformance_test:nth-of-type(7):before {content:"6";}
+        .conformance_wrap .conformance_test:nth-of-type(8):before {content:"7";}
+        .conformance_wrap .conformance_test .btn_choice {margin-top:300px; width:100px; height:50px; display:inline-block; background:lightgray;}
+        .test_layer {margin:-300px 0 0 -400px; width:800px; height:600px; display:none; text-align:center; position:absolute; left:50%; top:50%; background:#fff; border:1px solid #ddd;}
+        .test_layer .btn_again {margin-left:-50px; width:100px; height:50px; display:block; position:absolute; left:50%; bottom:100px; background:#ddd;}
+    </style>
+</head>
+<body>
+    <div id="conformance" class="conformance_wrap">
+        <div class="start_wrap">
+            <button type="button" class="btn_start">START</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="su-gum-ho-sal-gi" class="btn_choice">1</button>
+            <button type="button" data-obj="chi-gung-ma-jung-sa-um" class="btn_choice">2</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="gum-sal-gung-ma-sa" class="btn_choice">1</button>
+            <button type="button" data-obj="su-gum-gi" class="btn_choice">2</button>
+            <button type="button" data-obj="ho-chi-jung-um" class="btn_choice">3</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="su-gum" class="btn_choice">1</button>
+            <button type="button" data-obj="ho-chi-gi-um" class="btn_choice">2</button>
+            <button type="button" data-obj="sal-gung-sa" class="btn_choice">3</button>
+            <button type="button" data-obj="ma-jung" class="btn_choice">4</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="su-gum-sal" class="btn_choice">1</button>
+            <button type="button" data-obj="ho-chi-gung-ma-jung-sa-gi-um" class="btn_choice">2</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="su-gung-jung-sa-gi-um" class="btn_choice">1</button>
+            <button type="button" data-obj="gum-ho-chi-sal-ma" class="btn_choice">2</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="gum-sal-gung-ma-sa" class="btn_choice">1</button>
+            <button type="button" data-obj="ho-chi-jung-gi-um" class="btn_choice">2</button>
+            <button type="button" data-obj="su-chi-ma" class="btn_choice">3</button>
+            <button type="button" data-obj="su-gum-sal" class="btn_choice">4</button>
+        </div>
+        <div class="conformance_test">
+            <button type="button" data-obj="gum-chi-jung" class="btn_choice">1</button>
+            <button type="button" data-obj="su-ho-sal-gung-ma-sa-gi-um" class="btn_choice">2</button>
+        </div>
+    </div>
+    <div id="su" class="test_layer">수호성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="gum" class="test_layer">검성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="ho" class="test_layer">호법성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="chi" class="test_layer">치유성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="sal" class="test_layer">살성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="gung" class="test_layer">궁성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="ma" class="test_layer">마도성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="jung" class="test_layer">정령성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="sa" class="test_layer">사격성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="gi" class="test_layer">기갑성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <div id="um" class="test_layer">음유성
+        <button type="button" class="btn_again">다시하기</button>
+    </div>
+    <script type="text/javascript">
+        var Conformance = (function(){
+
+            var $el, $btnChoice, $btnAgain, $btnStart;
+            var classScore = {};
+            var state = {
+                idx:""
+            };
+
+            function Person(opts){
+                $el = $(opts.element), $btnChoice = $(opts.element).find(".btn_choice"), $btnAgain = $(".btn_again"), $btnStart = $(".btn_start");
+                state.idx = opts.idx;
+                this.init();
+            }
+
+            Person.prototype = {
+                init : function(){
+                    this.settings();
+                    this.controls();
+                },
+                settings : function(){
+                    classScore["su"] = 0;
+                    classScore["gum"] = 0;
+                    classScore["ho"] = 0;
+                    classScore["chi"] = 0;
+                    classScore["sal"] = 0;
+                    classScore["gung"] = 0;
+                    classScore["ma"] = 0;
+                    classScore["jung"] = 0;
+                    classScore["sa"] = 0;
+                    classScore["gi"] = 0;
+                    classScore["um"] = 0;
+                },
+                controls : function(){
+                    var context = this;
+                    $btnChoice.on("click", function(){
+                        var str = $(this).data("obj").split("-");
+                        if(state.idx<=$el.length-1){
+                            state.idx = state.idx+1;
+                            context.action(str);
+                            if(state.idx==$el.length){
+                                context.end();
+                            }
+                        }
+                    });
+
+                    $btnAgain.on("click", function(){
+                        context.reset();
+                    });
+
+                    $btnStart.on("click", function(){
+                        $(".start_wrap").css({display:"none"});
+                        context.layoutControls();
+                    });
+                },
+                action : function(str){
+                    this.layoutControls();
+                    $.each(classScore, function(key) {
+                        for (var i=0, len=str.length ; i<len ; i++){
+                            if(key==str[i]){
+                                classScore[key] += 1;
+                            }
+                        }
+                    });
+                },
+                layoutControls : function(){
+                    $el.css({display:"none"});
+                    $el.eq(state.idx).css({display:"block"});
+                },
+                end : function(){
+                    var values = [];
+                    var getMax = Object.keys(classScore).filter(function(keys){
+                        $.each(classScore, function(key) {
+                            values.push(classScore[key]);
+                        });
+                        return classScore[keys] == Math.max.apply(null, values);
+                    });
+                    this.result(getMax);
+                },
+                result : function(getMax){
+                    if(getMax.length!=1){
+                        var objId = this.random(getMax);
+                        $("#"+objId).css({display:"block"});
+                    }else{
+                        var objId = getMax[0];
+                        $("#"+objId).css({display:"block"});
+                    }
+                },
+                random : function(getMax){
+                    return getMax[Math.floor(Math.random() * getMax.length)];
+                },
+                reset : function(){
+                    state.idx = 0;
+                    $.each(classScore, function(key) {
+                        delete classScore[key];
+                    });
+                    this.settings();
+                    $(".test_layer").css({display:""});
+                    $(".start_wrap").css({display:"block"});
+                    $el.css({display:""});
+                }
+            };
+
+            return Person;
+        })();
+
+
+        var test = new Conformance({
+            element:".conformance_test",
+            idx:0
+        });
+    </script>
+</body>
+</html>
