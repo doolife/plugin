@@ -26,7 +26,7 @@
         .conformance_wrap .conformance_test:nth-of-type(6):before {content:"5";}
         .conformance_wrap .conformance_test:nth-of-type(7):before {content:"6";}
         .conformance_wrap .conformance_test:nth-of-type(8):before {content:"7";}
-        .conformance_wrap .conformance_test .btn_choice {margin-top:300px; width:100px; height:50px; display:inline-block; background:lightgray;}
+        .conformance_wrap .conformance_test button {margin-top:300px; width:100px; height:50px; display:inline-block; background:lightgray;}
         .test_layer {margin:-300px 0 0 -400px; width:800px; height:600px; display:none; text-align:center; position:absolute; left:50%; top:50%; background:#fff; border:1px solid #ddd;}
         .test_layer .btn_again {margin-left:-50px; width:100px; height:50px; display:block; position:absolute; left:50%; bottom:100px; background:#ddd;}
     </style>
@@ -41,31 +41,37 @@
         <button type="button" class="btn_choice">2</button>
     </div>
     <div class="conformance_test">
+        <button type="button" class="btn_return">돌아가기</button>
         <button type="button" class="btn_choice">1</button>
         <button type="button" class="btn_choice">2</button>
         <button type="button" class="btn_choice">3</button>
     </div>
     <div class="conformance_test">
-        <button type="button" class="btn_choice">1</button>
-        <button type="button" class="btn_choice">2</button>
-        <button type="button" class="btn_choice">3</button>
-        <button type="button" class="btn_choice">4</button>
-    </div>
-    <div class="conformance_test">
-        <button type="button" class="btn_choice">1</button>
-        <button type="button" class="btn_choice">2</button>
-    </div>
-    <div class="conformance_test">
-        <button type="button" class="btn_choice">1</button>
-        <button type="button" class="btn_choice">2</button>
-    </div>
-    <div class="conformance_test">
+        <button type="button" class="btn_return">돌아가기</button>
         <button type="button" class="btn_choice">1</button>
         <button type="button" class="btn_choice">2</button>
         <button type="button" class="btn_choice">3</button>
         <button type="button" class="btn_choice">4</button>
     </div>
     <div class="conformance_test">
+        <button type="button" class="btn_return">돌아가기</button>
+        <button type="button" class="btn_choice">1</button>
+        <button type="button" class="btn_choice">2</button>
+    </div>
+    <div class="conformance_test">
+        <button type="button" class="btn_return">돌아가기</button>
+        <button type="button" class="btn_choice">1</button>
+        <button type="button" class="btn_choice">2</button>
+    </div>
+    <div class="conformance_test">
+        <button type="button" class="btn_return">돌아가기</button>
+        <button type="button" class="btn_choice">1</button>
+        <button type="button" class="btn_choice">2</button>
+        <button type="button" class="btn_choice">3</button>
+        <button type="button" class="btn_choice">4</button>
+    </div>
+    <div class="conformance_test">
+        <button type="button" class="btn_return">돌아가기</button>
         <button type="button" class="btn_choice">1</button>
         <button type="button" class="btn_choice">2</button>
     </div>
@@ -106,14 +112,14 @@
 <script type="text/javascript">
     var Conformance = (function(){
 
-        var $el, $btnChoice, $btnAgain, $btnStart;
+        var $el, $btnChoice, $btnAgain, $btnStart, $btnReturn;
         var classScore = {};
         var state = {
             idx:""
         };
 
         function Person(opts){
-            $el = $(opts.element), $btnChoice = $(opts.element).find(".btn_choice"), $btnAgain = $(".btn_again"), $btnStart = $(".btn_start");
+            $el = $(opts.element), $btnChoice = $(opts.element).find(".btn_choice"), $btnAgain = $(".btn_again"), $btnStart = $(".btn_start"), $btnReturn = $(".btn_return");
             state.idx = opts.idx;
             this.init();
         }
@@ -178,6 +184,12 @@
                     }
                 });
 
+                $btnReturn.on("click", function(){
+                    var str = $(this).data("obj").split("-");
+                    state.idx = state.idx-1;
+                    context.return(str);
+                });
+
                 $btnAgain.on("click", function(){
                     context.reset();
                 });
@@ -187,14 +199,31 @@
                 });
             },
             process : function(str){
+                var arr = [];
                 this.layoutControls("process");
                 $.each(classScore, function(key) {
                     for (var i=0, len=str.length ; i<len ; i++){
                         if(key==str[i]){
                             classScore[key] += 1;
+                            arr.push(str[i]);
                         }
                     }
                 });
+                var returnData = arr.join("-");
+                console.log(state.idx+" | "+returnData)
+                $el.eq(state.idx).find($btnReturn).data("obj", ""+returnData+"");
+                console.log(classScore)
+            },
+            return : function(str){
+                this.layoutControls("process");
+                $.each(classScore, function(key) {
+                    for (var i=0, len=str.length ; i<len ; i++){
+                        if(key==str[i]){
+                            classScore[key] -= 1;
+                        }
+                    }
+                });
+                console.log(classScore)
             },
             layoutControls : function(mat){
                 if(mat=="start"){
@@ -212,6 +241,7 @@
             end : function(){
                 var values = [];
                 var getMax = Object.keys(classScore).filter(function(keys){
+                    console.log(keys+" | "+classScore[keys])
                     $.each(classScore, function(key) {
                         values.push(classScore[key]);
                     });
@@ -221,10 +251,14 @@
             },
             result : function(getMax){
                 if(getMax.length!=1){
+                    console.log(getMax)
                     var objId = this.random(getMax);
+                    console.log(objId)
                     $("#"+objId).css({display:"block"});
                 }else{
+                    console.log(getMax)
                     var objId = getMax[0];
+                    console.log(objId)
                     $("#"+objId).css({display:"block"});
                 }
             },
@@ -249,6 +283,8 @@
         element:".conformance_test",
         idx:0
     });
+
+    console.log(test)
 </script>
 </body>
 </html>
