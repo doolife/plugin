@@ -10,8 +10,7 @@ if (typeof console === "undefined" || typeof console.log === "undefined") {
     }
 }
 
-var appModule = appModule || {};
-appModule = (function(appModule, $, undefined){
+var Expand = (function (window, document, $, undefined) {
 
     var interval = 100, initNum = 0, isOpen=true, width = [];
     var $lis = $(".expand_wrap").children("li"), $close = $(".layer_close");
@@ -104,6 +103,5 @@ appModule = (function(appModule, $, undefined){
         init : init
     };
 
-})(window.appModule || {},jQuery);
-appModule.init();
-console.log(appModule)
+})(window, document, $);
+Expand.init();
