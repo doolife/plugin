@@ -27,43 +27,68 @@
 
     <div id="placeHolder2" class="placeholder">
         <label class="label_box" for="password" data-label="check">비밀번호를 입력해주세요.</label>
-        <input type="text" name="coupon" id="password" class="input_box" data-input="check" />
+        <input type="text" name="coupon" id="password" class="input_box" data-input="check" value="HES45K" disabled="disabled" />
+    </div>
+
+    <div id="placeHolder3" class="placeholder">
+        <label class="label_box" for="code" data-label="check">초대 코드를 입력해주세요.</label>
+        <input type="text" name="code" id="code" class="input_box" data-input="check" />
     </div>
 
     <script>
-        var placeHolder = (function (window, document, $, undefined) {
+
+        var PlaceHolder = (function(){
 
             var $label = $("[data-label='check']"),
                 $input = $("[data-input='check']");
 
-            var init = function(option) {
-                $.each(option.element, function(i, item){
-                    holderAction(item)
-                });
-
-            };
-
-            function holderAction(el){
-                $(el).find($label).on("click", function(){
-                    $(el).find($label).css({display:"none"});
-                });
-
-                $(el).find($input).on("focusout", function(){
-                    if ($(el).find($input).val().length==0) {
-                        $(el).find($label).css({display:"block"});
-                    }
-                });
+            function Person(opts){
+                this.opts = opts;
+                this.init();
             }
 
-            return {
-                init:init
-            };
+            Person.prototype = {
+                init : function(){
+                    var context = this;
+                    $.each($(this.opts.element), function(i, item){
+                        context.controls(item);
+                    });
+                },
+                controls : function(element){
+                    var context = this;
 
-        })(window, document, $);
+                    if(!$(element).find($input).is(":disabled")){
+                        $(element).find($label).on("click", function(){
+                            context.label(element);
+                        });
+                    }else{
+                        if($(element).find($input).val().length>0){
+                            this.label(element);
+                        }
+                    }
 
-        new placeHolder.init({
-            element:["#placeHolder1", "#placeHolder2"]
+                    $(element).find($input).on("focusout", function(){
+                        context.input(element);
+                    });
+                },
+                label : function(element){
+                    $(element).find($label).css({display:"none"});
+                },
+                input : function(element){
+                    if ($(element).find($input).val().length==0) {
+                        $(element).find($label).css({display:"block"});
+                    }
+                }
+            }
+
+            return Person;
+
+        })();
+
+        new PlaceHolder({
+            element:["#placeHolder1", "#placeHolder2", "#placeHolder3"]
         });
+
     </script>
 </body>
 </html>
