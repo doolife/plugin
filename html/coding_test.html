@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title>css equalizer &amp; audio</title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../css/base.css" />
+<script src="../js/jquery-3.2.1.min.js"></script>
+<!--[if lt ie 9]>
+<script src="../js/html5.js"></script>
+<script src="../js/respond.js"></script>
+<![endif]-->
+<style>
+    .wrapper {padding:50px; width:400px; border:1px solid red;}
+    .wrapper>div {margin-top:20px; padding:20px;}
+    .wrapper>div:first-child {margin-top:0;}
+    .wrapper div {border:1px solid red;}
+    .wrapper>div>div {margin-top:20px; padding:20px;}
+    .wrapper>div>div>div {margin-top:20px; padding:20px;}
+</style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="c-1">Hellow
+            <div class="c-1-1">Welcome</div>
+            <div class="c-1-2">to my</div>
+        </div>
+        <div class="c-2">Home.
+            <div class="c-2-1">I
+                <div class="c-2-1-1">feel</div>
+            </div>
+        </div>
+        <div class="c-3">Happy
+            <div class="c-3-1">Today.</div>
+        </div>
+        <div class="c-4">Thanks
+            <div class="c-4-1">Guys!</div>
+        </div>
+    </div>
+    <script>
+        /*
+        위와 같은 마크업의 트리 구조 엘리먼트가 있다. 2개의 선택자 문자열을 인자를 받는 함수를 통해 아래와 같은 결과를 콘솔에 출력해야 한다.
+        printStr('.c-2', '.c-3');
+        `Home. I feel Happy Today.`
+        */
+        var CodingTest = (function(){
+
+            var obj = [];
+
+            function Person(opts){
+                this.opts = opts;
+                this.init();
+            }
+
+            Person.prototype = {
+                init : function(){
+                    // var str1 = $(""+this.opts.class+"")[0].innerText;
+                    // var str2 = $(""+this.opts.class+"")[1].innerText;
+                    // console.log(str1.replace(/\n/g, ' ')+""+str2.replace(/\n/g, ' '))
+                    $.each($(""+this.opts.class+""), function(index, value){
+                        var str = $(value)[0].innerText;
+                        var rep = str.replace(/\n/g, " ");
+                        obj.push(rep);
+                    });
+                    console.log(obj.join(""))
+                }
+            }
+
+            return Person;
+
+        })();
+
+        new CodingTest({
+            class:[".c-2", ".c-3"]
+        });
+    </script>
+</body>
+</html>
