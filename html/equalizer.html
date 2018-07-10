@@ -21,7 +21,7 @@
 .btn_layer:before {content:"layer"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
 .btn_close1 {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
 .btn_close1:before {content:"close1"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
-[data-media="audio"] {display:none;}
+[data-media="audio"] {}
 #equalizer {margin:0 auto 0; width:40px; height:30px; position:relative; overflow:hidden; cursor:pointer; }
 #equalizer>span {width:3px; height:1px; display:inline-block; bottom:0; position:absolute; background-color:#000;
     animation-duration:500ms;
@@ -123,7 +123,9 @@
                     $parent = $(opts.parent), $children = $(opts.children), $btn = $(opts.btn), state.url = opts.url, state.volume = opts.volume;
 
                     this.eqAction(opts.setStr);
-
+                    this.controls();
+                },
+                controls : function(){
                     var context = this;
                     $btn.on("click", function(){
                         var chk = (state.playChk1==true) ? false : true ;
@@ -174,7 +176,7 @@
             btn:".btn_eq",                  // 버튼 클래스
             url:"../media/audio.mp3",       // 오디오 url
             volume:0.5,                     // 볼륨
-            setStr:false                    // 이퀄라이저 동작여부(true : play / false : pause)
+            setStr:false                    // 이퀄라이저 동작여부(true : play / false : pause)  ※ 크롬에서는 크롬 정책으로 인해 자동 재생 불가
         });
 
         $(".btn_layer").on("click", function(){
@@ -184,6 +186,16 @@
         $(".btn_close1").on("click", function(){
             eq.closePlay();
         });
+
+        // var agent = navigator.userAgent.toLowerCase();
+        // if (agent.indexOf("chrome") != -1) {
+        //     if (self.name != "reload") {
+        //         self.name = "reload";
+        //         self.location.reload(true);
+        //     }else{
+        //         self.name = "";
+        //     }
+        // }
     </script>
 </body>
 </html>
