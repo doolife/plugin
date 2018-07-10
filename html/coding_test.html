@@ -61,6 +61,8 @@
                     // var str2 = $(""+this.opts.class+"")[1].innerText;
                     // console.log(str1.replace(/\n/g, ' ')+""+str2.replace(/\n/g, ' '))
                     $.each($(""+this.opts.class+""), function(index, value){
+                        // console.log($(value)[0].childNodes[0].nodeValue)     첫번째 텍스트만 가져오기
+                        // console.log($(value).contents().get(0).nodeValue)     첫번째 텍스트만 가져오기
                         var str = $(value)[0].innerText;
                         var rep = str.replace(/\n/g, " ");
                         obj.push(rep);
