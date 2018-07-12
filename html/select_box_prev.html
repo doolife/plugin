@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>셀렉스박스</title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="../css/base.css" />
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <!--[if lt ie 9]>
+    <script src="../js/html5.js"></script>
+    <script src="../js/respond.js"></script>
+    <![endif]-->
+    <style>
+        .select_box {margin:100px 0 0 25px; width:300px; display:inline-block; vertical-align:top; border:1px solid #000;}
+        .select_box>.select_tit {padding:0 20px 0 20px; height:64px; line-height:64px; text-align:left; font-size:15px; color:#fff; position:relative; background-color:#595234; cursor:pointer;}
+        .select_box>.select_tit:before {content:""; width:64px; height:64px; display:block; position:absolute; right:0; top:0; background:url("../images/select_arrow.gif") no-repeat left top;}
+        .select_box>.select_tit[disabled] {cursor:default; color:#000;}
+        .select_box>.select_tit.active:before {background-position:right -64px;}
+        .select_box>.select_list {display:none;}
+        .select_box>.select_list.active {display:block;}
+        .select_box>.select_list>li {padding:0 20px 0 20px; height:64px; line-height:64px; color:#bfb690; background-color:#1f1903; border-top:1px solid #000; cursor:pointer;}
+        .select_box>.select_list>li:hover {background:#3e6b88;}
+    </style>
+</head>
+<body>
+<div id="select1" class="select_box s1">
+    <div class="select_tit" data-select="title">캐릭터를 선택해주세요.1</div>
+    <ul class="select_list" data-select="listWrap">
+    </ul>
+</div>
+
+<div id="select2" class="select_box s2">
+    <div class="select_tit" data-select="title" disabled="disabled">캐릭터를 선택해주세요.2</div>
+    <ul class="select_list" data-select="listWrap">
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_1</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_2</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_3</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_4</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_5</div></li>
+    </ul>
+</div>
+
+<div id="select3" class="select_box s3">
+    <div class="select_tit" data-select="title">캐릭터를 선택해주세요.3</div>
+    <ul class="select_list" data-select="listWrap">
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_1</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_2</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_3</div></li>
+        <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_4</div></li>
+    </ul>
+</div>
+<script>
+
+    (function(){
+        var selectboxController = (function (window, document, $, undefined) {
+
+            var scrollHeight = 300;
+            var targetNum;
+            var $title = $("[data-select='title']"),
+                $listWrap = $("[data-select='listWrap']"),
+                $list = $("[data-select='list']");
+
+            var init = function() {
+                btnControls();
+            };
+
+            function btnControls(){
+                $title.on("click", function(e){
+                    var target = $title.index(this);
+                        targetNum = target;
+                    openClose(targetNum);
+                });
+
+                $(document).on("click", "[data-select='list']", function(){
+                    var target = $listWrap.eq(targetNum).children($list).index(this);
+                    listSelect(target);
+                });
+            }
+
+            function openClose(thisNum){
+                if($title.eq(thisNum).attr("disabled")!="disabled"){
+                    if(!$title.eq(thisNum).hasClass("active")){
+                        $title.removeClass("active").siblings($listWrap).removeClass("active");
+                        $title.eq(thisNum).addClass("active").siblings($listWrap).addClass("active");
+                        if ($title.eq(thisNum).siblings($listWrap).height()>=scrollHeight) {
+                            $title.eq(thisNum).siblings($listWrap).css({height:scrollHeight, overflowY:"auto"});
+                        }else{
+                            $title.eq(thisNum).siblings($listWrap).css({height:""});
+                        }
+                    }else{
+                        $title.eq(thisNum).removeClass("active").siblings($listWrap).removeClass("active");
+                    }
+                }
+            }
+
+            function listSelect(thisNum){
+                var tagClone = $listWrap.eq(targetNum).children($list).eq(thisNum).contents().clone();
+                $title.eq(targetNum).empty().append(tagClone);
+                $title.removeClass("active").siblings($listWrap).removeClass("active");
+            }
+
+            return {
+                init:init
+            };
+
+        })(window, document, $);
+
+        $(document).ready(function() {
+            selectboxController.init();
+        });
+    })();
+
+    for (var i = 1; i < 9; i++) {
+        $(".s1 .select_list").append("<li  data-select='list'><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
+    }
+</script>
+</body>
+</html>
