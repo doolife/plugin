@@ -26,14 +26,13 @@
 </style>
 </head>
 <body>
-    <div class="select_box s1">
+    <div id="select1" class="select_box s1">
         <div class="select_tit" data-select="title">캐릭터를 선택해주세요.1</div>
         <ul class="select_list" data-select="listWrap">
-
         </ul>
     </div>
 
-    <div class="select_box s2">
+    <div id="select2" class="select_box s2">
         <div class="select_tit" data-select="title" disabled="disabled">캐릭터를 선택해주세요.2</div>
         <ul class="select_list" data-select="listWrap">
             <li data-select="list"><div><span>서버</span><span>캐릭터</span>2_1</div></li>
@@ -44,7 +43,7 @@
         </ul>
     </div>
 
-    <div class="select_box s3">
+    <div id="select3" class="select_box s3">
         <div class="select_tit" data-select="title">캐릭터를 선택해주세요.3</div>
         <ul class="select_list" data-select="listWrap">
             <li data-select="list"><div><span>서버</span><span>캐릭터</span>3_1</div></li>
@@ -54,67 +53,68 @@
         </ul>
     </div>
     <script>
-        (function(){
-            var selectboxController = (function (window, document, $, undefined) {
+        var Selectbox = (function(){
 
-                var scrollHeight = 300;
-                var targetNum;
-                var $title = $("[data-select='title']"),
-                    $listWrap = $("[data-select='listWrap']"),
-                    $list = $("[data-select='list']");
+            var $title = $("[data-select='title']"),
+                $listWrap = $("[data-select='listWrap']"),
+                $list = "[data-select='list']";
 
-                var init = function() {
-                    btnControls();
-                };
+            var scrollHeight = 300;
 
-                function btnControls(){
-                    $title.on("click", function(e){
-                        var target = $title.index(this);
-                            targetNum = target;
-                        openClose(targetNum);
+            function Person(opts){
+                this.opts = opts;
+                this.init();
+            }
+
+            Person.prototype = {
+                init : function(){
+                    var context = this;
+                    $.each(this.opts.element, function(index, value){
+                        context.controls(value);
                     });
-                    $listWrap.children($list).on("click", function(e){
-                        var target = $listWrap.eq(targetNum).children($list).index(this);
-                        listSelect(target);
+                },
+                controls : function(element){
+                    var context = this;
+                    $(element).find($title).on("click", function(){
+                        context.display(element);
                     });
-                }
 
-                function openClose(thisNum){
-                    if($title.eq(thisNum).attr("disabled")!="disabled"){
-                        if(!$title.eq(thisNum).hasClass("active")){
+                    $(element).on("click", $list, function(){
+                        context.select(element, $(this).index());
+                    });
+                },
+                display : function(element){
+                    if($(element).find($title).attr("disabled")!="disabled"){
+                        if(!$(element).find($title).hasClass("active")){
                             $title.removeClass("active").siblings($listWrap).removeClass("active");
-                            $title.eq(thisNum).addClass("active").siblings($listWrap).addClass("active");
-                            if ($title.eq(thisNum).siblings($listWrap).height()>=scrollHeight) {
-                                $title.eq(thisNum).siblings($listWrap).css({height:scrollHeight, overflowY:"auto"});
+                            $(element).find($title).addClass("active");
+                            $(element).find($listWrap).addClass("active");
+                            if ($(element).find($listWrap).height()>=scrollHeight) {
+                                $(element).find($listWrap).css({height:scrollHeight, overflowY:"auto"});
                             }else{
-                                $title.eq(thisNum).siblings($listWrap).css({height:""});
+                                $(element).find($listWrap).css({height:""});
                             }
-                        }else{
-                            $title.eq(thisNum).removeClass("active").siblings($listWrap).removeClass("active");
                         }
                     }
-                }
-
-                function listSelect(thisNum){
-                    var tagClone = $listWrap.eq(targetNum).children($list).eq(thisNum).contents().clone();
-                    $title.eq(targetNum).empty().append(tagClone);
+                },
+                select : function(element, thisNum){
+                    var tagClone = $(element).find($list).eq(thisNum).contents().clone();
+                    $(element).find($title).empty().append(tagClone);
                     $title.removeClass("active").siblings($listWrap).removeClass("active");
                 }
-
-                return {
-                    init:init
-                };
-
-            })(window, document, $);
-
-            $(document).ready(function() {
-                selectboxController.init();
-            });
-
-            for (var i = 1; i < 9; i++) {
-                $(".s1 .select_list").append("<li><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
             }
+
+            return Person;
+
         })();
+
+        new Selectbox({
+            element:["#select1", "#select2", "#select3"]
+        });
+
+        for (var i = 1; i < 9; i++) {
+            $(".s1 .select_list").append("<li  data-select='list'><div><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>");
+        }
     </script>
 </body>
 </html>
