@@ -1,45 +1,40 @@
 const gulp = require('gulp');
-const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
+const webpack = require('webpack-stream');
 const sass = require('gulp-sass');
 const watch = require('gulp-watch');
+const staticConfig = require('./static.config');
+
+let src = `src/${staticConfig.path}`;
+let dist = `dist/${staticConfig.path}`;
+
+let paths = {
+    js : `${src}/js/**/*.js`,
+    scss : `${src}/sass/**/*.scss`,
+};
 
 let compileSass = ()=> {
-    gulp.src('src/selectbox/sass/**/*.scss')
+    gulp.src(paths.scss)
     .pipe(sourcemaps.init())
     .pipe(autoprefixer())
     .pipe(sass({outputStyle:'compact'}).on('error', sass.logError))
-    .pipe( concat('index.css') )
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('src/selectbox'));
+    .pipe(gulp.dest(dist+'/css'));
+};
+
+let compileJs = ()=> {
+    gulp.src(paths.js)
+    .pipe( uglify() )
+    .pipe(gulp.dest(`${dist}/js`));
 };
 
 gulp.task('watch', ()=> {
-    watch('src/selectbox/sass/**/*.scss', compileSass);
+    watch(paths.js, compileJs);
+    watch(paths.scss, compileSass);
     watch('src/**/*', (e) => {
-        console.log(e.event+":"+e.path)
+        console.log(e.event+':'+e.path)
         // console.log(`${e.event}:${e.path.split('/').pop()}`);
     });
 });
-
-// let compileJs = () => {
-//     // js 하위 디렉터리 내의 모든 자바스크립트 파일을 가져온다.
-//     gulp.src(['src/selectbox/js/**/*.js'])
-//     // 상단에서 참조한 concat 모듈을 호출하고 병합할 파일네이밍을 정의
-//     .pipe( concat('index.js') )
-//     // 위에서 수행한 task 를 배포지(dist)에 파일을 생성한다.
-//     .pipe( gulp.dest('dist/js') );
-// };
-//
-// let compileSass = () => {
-//     gulp.src(['src/selectbox/sass/**/*.scss'])
-//     .pipe( concat('index.css') )
-//     .pipe( gulp.dest('dist/css') );
-// };
-//
-// gulp.task('dist', () => {
-//     // compileJs();
-//     compileSass();
-// });
