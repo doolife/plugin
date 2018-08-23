@@ -50,6 +50,9 @@ var Selectbox = (function(){
             var tagClone = $(element).find($list).eq(thisNum).contents().clone();
             $(element).find($title).empty().append(tagClone);
             this.remove();
+            if(!$(element).find($title).hasClass("on")){
+                $(element).find($title).addClass("on");
+            }
         },
         active : function(element){
             $(element).find($title).addClass("active");
