@@ -1,7 +1,5 @@
 var Draggable = (function(){
 
-    var $drag = $("[data-drag='select']"), $wrap = $(".draggable_wrap");
-
     function Person(opts){
         this.opts = opts;
         this.init();
@@ -10,12 +8,12 @@ var Draggable = (function(){
     Person.prototype = {
         init : function(){
             var context = this;
-            $.each($drag, function(i, item){
+            $.each($(this.opts.children), function(i, item){
                 context.resizable(item);
             });
         },
         resizable : function(element){
-            var wrapWidth = $(element).parent($wrap).width();
+            var wrapWidth = $(element).closest($(this.opts.parent)).width();
             $(element).resizable({
                 handles:'e',
                 minWidth:0,
@@ -28,9 +26,10 @@ var Draggable = (function(){
 
 })();
 
-new Draggable();
-
 // basic
-// var Draggable = new Draggable({
-//     element:["[data-drag='select']"]
-// });
+var draggable = new Draggable({
+    parent:"[data-drag='wrap']",
+    children:"[data-drag='select']"
+});
+
+console.log(draggable)

@@ -13,4 +13,6 @@
     }
 }
 
-.ui-resizable-e {width:50px; right:-25px; background:palevioletred; opacity:0.5;}
+.ui-resizable-e {width:50px; right:-25px;
+    &:before {content:""; display:block; margin-left:-0.5px; width:1px; height:100%; position:absolute; left:50%; top:0; background:#fff; opacity:0.5;}
+}
