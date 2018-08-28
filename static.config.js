@@ -1,5 +1,5 @@
 let config = {
-    path: 'draggable'
+    path: 'placeholder'
 };
 
 module.exports = config;
