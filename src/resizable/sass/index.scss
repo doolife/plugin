@@ -1,6 +1,6 @@
-.draggable_wrap {margin:50px auto 0; width:610px; height:813px; position:relative; overflow:hidden;
-    .draggable {width:100%; height:100%; position:absolute; left:0; top:0;
-        &:first-child {width:50%; z-index:1;}
+.resizable_wrap {margin:50px auto 0; width:610px; height:813px; position:relative; overflow:hidden;
+    .resizable {width:100%; height:100%; position:absolute; left:0; top:0;
+        &:first-child {z-index:1;}
         .drag_wrap {width:100%; height:100%; position:relative; overflow:hidden;}
         .before_drag, .after_drag {width:100%; height:100%;}
     }
@@ -15,4 +15,9 @@
 
 .ui-resizable-e {width:50px; right:-25px;
     &:before {content:""; display:block; margin-left:-0.5px; width:1px; height:100%; position:absolute; left:50%; top:0; background:#fff; opacity:0.5;}
+}
+
+.btn {margin:10px auto 0; width:100px; height:50px; display:block;
+    &.reset1 {background:#ddd;}
+    &.reset2 {color:#fff; background:#000;}
 }
