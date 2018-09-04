@@ -1,5 +1,5 @@
 let config = {
-    path: 'placeholder'
+    path: 'overflowscrolling'
 };
 
 module.exports = config;
