@@ -5,7 +5,8 @@ var Spriteimg = (function(){
     function Person(opts){
         this.opts = opts;
         this.state = {
-            isPlay:false
+            isPlay:false,
+            nowFrame:0
         };
         this.init();
     }
@@ -23,25 +24,40 @@ var Spriteimg = (function(){
                 this.opts.framCallback(num);
             }
         },
-        play : function(num){
+        render : function(){
+            $(this.opts.el).find($wrap).css({"background-position-x":-$(this.opts.el).width()*this.state.nowFrame});
+        },
+        play : function(){
             var context = this;
             if(this.state.isPlay) return;
             this.state.isPlay = true;
-            if(num==undefined) num = 0;
             timer = setTimeout( function(){
                 context.state.isPlay = false;
-                num = num+1;
-                context.callback(num);
-                context.play(num);
-                $(context.opts.el).find($wrap).css({"background-position-x":-$(context.opts.el).width()*num});
-                if(num>=context.opts.frame){
-                    context.pause();
+                context.state.nowFrame = context.state.nowFrame+1;
+                context.callback(context.state.nowFrame);
+                context.render();
+                context.play();
+                if(context.state.nowFrame>=context.opts.frame){
+                    context.stop();
                 }
             }, context.opts.fps);
+        },
+        seek : function(num){
+            this.state.isPlay = false;
+            this.state.nowFrame = num;
+            clearTimeout(timer);
+            this.render();
+            this.play();
         },
         pause : function(){
             this.state.isPlay = false;
             clearTimeout(timer);
+        },
+        stop : function(){
+            this.state.isPlay = false;
+            this.state.nowFrame = 0;
+            clearTimeout(timer);
+            this.render();
         }
     }
 
@@ -65,7 +81,7 @@ var sequence2 = new Spriteimg({
     path:"/PLUGIN/dist/spriteimg/img/he.png",
     frame:20,
     autoPlay:false,
-    fps:60,
+    fps:120,
     framCallback:function(num){
         console.log(num+" : he")
     }
@@ -79,10 +95,26 @@ $("#btn1").children(".btn_pause").on("click", function(){
     sequence1.pause();
 });
 
+$("#btn1").children(".btn_stop").on("click", function(){
+    sequence1.stop();
+});
+
+$("#btn1").children(".btn_seek").on("click", function(){
+    sequence1.seek(2);
+});
+
 $("#btn2").children(".btn_play").on("click", function(){
     sequence2.play();
 });
 
-$("#btn2").children(".btn_stop").on("click", function(){
+$("#btn2").children(".btn_pause").on("click", function(){
+    sequence2.pause();
+});
 
+$("#btn2").children(".btn_stop").on("click", function(){
+    sequence2.stop();
+});
+
+$("#btn2").children(".btn_seek").on("click", function(){
+    sequence2.seek(9);
 });
