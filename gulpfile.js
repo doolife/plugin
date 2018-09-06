@@ -4,6 +4,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const webpack = require('webpack-stream');
 const sass = require('gulp-sass');
+const imagemin = require('gulp-imagemin');
 const watch = require('gulp-watch');
 const staticConfig = require('./static.config');
 
@@ -13,6 +14,7 @@ let dist = `dist/${staticConfig.path}`;
 let paths = {
     js : `${src}/js/**/*.js`,
     scss : `${src}/sass/**/*.scss`,
+    img : `${src}/img/*`,
 };
 
 let compileSass = ()=> {
@@ -30,9 +32,24 @@ let compileJs = ()=> {
     .pipe(gulp.dest(`${dist}/js`));
 };
 
+let minifyImg = ()=> {
+    gulp.src(paths.img)
+    .pipe(imagemin([
+            imagemin.gifsicle({interlaced:true}),
+            imagemin.jpegtran({progressive:true}),
+            imagemin.optipng({optimizationLevel:5})
+        ])
+    )
+    .pipe(gulp.dest(`${dist}/img`));
+};
+
 gulp.task('watch', ()=> {
+    compileJs();
+    compileSass();
+    minifyImg();
     watch(paths.js, compileJs);
     watch(paths.scss, compileSass);
+    watch(paths.img, minifyImg);
     watch('src/**/*', (e) => {
         console.log(e.event+':'+e.path)
         // console.log(`${e.event}:${e.path.split('/').pop()}`);

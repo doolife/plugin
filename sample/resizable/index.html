@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> before after resizable </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<link rel="stylesheet" href="../../css/base.css" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="../../dist/resizable/css/index.css" />
+<script src="../../js/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+    <div id="resizeable1">
+        <div data-drag="wrap" class="resizable_wrap">
+            <div id="select1" data-drag="select" class="resizable">
+                <div class="drag_wrap">
+                    <div class="before_drag drag_bg1"></div>
+                </div>
+            </div>
+            <div class="resizable">
+                <div class="drag_wrap">
+                    <div class="after_drag drag_bg2"></div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn reset1">RESET1</button>
+
+        <div data-drag="wrap" class="resizable_wrap">
+            <div data-drag="select" class="resizable">
+                <div class="drag_wrap">
+                    <div class="before_drag drag_bg3"></div>
+                </div>
+            </div>
+            <div class="resizable">
+                <div class="drag_wrap">
+                    <div class="after_drag drag_bg4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div data-drag="wrap" class="resizable_wrap video_wrap">
+            <div data-drag="select" class="resizable">
+                <div class="drag_wrap">
+                    <video loop="" preload="auto" autoplay muted>
+                        <source src="../../dist/resizable/media/before.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="resizable">
+                <div class="drag_wrap">
+                    <video loop="" preload="auto" autoplay muted>
+                        <source src="../../dist/resizable/media/after.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="resizeable2">
+        <div data-drag="wrap" class="resizable_wrap">
+            <div id="select2" data-drag="select" class="resizable">
+                <div class="drag_wrap">
+                    <div class="before_drag drag_bg1"></div>
+                </div>
+            </div>
+            <div class="resizable">
+                <div class="drag_wrap">
+                    <div class="after_drag drag_bg2"></div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn reset2">RESET2</button>
+
+        <div data-drag="wrap" class="resizable_wrap">
+            <div data-drag="select" class="resizable">
+                <div class="drag_wrap">
+                    <div class="before_drag drag_bg3"></div>
+                </div>
+            </div>
+            <div class="resizable">
+                <div class="drag_wrap">
+                    <div class="after_drag drag_bg4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../src/resizable/js/index.js"></script>
+</body>
+</html>
