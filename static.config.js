@@ -1,5 +1,5 @@
 let config = {
-    path: 'overflowscrolling'
+    path: 'skewed'
 };
 
 module.exports = config;
