@@ -12,10 +12,30 @@
     <script src="../../js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-    <div id="skew_wrap">
-        <div class="left"></div>
-        <div class="right"></div>
+    <div id="container">
+        <div class="left skew" data-list="skew">
+            <div class="skew_wrap" data-list="wrap">
+                <div class="skew_con">
+                    <div class="skew_char"></div>
+                </div>
+            </div>
+        </div>
+        <div class="center skew" data-list="skew">
+            <div class="skew_wrap" data-list="wrap">
+                <div class="skew_con">
+                    <div class="skew_char"></div>
+                </div>
+            </div>
+        </div>
+        <div class="right skew" data-list="skew">
+            <div class="skew_wrap" data-list="wrap">
+                <div class="skew_con">
+                    <div class="skew_char"></div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script src="../../js/TweenMax.min.js"></script>
     <script src="../../src/skewed/js/index.js"></script>
 </body>
 </html>
