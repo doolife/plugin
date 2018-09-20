@@ -1,20 +1,21 @@
 var Spriteimg = (function(){
 
-    var $wrap = $(".sprite"), timer;
-
     function Person(opts){
         this.opts = opts;
+        this.selector = {
+            wrap:".sprite"
+        }
         this.state = {
             isPlay:false,
-            nowFrame:0
+            nowFrame:0,
+            timer:""
         };
         this.init();
     }
 
     Person.prototype = {
         init : function() {
-            console.log(this.opts)
-            $(this.opts.el).find($wrap).css({width:$(this.opts.el).width()*this.opts.frame, height:$(this.opts.el).height(), backgroundImage:"url("+this.opts.path+")"});
+            $(this.opts.el).find($(this.selector.wrap)).css({width:$(this.opts.el).width()*this.opts.frame, height:$(this.opts.el).height(), backgroundImage:"url("+this.opts.path+")"});
             if(this.opts.autoPlay==true){
                 this.play();
             }
@@ -25,13 +26,18 @@ var Spriteimg = (function(){
             }
         },
         render : function(){
-            $(this.opts.el).find($wrap).css({"background-position-x":-$(this.opts.el).width()*this.state.nowFrame});
+            if(this.opts.horizontal){
+                $(this.opts.el).find($(this.selector.wrap)).css({"background-position-x":-$(this.opts.el).width()*this.state.nowFrame});
+            }else{
+                $(this.opts.el).find($(this.selector.wrap)).css({"background-position-y":-$(this.opts.el).height()*this.state.nowFrame});
+            }
+
         },
         play : function(){
             var context = this;
             if(this.state.isPlay) return;
             this.state.isPlay = true;
-            timer = setTimeout( function(){
+            this.state.timer = setTimeout( function(){
                 context.state.isPlay = false;
                 context.state.nowFrame = context.state.nowFrame+1;
                 context.callback(context.state.nowFrame);
@@ -45,18 +51,18 @@ var Spriteimg = (function(){
         seek : function(num){
             this.state.isPlay = false;
             this.state.nowFrame = num;
-            clearTimeout(timer);
+            clearTimeout(this.state.timer);
             this.render();
             this.play();
         },
         pause : function(){
             this.state.isPlay = false;
-            clearTimeout(timer);
+            clearTimeout(this.state.timer);
         },
         stop : function(){
             this.state.isPlay = false;
             this.state.nowFrame = 0;
-            clearTimeout(timer);
+            clearTimeout(this.state.timer);
             this.render();
         }
     }
@@ -65,14 +71,28 @@ var Spriteimg = (function(){
 
 })();
 
+var smoke = new Spriteimg({
+    el:"#smoke",
+    path:"/PLUGIN/dist/spriteimg/img/smoke.png",
+    frame:22,
+    autoPlay:true,
+    horizontal:false,
+    fps:120
+});
+
 var sequence1 = new Spriteimg({
     el:"#sprite1",
     path:"/PLUGIN/dist/spriteimg/img/po.png",
     frame:10,
     autoPlay:false,
+    horizontal:true,
     fps:120,
     framCallback:function(num){
-        console.log(num+" : ho", 'background: #222; color: #bada55')
+        console.log(num)
+        if(num==5){
+            stopTest();
+        }
+        // console.log(num+" : ho", 'background: #222; color: #bada55')
     }
 });
 
@@ -81,40 +101,47 @@ var sequence2 = new Spriteimg({
     path:"/PLUGIN/dist/spriteimg/img/he.png",
     frame:20,
     autoPlay:false,
+    horizontal:true,
     fps:120,
     framCallback:function(num){
         console.log(num+" : he")
+        stopTest();
     }
 });
 
-$("#btn1").children(".btn_play").on("click", function(){
+function stopTest(){
+    console.log("end!!")
+    sequence1.pause();
+}
+
+$("#btn1").find(".btn_play").on("click", function(){
     sequence1.play();
 });
 
-$("#btn1").children(".btn_pause").on("click", function(){
+$("#btn1").find(".btn_pause").on("click", function(){
     sequence1.pause();
 });
 
-$("#btn1").children(".btn_stop").on("click", function(){
+$("#btn1").find(".btn_stop").on("click", function(){
     sequence1.stop();
 });
 
-$("#btn1").children(".btn_seek").on("click", function(){
+$("#btn1").find(".btn_seek").on("click", function(){
     sequence1.seek(2);
 });
 
-$("#btn2").children(".btn_play").on("click", function(){
+$("#btn2").find(".btn_play").on("click", function(){
     sequence2.play();
 });
 
-$("#btn2").children(".btn_pause").on("click", function(){
+$("#btn2").find(".btn_pause").on("click", function(){
     sequence2.pause();
 });
 
-$("#btn2").children(".btn_stop").on("click", function(){
+$("#btn2").find(".btn_stop").on("click", function(){
     sequence2.stop();
 });
 
-$("#btn2").children(".btn_seek").on("click", function(){
+$("#btn2").find(".btn_seek").on("click", function(){
     sequence2.seek(9);
 });
