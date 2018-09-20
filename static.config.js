@@ -1,5 +1,5 @@
 let config = {
-    path: 'draggable'
+    path: 'skewed'
 };
 
 module.exports = config;
