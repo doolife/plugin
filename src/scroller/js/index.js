@@ -53,8 +53,6 @@ var Scroller = (function(){
             });
             this.scrollmove();
             this.state.hashChk = false;
-            // TweenMax.to([$(this.opts.el).find($(this.selector.stcon))], 0, {y:-this.state.y[this.opts.depth1]});
-            // TweenMax.to([$(this.opts.el).find($(this.selector.stcon).eq(this.opts.depth1)).find($(this.selector.accon))], 0, {x:-this.state.x[this.opts.depth2], ease:Expo.easeOut});
         },
         resize:function(){
             var context = this;
@@ -110,7 +108,7 @@ var Scroller = (function(){
                 }
             }
             this.scrollmove();
-            console.log(this.opts.depth1+" | "+this.opts.depth2+" | DOWN")
+            // console.log(this.opts.depth1+" | "+this.opts.depth2+" | DOWN")
         },
         scrollup:function(){
             if (this.opts.depth1 > 0) {
@@ -138,7 +136,7 @@ var Scroller = (function(){
                 }
             }
             this.scrollmove();
-            console.log(this.opts.depth1+" | "+this.opts.depth2+" | UP")
+            // console.log(this.opts.depth1+" | "+this.opts.depth2+" | UP")
         },
         gnb:function(){
             if (this.opts.depth1!=this.state.gnbnum) {
@@ -151,6 +149,13 @@ var Scroller = (function(){
         snb:function(){
             this.opts.depth2 = this.state.snbnum;
             this.scrollmove();
+        },
+        anchor:function(){
+            console.log(this.opts.depth1+" | "+this.opts.depth2)
+            $(this.opts.el).find($(this.selector.gnb)).children("li").removeClass("on");
+            $(this.opts.el).find($(this.selector.gnb)).children("li").eq(this.opts.depth1).addClass("on");
+            $(this.opts.el).find($(this.selector.stcon)).find($(this.selector.snb)).children("li").removeClass("on");
+            $(this.opts.el).find($(this.selector.stcon)).eq(this.opts.depth1).find($(this.selector.snb)).children("li").eq(this.opts.depth2).addClass("on");
         },
         hashset:function(){
             var context = this;
@@ -165,7 +170,8 @@ var Scroller = (function(){
         scrollmove:function(){
             (this.state.hashChk)? this.state.rsp = 0 : this.state.rsp = 0.8;
             TweenMax.to([$(this.opts.el).find($(this.selector.stwrap))], this.state.rsp, {y:-this.state.y[this.opts.depth1], ease:Cubic.easeOut});
-            TweenMax.to([$(this.opts.el).find($(this.selector.stcon).eq(this.opts.depth1)).find($(this.selector.acwrap))], this.state.rsp, {x:-this.state.x[this.opts.depth2], ease:Cubic.easeOut});
+            TweenMax.to([$(this.opts.el).find($(this.selector.stcon)).eq(this.opts.depth1).find($(this.selector.acwrap))], this.state.rsp, {x:-this.state.x[this.opts.depth2], ease:Cubic.easeOut});
+            this.anchor();
         },
         articleset:function(){
             TweenMax.to([$(this.opts.el).find($(this.selector.stcon).eq(this.opts.depth1)).find($(this.selector.acwrap))], 0, {x:-this.state.x[this.opts.depth2]});
@@ -176,7 +182,7 @@ var Scroller = (function(){
 
 })();
 
-var scroll = new Scroller({
+var scroller = new Scroller({
     el:"#scroller",
     depth1:0,
     depth2:0,
