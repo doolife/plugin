@@ -23,7 +23,7 @@ var Multislider = (function(){
         },
         layout:function(){
 
-            this.opts.num = this.opts.idx;
+            this.state.num = this.opts.idx;
             this.state.length = $(this.opts.el).find(this.selector.list).length-1;
 
             $.each($(this.opts.el).find($(this.selector.list)), function(index, item){
@@ -32,7 +32,7 @@ var Multislider = (function(){
 
             this.clones();
             // this.move();
-            TweenMax.to([$(this.opts.el).find(this.selector.wrap)], 0, {transform:"translateX(-"+(Number(this.opts.idx)+1)*100+"%)"});
+            TweenMax.to([$(this.opts.el).find(this.selector.wrap)], 0, {transform:"translateX(-"+(Number(this.opts.idx)+4)*100+"%)"});
         },
         clones:function(){
             this.clone.first = $(this.opts.el).find(this.selector.list).first(this.selector.list).clone();
@@ -71,10 +71,10 @@ var Multislider = (function(){
                     multislider.opts.idx = 10;
                 }
                 else if(multislider.opts.idx==11){
-                    multislider.opts.idx = 3;
+                    multislider.opts.idx = this.state.num-1;
                 }
                 else if(multislider.opts.idx==12){
-                    multislider.opts.idx = 4;
+                    multislider.opts.idx = this.state.num;
                 }
                 console.log(multislider.opts.idx)
                 TweenMax.to([$(multislider.opts.el).find(multislider.selector.wrap)], 0, {transform:"translateX(-"+multislider.opts.idx*100+"%)"});
@@ -99,7 +99,7 @@ var Multislider = (function(){
 
 var multislider = new Multislider({
     el:"#multislider",
-    idx:3
+    idx:0
 });
 
 console.log(multislider)
