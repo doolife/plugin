@@ -26,26 +26,31 @@ var Multislider = (function(){
             this.state.num = this.opts.idx;
             this.state.length = $(this.opts.el).find(this.selector.list).length-1;
 
-            $.each($(this.opts.el).find($(this.selector.list)), function(index, item){
-                $(item).attr("idx", ""+index+"");
-            });
+            // $.each($(this.opts.el).find($(this.selector.list)), function(index, item){
+            //     $(item).attr("idx", ""+index+"");
+            // });
 
             this.clones();
             // this.move();
-            TweenMax.to([$(this.opts.el).find(this.selector.wrap)], 0, {transform:"translateX(-"+(Number(this.opts.idx)+4)*100+"%)"});
+
+            this.state.lastLength = $(this.opts.el).find(this.selector.list).length-1;
+
+            TweenMax.to([$(this.opts.el).find(this.selector.wrap)], 0, {transform:"translateX(-"+(Number(this.opts.idx)+5)*100+"%)"});
         },
         clones:function(){
-            this.clone.first = $(this.opts.el).find(this.selector.list).first(this.selector.list).clone();
-            this.clone.sfirst = $(this.opts.el).find(this.selector.list).eq(1).clone();
-            this.clone.ssfirst = $(this.opts.el).find(this.selector.list).eq(2).clone();
-            this.clone.sssfirst = $(this.opts.el).find(this.selector.list).eq(3).clone();
-            this.clone.last = $(this.opts.el).find(this.selector.list).last(this.selector.list).clone();
-            this.clone.slast = $(this.opts.el).find(this.selector.list).eq($().length-2).clone();
-            this.clone.sslast = $(this.opts.el).find(this.selector.list).eq($().length-3).clone();
-            this.clone.ssslast = $(this.opts.el).find(this.selector.list).eq($().length-4).clone();
+            this.clone.firstClone1 = $(this.opts.el).find(this.selector.list).first(this.selector.list).clone();
+            this.clone.firstClone2 = $(this.opts.el).find(this.selector.list).eq(1).clone();
+            this.clone.firstClone3 = $(this.opts.el).find(this.selector.list).eq(2).clone();
+            this.clone.firstClone4 = $(this.opts.el).find(this.selector.list).eq(3).clone();
+            this.clone.firstClone5 = $(this.opts.el).find(this.selector.list).eq(4).clone();
+            this.clone.lastClone1 = $(this.opts.el).find(this.selector.list).last(this.selector.list).clone();
+            this.clone.lastClone2 = $(this.opts.el).find(this.selector.list).eq($().length-2).clone();
+            this.clone.lastClone3 = $(this.opts.el).find(this.selector.list).eq($().length-3).clone();
+            this.clone.lastClone4 = $(this.opts.el).find(this.selector.list).eq($().length-4).clone();
+            this.clone.lastClone5 = $(this.opts.el).find(this.selector.list).eq($().length-5).clone();
 
-            $(this.opts.el).find(this.selector.wrap).append(this.clone.first).append(this.clone.sfirst).append(this.clone.ssfirst).append(this.clone.sssfirst);
-            $(this.opts.el).find(this.selector.wrap).prepend(this.clone.last).prepend(this.clone.slast).prepend(this.clone.sslast).prepend(this.clone.ssslast);
+            $(this.opts.el).find(this.selector.wrap).append(this.clone.firstClone1).append(this.clone.firstClone2).append(this.clone.firstClone3).append(this.clone.firstClone4).append(this.clone.firstClone5);
+            $(this.opts.el).find(this.selector.wrap).prepend(this.clone.lastClone1).prepend(this.clone.lastClone2).prepend(this.clone.lastClone3).prepend(this.clone.lastClone4).prepend(this.clone.lastClone5);
         },
         controls:function(){
             var context = this;
@@ -62,19 +67,44 @@ var Multislider = (function(){
         },
         endcall:function(){
             console.log(multislider.state.length+" | "+multislider.opts.idx)
-            multislider.state.cycle = (2>=multislider.opts.idx || multislider.state.length-1<=multislider.opts.idx);
+            multislider.state.cycle = (5>multislider.opts.idx || multislider.state.length-1<=multislider.opts.idx);
             if(multislider.state.cycle){
-                if(multislider.opts.idx==1){
+                if(multislider.opts.idx==0){
+                    multislider.opts.idx = 8;
+                }
+                else if(multislider.opts.idx==1){
                     multislider.opts.idx = 9;
                 }
                 else if(multislider.opts.idx==2){
                     multislider.opts.idx = 10;
                 }
-                else if(multislider.opts.idx==11){
-                    multislider.opts.idx = this.state.num-1;
+                else if(multislider.opts.idx==3){
+                    multislider.opts.idx = 11;
                 }
-                else if(multislider.opts.idx==12){
-                    multislider.opts.idx = this.state.num;
+                else if(multislider.opts.idx==4){
+                    multislider.opts.idx = 12;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength-6){
+                    console.log("??")
+                    multislider.opts.idx = 3;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength-5){
+                    multislider.opts.idx = 4;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength-4){
+                    multislider.opts.idx = 5;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength-3){
+                    multislider.opts.idx = 6;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength-2){
+                    multislider.opts.idx = 7;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength-1){
+                    multislider.opts.idx = 8;
+                }
+                else if(multislider.opts.idx==multislider.state.lastLength){
+                    multislider.opts.idx = 9;
                 }
                 console.log(multislider.opts.idx)
                 TweenMax.to([$(multislider.opts.el).find(multislider.selector.wrap)], 0, {transform:"translateX(-"+multislider.opts.idx*100+"%)"});

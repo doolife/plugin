@@ -1,5 +1,5 @@
 let config = {
-    path: 'skewed'
+    path: 'imgslider'
 };
 
 module.exports = config;

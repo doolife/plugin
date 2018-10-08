@@ -1,112 +1,113 @@
-var sliderModule = (function (window, document, $, undefined) {
+var Imgslider = (function () {
 
-    var $btn = $("[data-btn]"),
-        $wrap = $("[data-gallery='wrap']"),
-        $cover = $("[data-gallery='cover']"),
-        $list = $("[data-slider='list']"),
-        $paging = $("[data-list='paging']"),
-        _pagingWrap = "data-paging='wrap'",
-        _paging = "data-paging='list'";
+    function Person(opts){
+        this.opts = opts;
+        this.selector = {
+            btn:"[data-btn]",
+            wrap:"[data-gallery='wrap']",
+            cover:"[data-gallery='cover']",
+            list:"[data-slider='list']",
+            pagingWrap:"[data-paging='wrap']",
+            paging:"[data-paging='list']"
 
-
-    var init = function(opts){
-        $.each(opts.element, function(i, item) {
-            var obj     = {};
-            obj.element  = item;
-            obj.idx = opts.idx[i];
-            obj.len = $(item).find($list).length;
-            obj.width = $(item).find($cover).width();
-            obj.height = $(item).find($cover).height();
-            obj.paging = opts.paging[i];
-            if(opts.pelement != undefined){
-                obj.pelement = opts.pelement[i];
-            }
-            obj.setChk = true;
-
-            var first = $(obj.element).find($list).first($list).clone();
-            var last = $(obj.element).find($list).last($list).clone();
-            $(obj.element).find($wrap).append(first);
-            $(obj.element).find($wrap).prepend(last);
-
-            sliderAnimation(obj);
-            controls(obj);
-        });
+        };
+        this.state = {
+            setChk:true
+        };
+        this.init();
     };
 
-    function controls(obj){
-        $(obj.element).find($btn).off().on("click", function(e){
-            var target = $(this).data("btn");
-            prevnext(obj, target);
-        });
+    Person.prototype = {
+        init:function(){
+            this.state.width = $(this.opts.element).find(this.selector.cover).width();
+            this.state.height = $(this.opts.element).find(this.selector.cover).height();
+            this.state.len = $(this.opts.element).find(this.selector.list).length;
+            this.clones();
+            this.controls();
+            this.sliderAnimation();
+        },
+        clones:function(){
+            this.state.first = $(this.opts.element).find(this.selector.list).first(this.selector.list).clone();
+            this.state.last = $(this.opts.element).find(this.selector.list).last(this.selector.list).clone();
+            $(this.opts.element).find(this.selector.wrap).append(this.state.first);
+            $(this.opts.element).find(this.selector.wrap).prepend(this.state.last);
+        },
+        controls:function(){
+            var context = this;
 
-        $(obj.element).find("["+_paging+"]").on("click", function(e){
-            var thisNum = $(this).index();
-            obj.idx = thisNum+1;
-            sliderAnimation(obj);
-        });
-
-        $(obj.pelement).find($paging).on("click", function(e){
-            var thisNum = $(this).index();
-            obj.idx = thisNum+1;
-            sliderAnimation(obj);
-        });
-    };
-
-    function prevnext(obj, target){
-        if($(obj.element).find($wrap).is(":not(:animated)")){
-            if(target=="next"){
-                obj.idx = obj.idx+1;
-                sliderAnimation(obj);
-            }else if(target=="prev"){
-                obj.idx = obj.idx-1;
-                sliderAnimation(obj);
-            }
-        }
-    };
-
-    function sliderAnimation(obj){
-        if(obj.setChk==true){
-            obj.idx = (obj.idx>obj.len || obj.idx<=0) ? 1 : obj.idx;
-            $(obj.element).find($wrap).css({width:obj.width*(obj.len+2), height:obj.height, left:-obj.width*obj.idx});
-            if(obj.paging==true){
-                pagingSet(obj);
-                sliderPaging(obj);
-            }
-            obj.setChk = false;
-        }else{
-            $(obj.element).find($wrap).stop().animate({left:-obj.width*obj.idx}, function(){
-                var cycle = (0===obj.idx || obj.len+1===obj.idx);
-                if(cycle){
-                    obj.idx = (obj.idx === 0)? obj.len : 1;
-                    $(obj.element).find($wrap).css({left:-obj.width*obj.idx});
-                }
-                if(obj.paging==true){
-                    sliderPaging(obj);
-                }
+            $(this.opts.element).find(this.selector.btn).on("click", function(){
+                context.state.target = $(this).data("btn");
+                context.prevnext();
             });
+
+            $(this.opts.element).on("click", "[data-paging='list']", function(){
+                context.opts.idx = $(this).index()+1;
+                context.sliderAnimation();
+            });
+        },
+        prevnext:function(){
+            if($(this.opts.element).find(this.selector.wrap).is(":not(:animated)")){
+                if(this.state.target=="next"){
+                    this.opts.idx = this.opts.idx+1;
+                    this.sliderAnimation();
+                }else if(this.state.target=="prev"){
+                    this.opts.idx = this.opts.idx-1;
+                    this.sliderAnimation();
+                }
+            }
+        },
+        sliderAnimation:function(){
+            var context = this;
+            if(this.state.setChk==true){
+                this.opts.idx = (this.opts.idx>this.state.len || this.opts.idx<=0) ? 1 : this.opts.idx;
+                $(this.opts.element).find(this.selector.wrap).css({width:this.state.width*(this.state.len+2), height:this.state.height, left:-this.state.width*this.opts.idx});
+                if(this.opts.paging==true){
+                    this.pagingSet();
+                    this.sliderPaging();
+                }
+                this.state.setChk = false;
+            }else{
+                $(this.opts.element).find(this.selector.wrap).stop().animate({left:-this.state.width*this.opts.idx}, function(){
+                    context.state.cycle = (0===context.opts.idx || context.state.len+1===context.opts.idx);
+                    if(context.state.cycle){
+                        context.opts.idx = (context.opts.idx === 0)? context.state.len : 1;
+                        $(context.opts.element).find(context.selector.wrap).css({left:-context.state.width*context.opts.idx});
+                    }
+                    if(context.opts.paging==true){
+                        context.sliderPaging();
+                    }
+                });
+            }
+        },
+        sliderPaging:function(){
+            $(this.opts.element).find(this.selector.paging).removeClass("on");
+            $(this.opts.element).find(this.selector.paging).eq(this.opts.idx-1).addClass("on");
+        },
+        pagingSet:function(){
+            $(this.opts.element).find(this.selector.wrap).after("<ul data-paging='wrap'>");
+            for ( var i=1 ; i<this.state.len+1 ; i++ ){
+                $(this.opts.element).find(this.selector.pagingWrap).append("<li data-paging='list'><button type='button'>"+i+"");
+            }
         }
-    }
-
-    function sliderPaging(obj){
-        $(obj.element).find($("["+_paging+"]")).removeClass("on");
-        $(obj.element).find($("["+_paging+"]")).eq(obj.idx-1).addClass("on");
-    }
-
-    function pagingSet(obj){
-        $(obj.element).find($wrap).after("<ul "+_pagingWrap+">");
-        for ( var i=1 ; i<obj.len+1 ; i++ ){
-            $(obj.element).find($("["+_pagingWrap+"]")).append("<li "+_paging+"><button type='button'>"+i+"");
-        }
-    }
-
-    return{
-        option:init
     };
-})(window, document, $);
 
-new sliderModule.option({
-    element:["#slider1", "#slider2", "#slider3"],
-    idx:[1, 5, 3],
-    paging:[true, false, true],
-    pelement:["", "#paging2", ""],
+    return Person;
+})();
+
+var imgslider1 = new Imgslider({
+    element:"#slider1",
+    idx:0,
+    paging:false
+});
+
+var imgslider2 = new Imgslider({
+    element:"#slider2",
+    idx:5,
+    paging:true
+});
+
+var imgslider3 = new Imgslider({
+    element:"#slider3",
+    idx:3,
+    paging:true
 });
