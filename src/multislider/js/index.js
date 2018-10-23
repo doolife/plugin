@@ -12,8 +12,8 @@ var Multislider = (function(){
         };
         this.clone = {};
         this.state = {
-            aniWidth:[350, 450, 550],
-            aniHeight:[425, 547, 668],
+            aniWidth:[350, 400, 450],
+            aniHeight:[425, 486, 547],
             anichk:true
         };
         this.init();
@@ -21,17 +21,15 @@ var Multislider = (function(){
 
     Person.prototype = {
         init:function(){
+            this.opts.idx = this.opts.idx+3;
             this.layout();
             this.controls();
         },
         layout:function(){
-            this.state.num = this.opts.idx;
             this.state.width = $(this.selector.wrap).width();
             this.state.length = $(this.opts.el).find(this.selector.list).length-1;
             this.clones();
             this.state.sumLength = $(this.opts.el).find(this.selector.list).length-1;
-
-            this.opts.idx = this.opts.idx+3;
             this.move();
         },
         clones:function(){
@@ -43,8 +41,6 @@ var Multislider = (function(){
             this.clone.lastClone3 = $(this.opts.el).find(this.selector.list).eq(this.state.length-2).clone();
             $(this.opts.el).find(this.selector.wrap).append(this.clone.firstClone1).append(this.clone.firstClone2).append(this.clone.firstClone3);
             $(this.opts.el).find(this.selector.wrap).prepend(this.clone.lastClone1).prepend(this.clone.lastClone2).prepend(this.clone.lastClone3);
-            // this.clone.cloning = $(this.opts.el).find(this.selector.list).clone();
-            // $(this.opts.el).find(this.selector.wrap).prepend(this.clone.cloning);
         },
         controls:function(){
             var context = this;
@@ -96,7 +92,7 @@ var Multislider = (function(){
             this.state.anichk = true;
         },
         anianchor:function(){
-            $(this.opts.el).find(this.selector.list).find(this.selector.children).stop().animate({width:this.state.aniWidth[1], height:this.state.aniHeight[1], marginLeft:-this.state.aniWidth[1]/2}, this.state.aniSp).removeClass("on");
+            $(this.opts.el).find(this.selector.list).find(this.selector.children).stop().animate({width:this.state.aniWidth[0], height:this.state.aniHeight[0], marginLeft:-this.state.aniWidth[0]/2}, this.state.aniSp).removeClass("on");
             $(this.opts.el).find(this.selector.list).eq(this.opts.idx-1).find(this.selector.children).stop().animate({width:this.state.aniWidth[1], height:this.state.aniHeight[1], marginLeft:-this.state.aniWidth[1]/2}, this.state.aniSp);
             $(this.opts.el).find(this.selector.list).eq(this.opts.idx).find(this.selector.children).stop().animate({width:this.state.aniWidth[2], height:this.state.aniHeight[2], marginLeft:-this.state.aniWidth[2]/2}, this.state.aniSp).addClass("on");
             $(this.opts.el).find(this.selector.list).eq(this.opts.idx+1).find(this.selector.children).stop().animate({width:this.state.aniWidth[1], height:this.state.aniHeight[1], marginLeft:-this.state.aniWidth[1]/2}, this.state.aniSp);
