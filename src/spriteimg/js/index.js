@@ -1,39 +1,97 @@
 var Spriteimg = (function(){
 
     function Person(opts){
-        this.opts = opts;
-        this.selector = {
+
+        this.opts = $.extend({
+            el:"#sprite",
+            frame:9,
+            autoPlay:false,
+            horizontal:true,
+            fps:120,
+            ratio:false,
+            framCallback:function(num){
+
+            },
+            end:function(){
+
+            }
+        }, opts);
+
+        this.el = {
             wrap:".sprite"
-        }
+        };
+
         this.state = {
             isPlay:false,
             nowFrame:0,
             timer:""
         };
+
         this.init();
     }
 
     Person.prototype = {
-        init : function() {
-            $(this.opts.el).find($(this.selector.wrap)).css({width:$(this.opts.el).width()*this.opts.frame, height:$(this.opts.el).height(), backgroundImage:"url("+this.opts.path+")"});
+        init:function() {
+            var context = this;
+
+            if(this.opts.ratio){
+                $(window).on("resize", function(){
+                    context.resize();
+                }).resize();
+            }else{
+                if(this.opts.horizontal){
+                    $(this.opts.el).find($(this.el.wrap)).css({width:$(this.opts.el).width()*this.opts.frame, height:$(this.opts.el).height()});
+                }else{
+                    $(this.opts.el).find($(this.el.wrap)).css({width:$(this.opts.el).width(), height:$(this.opts.el).height()*this.opts.frame});
+                }
+
+            }
+
             if(this.opts.autoPlay==true){
                 this.play();
             }
         },
-        callback : function(num){
+        resize:function(){
+            this.state.setWidth = 600;
+            this.state.setHeight = 344;
+
+            this.state.ratio = this.state.setHeight/this.state.setWidth;
+
+            this.state.windowWidth = $(window).width();
+            this.state.windowHeight = $(window).height();
+
+            if ((this.state.windowHeight/this.state.windowWidth) > this.state.ratio) {
+                $(this.opts.el).css({width:this.state.windowHeight / this.state.ratio, height:this.state.windowHeight});
+            }else{
+                $(this.opts.el).css({width:this.state.windowWidth / this.state.ratio, height:this.state.windowWidth});
+            }
+
+            this.state.conWidth = $(this.opts.el).width();
+            this.state.conHeight = $(this.opts.el).height();
+
+            $(this.opts.el).css({left:(this.state.windowWidth - this.state.conWidth)/2, top:(this.state.windowHeight - this.state.conHeight)/2});
+
+            if(this.opts.horizontal){
+                $(this.opts.el).find($(this.el.wrap)).css({width:this.state.conWidth*this.opts.frame, height:this.state.conHeight});
+            }else{
+                $(this.opts.el).find($(this.el.wrap)).css({width:this.state.conWidth, height:this.state.conHeight*this.opts.frame});
+            }
+        },
+        callback:function(num){
             if (typeof this.opts.framCallback == "function"){    // frame 값 콜백
                 this.opts.framCallback(num);
             }
         },
-        render : function(){
+        render:function(){
             if(this.opts.horizontal){
-                $(this.opts.el).find($(this.selector.wrap)).css({"background-position-x":-$(this.opts.el).width()*this.state.nowFrame});
+                $(this.opts.el).find($(this.el.wrap)).css({"background-position-x":-$(this.opts.el).width()*this.state.nowFrame});
             }else{
-                $(this.opts.el).find($(this.selector.wrap)).css({"background-position-y":-$(this.opts.el).height()*this.state.nowFrame});
+                // console.log(this.state.conHeight+" | "+this.state.nowFrame)
+                $(this.opts.el).find($(this.el.wrap)).css({"background-position-y":-$(this.opts.el).height()*this.state.nowFrame});
             }
 
         },
-        play : function(){
+        play:function(){
             var context = this;
             if(this.state.isPlay) return;
             this.state.isPlay = true;
@@ -45,25 +103,33 @@ var Spriteimg = (function(){
                 context.play();
                 if(context.state.nowFrame>=context.opts.frame){
                     context.stop();
+                    $(context.opts.el).trigger("end");
                 }
             }, context.opts.fps);
         },
-        seek : function(num){
+        seek:function(num){
             this.state.isPlay = false;
             this.state.nowFrame = num;
             clearTimeout(this.state.timer);
             this.render();
             this.play();
         },
-        pause : function(){
+        pause:function(){
             this.state.isPlay = false;
             clearTimeout(this.state.timer);
         },
-        stop : function(){
+        stop:function(){
             this.state.isPlay = false;
             this.state.nowFrame = 0;
             clearTimeout(this.state.timer);
             this.render();
+            this.opts.end();
+        },
+        on:function(event, func){
+            console.log(event)
+            console.log(func)
+            console.log($(this.opts.el))
+            $(this.opts.el).on(event, func);
         }
     }
 
@@ -73,46 +139,55 @@ var Spriteimg = (function(){
 
 var smoke = new Spriteimg({
     el:"#smoke",
-    path:"/PLUGIN/dist/spriteimg/img/smoke.png",
     frame:22,
-    autoPlay:true,
+    autoPlay:false,
     horizontal:false,
-    fps:120
+    fps:120,
+    ratio:true,
+    framCallback:function(num){
+        // console.log(num)
+    },
+    end:function(){
+        // endNone();
+    }
 });
+
+smoke.on("end", function(){
+    console.log("end!!!!!!!!!!!!!!!!!");
+    endNone();
+})
 
 var sequence1 = new Spriteimg({
     el:"#sprite1",
-    path:"/PLUGIN/dist/spriteimg/img/po.png",
-    frame:10,
+    frame:9,
     autoPlay:false,
     horizontal:true,
     fps:120,
+    ratio:false,
     framCallback:function(num){
-        console.log(num)
-        if(num==5){
-            stopTest();
-        }
-        // console.log(num+" : ho", 'background: #222; color: #bada55')
+        // console.log(num)
     }
 });
 
 var sequence2 = new Spriteimg({
     el:"#sprite2",
-    path:"/PLUGIN/dist/spriteimg/img/he.png",
-    frame:20,
+    frame:9,
     autoPlay:false,
     horizontal:true,
-    fps:120,
+    fps:60,
     framCallback:function(num){
-        console.log(num+" : he")
-        stopTest();
+        // console.log(num+" : he")
     }
 });
 
-function stopTest(){
-    console.log("end!!")
-    sequence1.pause();
+function endNone(){
+    console.log("yes!!!")
+    $("#smoke").css({display:"none"});
 }
+
+$("#smoke").on("click", function(){
+    smoke.play();
+});
 
 $("#btn1").find(".btn_play").on("click", function(){
     sequence1.play();
@@ -143,5 +218,5 @@ $("#btn2").find(".btn_stop").on("click", function(){
 });
 
 $("#btn2").find(".btn_seek").on("click", function(){
-    sequence2.seek(9);
+    sequence2.seek(5);
 });
