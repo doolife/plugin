@@ -1,7 +1,13 @@
 var Imgslider = (function () {
 
     function Person(opts){
-        this.opts = opts;
+        this.opts = $.extend({
+            element:"#slider1",
+            idx:0,
+            view:1,
+            paging:true
+        }, opts);
+
         this.el = {
             btn:"[data-btn]",
             wrap:"[data-gallery='wrap']",
@@ -11,12 +17,15 @@ var Imgslider = (function () {
             paging:"[data-paging='list']"
 
         };
+
         this.clone = {};
+
         this.state = {
             num:3,
             setChk:true,
             aniChk:true
         };
+
         this.init();
     };
 
@@ -162,7 +171,7 @@ var imgslider3 = new Imgslider({
     element:"#slider3",
     idx:2,
     view:1,
-    paging:true
+    paging:false
 });
 
 var imgslider4 = new Imgslider({
@@ -171,3 +180,5 @@ var imgslider4 = new Imgslider({
     view:5,
     paging:true
 });
+
+console.log(imgslider3)
