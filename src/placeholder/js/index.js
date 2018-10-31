@@ -1,44 +1,50 @@
 var PlaceHolder = (function(){
 
-    var $label = $("[data-label='check']"),
-        $input = $("[data-input='check']");
-
     function Person(opts){
-        this.opts = opts;
+        this.opts = $.extend({
+            el:"#placeHolder"
+        }, opts);
+
+        this.el = {
+            label:$("[data-label='check']"),
+            input:$("[data-input='check']")
+        };
+
         this.init();
     }
 
     Person.prototype = {
         init : function(){
-            var context = this;
-            $.each($(this.opts.element), function(i, item){
-                context.controls(item);
-            });
+            this.controls();
         },
-        controls : function(element){
+        controls : function(){
             var context = this;
 
-            if(!$(element).find($input).is(":disabled")){
-                $(element).find($label).on("click", function(){
-                    context.label(element);
+            if(!$(this.opts.el).find(this.el.input).is(":disabled")){
+                $(this.opts.el).find(this.el.label).on("click", function(){
+                    context.label();
                 });
             }else{
-                if($(element).find($input).val().length>0){
-                    this.label(element);
+                if($(this.opts.el).find(this.el.input).val().length>0){
+                    this.label();
                 }
             }
 
-            $(element).find($input).on("focusout", function(){
-                context.input(element);
+            $(this.opts.el).find(this.el.input).on("focusout", function(){
+                context.input();
             });
         },
-        label : function(element){
-            $(element).find($label).css({display:"none"});
+        label : function(){
+            $(this.opts.el).find(this.el.label).css({display:"none"});
         },
-        input : function(element){
-            if ($(element).find($input).val().length==0) {
-                $(element).find($label).css({display:"block"});
+        input : function(){
+            if ($(this.opts.el).find(this.el.input).val().length==0) {
+                $(this.opts.el).find(this.el.label).css({display:"block"});
             }
+        },
+        delete:function(){
+            $(this.opts.el).find(this.el.input).val("");
+            this.input();
         }
     }
 
@@ -46,6 +52,14 @@ var PlaceHolder = (function(){
 
 })();
 
-new PlaceHolder({
-    element:["#placeHolder1", "#placeHolder2", "#placeHolder3"]
+var placeHolder1 = new PlaceHolder({
+    el:"#placeHolder1"
+});
+
+var placeHolder2 = new PlaceHolder({
+    el:"#placeHolder2"
+});
+
+var placeHolder3 = new PlaceHolder({
+    el:"#placeHolder3"
 });
