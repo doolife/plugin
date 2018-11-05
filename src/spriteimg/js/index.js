@@ -52,8 +52,8 @@ var Spriteimg = (function(){
             }
         },
         resize:function(){
-            this.state.setWidth = 600;
-            this.state.setHeight = 344;
+            this.state.setWidth = this.opts.retioWidth;
+            this.state.setHeight = this.opts.retioHeight;
 
             this.state.ratio = this.state.setHeight/this.state.setWidth;
 
@@ -144,6 +144,8 @@ var smoke = new Spriteimg({
     horizontal:false,
     fps:120,
     ratio:true,
+    retioWidth:600,
+    retioHeight:344,
     framCallback:function(num){
         // console.log(num)
     },
