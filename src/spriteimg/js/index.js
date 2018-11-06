@@ -52,29 +52,29 @@ var Spriteimg = (function(){
             }
         },
         resize:function(){
-            this.state.setWidth = this.opts.retioWidth;
-            this.state.setHeight = this.opts.retioHeight;
-
-            this.state.ratio = this.state.setHeight/this.state.setWidth;
+            this.state.ratio = this.opts.retioHeight/this.opts.retioWidth;
 
             this.state.windowWidth = $(window).width();
             this.state.windowHeight = $(window).height();
 
             if ((this.state.windowHeight/this.state.windowWidth) > this.state.ratio) {
-                $(this.opts.el).css({width:this.state.windowHeight / this.state.ratio, height:this.state.windowHeight});
+                this.state.conHeight = this.state.windowHeight / this.state.ratio;
+                $(this.opts.el).css({width:this.state.conHeight, height:this.state.windowHeight});
             }else{
-                $(this.opts.el).css({width:this.state.windowWidth / this.state.ratio, height:this.state.windowWidth});
+                this.state.conWidth = this.state.windowHeight / this.state.ratio;
+                this.state.mWidth = this.state.windowWidth-this.state.conWidth;
+                $(this.opts.el).css({width:this.state.conWidth+this.state.mWidth, height:this.state.windowHeight+this.state.mWidth});
             }
 
-            this.state.conWidth = $(this.opts.el).width();
-            this.state.conHeight = $(this.opts.el).height();
+            this.state.wrapWidth = $(this.opts.el).width();
+            this.state.wrapHeight = $(this.opts.el).height();
 
-            $(this.opts.el).css({left:(this.state.windowWidth - this.state.conWidth)/2, top:(this.state.windowHeight - this.state.conHeight)/2});
+            $(this.opts.el).css({left:(this.state.windowWidth - this.state.wrapWidth)/2, top:(this.state.windowHeight - this.state.wrapHeight)/2});
 
             if(this.opts.horizontal){
-                $(this.opts.el).find($(this.el.wrap)).css({width:this.state.conWidth*this.opts.frame, height:this.state.conHeight});
+                $(this.opts.el).find($(this.el.wrap)).css({width:this.state.wrapWidth*this.opts.frame, height:this.state.wrapHeight});
             }else{
-                $(this.opts.el).find($(this.el.wrap)).css({width:this.state.conWidth, height:this.state.conHeight*this.opts.frame});
+                $(this.opts.el).find($(this.el.wrap)).css({width:this.state.wrapWidth, height:this.state.wrapHeight*this.opts.frame});
             }
         },
         callback:function(num){
