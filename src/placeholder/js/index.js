@@ -21,7 +21,7 @@ var PlaceHolder = (function(){
             var context = this;
 
             if(!$(this.opts.el).find(this.el.input).is(":disabled")){
-                $(this.opts.el).find(this.el.label).on("click", function(){
+                $(this.opts.el).find(this.el.input).on("focus", function(){
                     context.label();
                 });
             }else{
