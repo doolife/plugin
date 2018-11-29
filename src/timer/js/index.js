@@ -26,6 +26,7 @@ var Timer = (function(){
             var context = this;
 
             if(this.state.timeChk){
+                $("#timer").css({opacity:1});
                 this.state.time = time*60*1000;
                 this.state.timeChk = false;
             }
@@ -52,10 +53,12 @@ var Timer = (function(){
         },
         cleartimer:function(str){
             clearTimeout(this.state.timerId);
-            if(str){
-                this.state.timeChk = true;
+            this.state.timeChk = true;
+            if(!str){
+                $("#timer").css({opacity:0});
+                $(this.el.$count).html("");
             }else{
-                this.state.timeChk = false;
+                $(this.el.$count).html("00 : 00");
             }
         },
         on:function(event, func){
@@ -73,11 +76,11 @@ var timer = new Timer({
 });
 
 $(".btn_start").on("click", function(){
-    timer.countdown(5);
+    timer.countdown(0.2);
 });
 
 $(".btn_stop").on("click", function(){
-    timer.cleartimer(true);
+    timer.cleartimer(false);
 });
 
 timer.on("end", function(){
