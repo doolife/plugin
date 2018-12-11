@@ -1,5 +1,5 @@
 let config = {
-    path: 'imgslider'
+    path: 'es6'
 };
 
 module.exports = config;
