@@ -1,18 +1,15 @@
+import '../sass/index.scss';
 var Quickmenu = (function(){
 
     function Person(opts){
-        this.opts = {
+        this.opts = $.extend({
             element:"#contents",
             position:"center",
             margin:0,
             fix:100,
             speed:600,
             quickAni:false
-        }
-
-        $.each(this.opts, function(index, value) {
-            this.opts = index;
-        });
+        }, opts);
 
         this.opts = opts;
 
