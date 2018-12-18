@@ -1,3 +1,4 @@
+import '../sass/index.scss';
 import TabMenu from './page/tabmenu';
 
 let tabmenu1 = new TabMenu({
