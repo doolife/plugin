@@ -3,10 +3,18 @@
     "version": "1.0.0",
     "description": "제이쿼리 플러그인 제작 및 버전업을 위한 저장소",
     "author": "doolife",
+    "scripts": {
+        "start": "webpack-dev-server --mode none --hot --inline",
+        "dev": "webpack --mode development",
+        "build": "webpack --mode production"
+    },
     "devDependencies": {
         "@babel/core": "^7.2.0",
         "@babel/preset-env": "^7.2.0",
         "babel-loader": "^8.0.4",
+        "css-loader": "^2.0.0",
+        "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "file-loader": "^2.0.0",
         "gulp": "^3.9.1",
         "gulp-autoprefixer": "^5.0.0",
         "gulp-concat": "^2.6.1",
@@ -15,7 +23,14 @@
         "gulp-sourcemaps": "^2.6.4",
         "gulp-uglify": "^3.0.1",
         "gulp-watch": "^5.0.1",
+        "html-webpack-plugin": "^3.2.0",
+        "mini-css-extract-plugin": "^0.5.0",
+        "optimize-css-assets-webpack-plugin": "^5.0.1",
+        "sass-loader": "^7.1.0",
+        "style-loader": "^0.23.1",
+        "uglifyjs-webpack-plugin": "^2.0.1",
         "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.10",
         "webpack-stream": "^5.1.1"
     }
 }

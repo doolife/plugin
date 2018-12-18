@@ -1,5 +1,5 @@
 let config = {
-    path: 'es6'
+    path: 'quickmenu'
 };
 
 module.exports = config;

@@ -1,55 +1,72 @@
-const webpack = require('webpack');
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 const staticConfig = require('./static.config');
 
-const banner = () =>{
-    let date = new Date();
-    return [
-        `@project: webpack`,
-        `@author: doolife`,
-        '@update: ' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-    ].join('\n');
-};
-
-let src = `${__dirname}/src/${staticConfig.path}`;
-let dist = `${__dirname}/dist/${staticConfig.path}`;
-
-module.exports = {
-    mode:'development',
-    entry:{
-        'index':`${src}/js/index.js`,
-    },
-    output:{
-        path:`${dist}/js`,
-        filename:'[name].js',
-    },
-    module:{
-        rules: [{
-            test: /\.js?$/,
-            loader: 'babel-loader',
-            options: {
-                presets: [
-                    [
-                        '@babel/preset-env', {
-                        // targets: { node: 'current' }, // 노드일 경우만
-                        'targets': {
-                            'browsers': [
-                                'last 2 versions',
-                                'ie >= 10'
-                            ]
-                        },
-                        'modules': false
-                    }
+module.exports = (env, options) => {
+    const devMode =  options.mode !== 'production';
+    const noneMode = options.mode === 'none';
+    return {
+        entry:{
+            index:`./src/${staticConfig.path}/js/index.js`,
+        },
+        output:{
+            path: path.resolve(__dirname, 'dist'),
+            filename:`${staticConfig.path}/js/[name].js`
+        },
+        devtool : 'inline-source-map',
+        devServer: {
+            open: true,
+            contentBase:path.resolve(__dirname, 'dist')
+        },
+        module:{
+            rules: [{
+                test: /\.js?$/,
+                loader: 'babel-loader',
+                options: {
+                    presets: [
+                        [
+                            '@babel/preset-env', {
+                            'targets': {
+                                'browsers': [
+                                    'last 2 versions',
+                                    'ie >= 10'
+                                ]
+                            },
+                            'modules': false
+                        }],
                     ],
-                    // '@babel/preset-react',
-                    // '@babel/preset-stage-0'
+                },
+                exclude: ['/node_modules'],
+            },{
+                test: /\.(sa|sc|c)ss$/,
+                use: [
+                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader',
                 ],
-            },
-            exclude: ['/node_modules'],
-        }],
-    },
-    plugins:[
-        new webpack.BannerPlugin({
-            banner: banner()
-        })
-    ],
+            },{
+                test: /\.(png|jpg|gif)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]',
+                        context:path.resolve(__dirname, "src"),
+                        publicPath: noneMode ? '' : `/PLUGIN/dist`,
+                    }
+                }]
+            }],
+        },
+        plugins:[
+            new MiniCssExtractPlugin({
+                filename:`${staticConfig.path}/css/[name].css`,
+            }),
+            new HtmlWebPackPlugin({
+                template: `./example/${staticConfig.path}/index.html`,
+                filename: noneMode ? 'index.html' : `${staticConfig.path}/index.html`
+            }),
+            new OptimizeCSSAssetsPlugin({})
+        ]
+    }
 };
