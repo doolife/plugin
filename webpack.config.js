@@ -8,6 +8,7 @@ module.exports = (env, options) => {
     const devMode =  options.mode !== 'production';
     const noneMode = options.mode === 'none';
     return {
+        mode: options.mode,
         entry:{
             index:`./src/${staticConfig.path}/js/index.js`,
         },
@@ -63,7 +64,7 @@ module.exports = (env, options) => {
                 filename:`${staticConfig.path}/css/[name].css`,
             }),
             new HtmlWebPackPlugin({
-                template: `./example/${staticConfig.path}/index.html`,
+                template: `./src/${staticConfig.path}/index.html`,
                 filename: noneMode ? 'index.html' : `${staticConfig.path}/index.html`
             }),
             new OptimizeCSSAssetsPlugin({})

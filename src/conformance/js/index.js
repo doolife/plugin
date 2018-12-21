@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Conformance = (function(){
 
     var $el, $btnChoice, $btnAgain, $btnStart, $btnReturn;

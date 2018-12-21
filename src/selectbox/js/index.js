@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Selectbox = (function(){
 
     var $title = "[data-select='title']",

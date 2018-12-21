@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Overflowscrolling = (function(){
 
     function Person(opt){

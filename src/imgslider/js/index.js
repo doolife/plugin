@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Imgslider = (function () {
 
     function Person(opts){

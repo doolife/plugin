@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Skewed = (function(){
 
     function Person(opts){
