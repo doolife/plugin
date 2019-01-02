@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var PlaceHolder = (function(){
 
     function Person(opts){

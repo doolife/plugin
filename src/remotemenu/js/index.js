@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Remotemenu = (function(){
 
     function Person(opts) {

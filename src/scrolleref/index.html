@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+<title> scrolleref </title>
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+    <link rel="stylesheet" href="../vendor/css/base.css" />
+    <script src="../vendor/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div id="scrolleref">
+        <div data-nav="wrap">
+            <ul data-nav="gnb">
+                <li>
+                    <a href="#/section1">section1</a>
+                    <ul data-nav="snb">
+                        <li><a href="#/section1_1">section1_1</a></li>
+                        <li><a href="#/section1_2">section1_2</a></li>
+                    </ul>
+                </li>
+                <li><a href="#/section2">section2</a></li>
+                <li>
+                    <a href="#/section3">section3</a>
+                    <ul data-nav="snb">
+                        <li><a href="#/section3_1">section3_1</a></li>
+                        <li><a href="#/section3_2">section3_2</a></li>
+                        <li><a href="#/section3_3">section3_3</a></li>
+                    </ul>
+                </li>
+                <li><a href="#/section4">section4</a></li>
+            </ul>
+        </div>
+
+        <section id="section1" data-con="dep1con">
+            <div id="section1_1" data-con="dep2con" style="background-color:darkblue">
+                section1_1
+            </div>
+            <div id="section1_2" data-con="dep2con" style="background-color:indianred">
+                section1_2
+            </div>
+        </section>
+
+        <section id="section2" data-con="dep1con">
+            <div id="section2_1" data-con="dep2con" style="background-color:yellowgreen">
+                section2
+            </div>
+        </section>
+
+        <section id="section3" data-con="dep1con">
+            <div id="section3_1" data-con="dep2con" style="background-color:aqua">
+                section3_1
+            </div>
+            <div id="section3_2" data-con="dep2con" style="background-color:darkolivegreen">
+                section3_2
+            </div>
+            <div id="section3_3" data-con="dep2con" style="background-color:sienna">
+                section3_3
+            </div>
+        </section>
+
+        <section id="section4" data-con="dep1con">
+            <div id="section4_1" data-con="dep2con" style="background-color:gold">
+                section4
+            </div>
+        </section>
+    </div>
+    <script src="../vendor/js/TweenMax.min.js"></script>
+</body>
+</html>

@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Multislider = (function(){
 
     function Person(opts){

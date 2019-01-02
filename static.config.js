@@ -1,5 +1,5 @@
 let config = {
-    path: 'quickmenu'
+    path: 'tweenprogress'
 };
 
 module.exports = config;

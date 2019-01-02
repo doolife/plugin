@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Scrolleref = (function(){
 
     function Construct(opts){
@@ -7,7 +9,6 @@ var Scrolleref = (function(){
             dp2:0,
             wsp:700
         }, opts);
-
         this.el = {
             navWrap:"[data-nav='wrap']",
             gnb:"[data-nav='gnb']",
@@ -15,13 +16,11 @@ var Scrolleref = (function(){
             dep1con:"[data-con='dep1con']",
             dep2con:"[data-con='dep2con']"
         };
-
         this.state = {
             dep1len:"",
             dep2len:[],
             isScrolling:false
         };
-
         this.init();
     };
 

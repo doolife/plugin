@@ -1,89 +1,100 @@
+import '../sass/index.scss';
+
 var Selectbox = (function(){
 
-    var $title = "[data-select='title']",
-        $listWrap = "[data-select='listWrap']",
-        $list = "[data-select='list']",
-        $noData = "[data-list='no']";
+    function Constructor(opts){
+        this.opts = $.extend({
+            el:"#select1",
+            scHeight:300
+        }, opts);
 
-    function Person(opts){
-        this.opts = opts;
-        this.scrollHeight = opts.scrollHeight;
+        this.$title = "[data-select='title']",
+        this.$listWrap = "[data-select='listWrap']",
+        this.$list = "[data-select='list']",
+        this.$noData = "[data-list='no']";
+
         this.init();
     }
 
-    Person.prototype = {
+    Constructor.prototype = {
         init : function(){
+            this.controls();
+        },
+        controls : function(){
             var context = this;
-            $.each(this.opts.element, function(index, value){
-                context.controls(value);
+
+            $(this.opts.el).on("click", this.$title, function(e){
+                e.stopPropagation();
+                context.display();
+            });
+
+            $(this.opts.el).on("click", this.$list, function(){
+                context.select($(this).index());
             });
 
             $(document).on("click", function(){
                 context.remove();
             });
         },
-        controls : function(element){
-            var context = this;
-            $(element).on("click", $title, function(e){
-                e.stopPropagation();
-                context.display(element);
-            });
-
-            $(element).on("click", $list, function(){
-                context.select(element, $(this).index());
-            });
-        },
-        display : function(element){
-            if($(element).find($title).attr("disabled")!="disabled"){
-                if(!$(element).find($title).hasClass("active")){
+        display : function(){
+            if($(this.opts.el).find(this.$title).attr("disabled")!="disabled"){
+                if(!$(this.opts.el).find(this.$title).hasClass("active")){
                     this.remove();
-                    this.active(element);
-                    if ($(element).find($listWrap).height()>=this.scrollHeight) {
-                        $(element).find($listWrap).css({height:this.scrollHeight, overflowY:"auto"});
+                    this.active();
+                    if ($(this.opts.el).find(this.$listWrap).height()>=this.opts.scHeight) {
+                        $(this.opts.el).find(this.$listWrap).css({height:this.opts.scHeight, overflowY:"auto"});
                     }
                 }else{
                     this.remove();
                 }
             }
         },
-        select : function(element, thisNum){
-            var tagClone = $(element).find($list).eq(thisNum).contents().clone();
-            $(element).find($title).empty().append(tagClone);
+        select : function(thisNum){
+            var tagClone = $(this.opts.el).find(this.$list).eq(thisNum).contents().clone();
+            $(this.opts.el).find(this.$title).empty().append(tagClone);
             this.remove();
-            if(!$(element).find($title).hasClass("on")){
-                $(element).find($title).addClass("on");
+            if(!$(this.opts.el).find(this.$title).hasClass("on")){
+                $(this.opts.el).find(this.$title).addClass("on");
             }
         },
-        active : function(element){
-            $(element).find($title).addClass("active");
-            $(element).find($listWrap).addClass("active");
+        active : function(){
+            $(this.opts.el).find(this.$title).addClass("active");
+            $(this.opts.el).find(this.$listWrap).addClass("active");
         },
         remove : function(){
             this.nodataremove();
-            $($title).removeClass("active");
-            $($listWrap).removeClass("active").css({height:"", overflowY:""});
+            $(this.$title).removeClass("active");
+            $(this.$listWrap).removeClass("active").css({height:"", overflowY:""});
         },
-        nodataadd : function(element, str){
-            $(element).append("<div class='no_data active' data-list='no'>"+str+"</div>");
+        nodataadd : function(str){
+            $(this.opts.el).append("<div class='no_data active' data-list='no'>"+str+"</div>");
         },
         nodataremove : function(){
-            $($noData).remove();
+            $(this.$noData).remove();
         }
     }
 
-    return Person;
-
+    return Constructor;
 })();
 
-// basic
-var selectbox = new Selectbox({
-    element:["#select1", "#select2", "#select3"],   // element
-    scrollHeight:400                                // scroll height
+var selectbox1 = new Selectbox({
+    el:"#select1",
+    scHeight:400
 });
 
-selectbox.scrollHeight = 300;
+var selectbox2 = new Selectbox({
+    el:"#select2",
+    scHeight:300
+});
 
-console.log(selectbox)
+var selectbox3 = new Selectbox({
+    el:"#select3",
+    scHeight:200
+});
+
+console.log(selectbox1)
+console.log(selectbox2)
+console.log(selectbox3)
 
 // selectbox.nodataadd("#select1", "이벤트 참여 가능 캐릭터가 없습니다.")
 

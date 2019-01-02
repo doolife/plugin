@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Timer = (function(){
     function Person(opts){
 

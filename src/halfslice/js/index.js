@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Halfslice = (function(){
 
     function Person(opts){

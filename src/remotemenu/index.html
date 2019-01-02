@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>remote menu</title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" href="../vendor/css/base.css" />
+    <script src="../vendor/js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div class="remote_wrap">
+        <header></header>
+        <aside id="remoteMenu" class="remote_menu">
+            <div class="remote_overflow">
+                <button type="button" class="remote_arrow" data-btn="arrow"></button>
+                <ul class="menu_list" data-remote="wrap">
+                    <li data-list="list">
+                        <a href="#section1">신규/복귀  혜택</a>
+                        <ul>
+                            <li data-list="list"><a href="#section1_1">참여 방법</a></li>
+                            <li data-list="list"><a href="#section1_2">도전 인챈트</a></li>
+                            <li data-list="list"><a href="#section1_3">Bonus</a></li>
+                        </ul>
+                    </li>
+                    <li data-list="list">
+                        <a href="#section2">신규/복귀 이용권</a>
+                        <ul>
+                            <li data-list="list"><a href="#section2_1">이용권 구성</a></li>
+                            <li data-list="list"><a href="#section2_2">이용권 상세안내</a></li>
+                            <li data-list="list"><a href="#section2_3">탐나는 성장의 열매 효과</a></li>
+                        </ul>
+                    </li>
+                    <li data-list="list">
+                        <a href="#section3">업데이트 갤러리</a>
+                    </li>
+                </ul>
+                <div class="remote_etc">
+                    <span>
+                        <a href="https://lineage.plaync.com" target="_blank" class="remote_link remote_home">공식 홈페이지</a>
+                        <a href="http://nshop.plaync.com/nshop/" class="remote_link remote_nshop">리니지 N샵</a>
+                    </span>
+                </div>
+            </div>
+        </aside>
+        <section data-id="section1" data-contents="con">
+            <section data-id="section1_1" data-contents="scon" class="section1_1"></section>
+            <section data-id="section1_2" data-contents="scon" class="section1_2"></section>
+            <section data-id="section1_3" data-contents="scon" class="section1_3"></section>
+        </section>
+        <section data-id="section2" data-contents="con">
+            <section data-id="section2_1" data-contents="scon" class="section2_1"></section>
+            <section data-id="section2_2" data-contents="scon" class="section2_2"></section>
+            <section data-id="section2_3" data-contents="scon" class="section2_3"></section>
+        </section>
+        <section data-id="section3" data-contents="con" class="section3">
+            <section data-id="section3_1" data-contents="scon" class="section3_1"></section>
+        </section>
+    </div>
+</body>
+</html>

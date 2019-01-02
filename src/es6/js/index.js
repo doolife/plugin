@@ -1,3 +1,4 @@
+import '../sass/index.scss';
 import Main from './page/main';
 import Sub from './page/sub';
 

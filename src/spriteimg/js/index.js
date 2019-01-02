@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Spriteimg = (function(){
 
     function Person(opts){

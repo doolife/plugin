@@ -1,7 +1,14 @@
+import '../sass/index.scss';
+
 var Scroller = (function(){
 
     function Person(opts){
-        this.opts = opts;
+        this.opts = $.extend({
+            el:"#scroller",
+            depth1:0,
+            depth2:0,
+            wheelsp:700
+        }, opts);
         this.selector = {
             stwrap:"[data-sc='stwrap']",
             acwrap:"[data-sc='acwrap']",

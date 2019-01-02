@@ -1,3 +1,5 @@
+import '../sass/index.scss';
+
 var Tweenprogress = (function(){
 
     function Construct(opts){
