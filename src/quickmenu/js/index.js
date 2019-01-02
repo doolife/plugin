@@ -42,15 +42,21 @@ var Quickmenu = (function(){
             var context = this;
 
             $(this.selector.parent).on("click", ""+this.selector.list+"", function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                context.state.id = $(this).find("a").attr("href");
-                context.slideMove();
+                if(!context.urlChk($(this).find("a").attr("href"))){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    context.state.id = $(this).find("a").attr("href");
+                    context.slideMove();
+                }
             });
 
             $(this.selector.top).on("click", function(){
                 context.slideTop();
             });
+        },
+        urlChk:function(strUrl){
+            this.state.expUrl = /^http[s]?\:\/\//i;
+            return this.state.expUrl.test(strUrl);
         },
         resize:function(){
             this.state.quickTop = $(this.selector.wrap).offset().top;
