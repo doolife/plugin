@@ -8,18 +8,19 @@ module.exports = (env, options) => {
     const devMode =  options.mode !== 'production';
     const noneMode = options.mode === 'none';
     return {
-        mode: options.mode,
+        mode:options.mode,
         entry:{
             index:`./src/${staticConfig.path}/js/index.js`,
         },
         output:{
-            path: path.resolve(__dirname, 'dist'),
-            filename:`${staticConfig.path}/js/[name].js`
+            filename:`${staticConfig.path}/js/[name].js`,
+            path:path.resolve(__dirname, './dist'),
+            publicPath:'/PLUGIN/dist/'
         },
         devtool : 'inline-source-map',
         devServer: {
             open: true,
-            contentBase:path.resolve(__dirname, 'dist')
+            contentBase:path.resolve(__dirname, './dist')
         },
         module:{
             rules: [{
@@ -40,6 +41,15 @@ module.exports = (env, options) => {
                     ],
                 },
                 exclude: ['/node_modules'],
+            },
+            {
+                test: /\.html$/,
+                use: [{
+                    loader: "html-loader",
+                    options: {
+                        // minimize: true
+                    }
+                }]
             },{
                 test: /\.(sa|sc|c)ss$/,
                 use: [
@@ -47,14 +57,13 @@ module.exports = (env, options) => {
                     'css-loader',
                     'sass-loader',
                 ],
+
             },{
                 test: /\.(png|jpg|gif)$/,
                 use: [{
                     loader: 'file-loader',
                     options: {
-                        name: '[path][name].[ext]',
-                        context:path.resolve(__dirname, "src"),
-                        publicPath: noneMode ? '' : `/PLUGIN/dist`,
+                        name: `${staticConfig.path}/img/[name].[ext]`,
                     }
                 }]
             }],
@@ -65,7 +74,7 @@ module.exports = (env, options) => {
             }),
             new HtmlWebPackPlugin({
                 template: `./src/${staticConfig.path}/index.html`,
-                filename: noneMode ? 'index.html' : `${staticConfig.path}/index.html`
+                filename: `${staticConfig.path}/index.html`,
             }),
             new OptimizeCSSAssetsPlugin({})
         ]
