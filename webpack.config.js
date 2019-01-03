@@ -13,8 +13,8 @@ module.exports = (env, options) => {
             index:`./src/${staticConfig.path}/js/index.js`,
         },
         output:{
-            filename:`${staticConfig.path}/js/[name].js`,
             path:path.resolve(__dirname, './dist'),
+            filename:`${staticConfig.path}/js/[name].js`,
             publicPath:'/PLUGIN/dist/'
         },
         devtool : 'inline-source-map',
@@ -53,11 +53,21 @@ module.exports = (env, options) => {
             },{
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-                    'css-loader',
-                    'sass-loader',
-                ],
-
+                    {
+                        loader: devMode ? 'style-loader' : MiniCssExtractPlugin.loader
+                    }, {
+                        loader: "css-loader",
+                        options: {
+                            url: true,
+                            // sourceMap: true
+                        }
+                    }, {
+                        loader: "sass-loader",
+                        options: {
+                            // sourceMap: true
+                        }
+                    }
+                ]
             },{
                 test: /\.(png|jpg|gif)$/,
                 use: [{
