@@ -8,18 +8,18 @@
             [data-slider="list"] {width:236px; height:326px; display:inline-block; position:relative;
                 .slider_con {width:236px; height:326px; transition:0.5s;
                     &.con1 {@include bg($bg:"baby.jpg"); background-size:cover;}
-                    &.con2 {background:url("../img/daddy.jpg") no-repeat center top; background-size:cover;}
-                    &.con3 {background:url("../img/mommy.jpg") no-repeat center top; background-size:cover;}
-                    &.con4 {background:url("../img/grandma.jpg") no-repeat center top; background-size:cover;}
-                    &.con5 {background:url("../img/grandpa.jpg") no-repeat center top; background-size:cover;}
-                    &.con6 {background:url("../img/00.jpg") no-repeat center top; background-size:cover;}
-                    &.con7 {background:url("../img/01.jpg") no-repeat center top; background-size:cover;}
-                    &.con8 {background:url("../img/02.jpg") no-repeat center top; background-size:cover;}
-                    &.con9 {background:url("../img/03.jpg") no-repeat center top; background-size:cover;}
-                    &.con10 {background:url("../img/04.jpg") no-repeat center top; background-size:cover;}
-                    &.con11 {background:url("../img/05.jpg") no-repeat center top; background-size:cover;}
-                    &.con12 {background:url("../img/06.jpg") no-repeat center top; background-size:cover;}
-                    &.con13 {background:url("../img/07.jpg") no-repeat center top; background-size:cover;}
+                    &.con2 {@include bg($bg:"daddy.jpg"); background-size:cover;}
+                    &.con3 {@include bg($bg:"mommy.jpg"); background-size:cover;}
+                    &.con4 {@include bg($bg:"grandma.jpg"); background-size:cover;}
+                    &.con5 {@include bg($bg:"grandpa.jpg"); background-size:cover;}
+                    &.con6 {@include bg($bg:"00.jpg"); background-size:cover;}
+                    &.con7 {@include bg($bg:"01.jpg"); background-size:cover;}
+                    &.con8 {@include bg($bg:"02.jpg"); background-size:cover;}
+                    &.con9 {@include bg($bg:"03.jpg"); background-size:cover;}
+                    &.con10 {@include bg($bg:"04.jpg"); background-size:cover;}
+                    &.con11 {@include bg($bg:"05.jpg"); background-size:cover;}
+                    &.con12 {@include bg($bg:"06.jpg"); background-size:cover;}
+                    &.con13 {@include bg($bg:"07.jpg"); background-size:cover;}
                 }
                 span {font-size:12px; position:absolute; left:30px; top:30px;}
             }

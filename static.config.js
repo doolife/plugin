@@ -1,5 +1,5 @@
 let config = {
-    path: 'tweenprogress'
+    path: 'imgslider'
 };
 
 module.exports = config;
