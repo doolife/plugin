@@ -6,7 +6,6 @@ const staticConfig = require('./static.config');
 
 module.exports = (env, options) => {
     const devMode =  options.mode !== 'production';
-    const noneMode = options.mode === 'none';
     return {
         mode:options.mode,
         entry:{
@@ -15,12 +14,12 @@ module.exports = (env, options) => {
         output:{
             path:path.resolve(__dirname, './dist'),
             filename:`${staticConfig.path}/js/[name].js`,
-            publicPath:'/PLUGIN/dist/'
+            publicPath: devMode ? '' : '/PLUGIN/dist/',
         },
         devtool : 'inline-source-map',
         devServer: {
             open: true,
-            contentBase:path.resolve(__dirname, './dist')
+            contentBase:'dist'
         },
         module:{
             rules: [{
@@ -84,7 +83,7 @@ module.exports = (env, options) => {
             }),
             new HtmlWebPackPlugin({
                 template: `./src/${staticConfig.path}/index.html`,
-                filename: `${staticConfig.path}/index.html`,
+                filename: devMode ? 'index.html' : `${staticConfig.path}/index.html`,
             }),
             new OptimizeCSSAssetsPlugin({})
         ]

@@ -4,8 +4,8 @@
     "description": "제이쿼리 플러그인 제작 및 버전업을 위한 저장소",
     "author": "doolife",
     "scripts": {
-        "start": "webpack-dev-server --mode none --hot --inline",
-        "dev": "webpack --mode development",
+        "start": "webpack-dev-server --mode development --hot --inline",
+        "dev": "webpack --mode devenpm lopment",
         "build": "webpack --mode production"
     },
     "devDependencies": {
@@ -32,6 +32,7 @@
         "uglifyjs-webpack-plugin": "^2.0.1",
         "webpack-cli": "^3.1.2",
         "webpack-dev-server": "^3.1.10",
+        "webpackwe-livereload-plugin": "^2.2.0",
         "webpack-stream": "^5.1.1"
     }
 }
