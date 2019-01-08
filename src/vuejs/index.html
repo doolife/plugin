@@ -32,7 +32,8 @@
         <h2>{{Date()}}</h2>
 
         <!-- 삼항조건연산자로 이미지 변경 예제 -->
-        <input type="checkbox" v-model="smile" id="Box" /><label for="Box">체크박스</label>
+        <input type="checkbox" v-model="smile" id="Box" />
+        <label for="Box">체크박스</label>
         <img :src="smile ? iu2 : iu1" alt="" style="display:block;" />
     </div>
 
