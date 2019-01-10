@@ -9,33 +9,33 @@
     <meta name="Description" content="">
 </head>
 <body>
-<div id="app" v-cloak>
-    <!-- v-for -->
-    <h1>아이유 노래 리스트</h1>
-    <ul>
-        <li v-for="(list, num) in todos">
-            {{num}}
-            {{list.text}}
-        </li>
-    </ul>
+    <div id="app" v-cloak>
+        <!-- v-for -->
+        <h1>아이유 노래 리스트</h1>
+        <ul>
+            <li v-for="(list, num) in todos">
+                {{num}}
+                {{list.text}}
+            </li>
+        </ul>
 
-    <h1>Hello, {{name}}</h1>
-    <!-- v-model -->
-    <input type="text" v-model="name" />
+        <h1>Hello, {{name}}</h1>
+        <!-- v-model -->
+        <input type="text" v-model="name" />
 
-    <!-- v-on -->
-    <h2>카운터 : {{number}}</h2>
-    <button type="button" @click="inc">증가</button>
-    <button type="button" @click="dec">감소</button>
+        <!-- v-on -->
+        <h2>카운터 : {{number}}</h2>
+        <button type="button" @click="inc">증가</button>
+        <button type="button" @click="dec">감소</button>
 
-    <!-- script -->
-    <h2>{{Date()}}</h2>
+        <!-- script -->
+        <h2>{{Date()}}</h2>
 
-    <!-- 삼항조건연산자로 이미지 변경 예제 -->
-    <input type="checkbox" v-model="smile" id="Box" /> <label for="Box">체크박스</label>
-    <img :src="smile ? iu2 : iu1" alt="" style="display:block;" />
-</div>
+        <!-- 삼항조건연산자로 이미지 변경 예제 -->
+        <input type="checkbox" v-model="smile" id="Box" /> <label for="Box">체크박스</label>
+        <img :src="smile ? iu2 : iu1" alt="" style="display:block;" />
+    </div>
 
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
 </body>
 </html>
