@@ -10,6 +10,21 @@ module.exports = merge(common, {
         host: 'localhost',
         open: true,
     },
+    module: {
+        rules: [
+            {
+                test: /\.(mov|mp4|mp3|ogg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: `./media/[name].[ext]`,
+                        }
+                    }
+                ]
+            }
+        ]
+    },
     plugins: [
         new HtmlWebPackPlugin({
             template: `./src/${staticConfig.path}/index.html`,

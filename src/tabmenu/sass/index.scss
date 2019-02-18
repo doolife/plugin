@@ -1,20 +1,6 @@
-html, body {background:firebrick}
+@import "util/variable";
+@import "mixin/mixin";
+@import "util/reset";
 
-.tab_wrap {margin:10px 0 0 10px; width:508px;
-    [data-tab="wrap"] {font-size:0; letter-spacing:0; word-spacing:0;
-        [data-list] {margin-left:2px; width:100px; height:50px; line-height:50px; text-align:center; display:inline-block; font-size:12px; background:#ddd;
-            &:first-child {margin-left:0;}
-            button {width:100%; height:100%; vertical-align:top;}
-            &:hover, &.on {color:#fff; background:#b6b6b6;}
-        }
-    }
-    [data-con="wrap"] {margin-top:2px; height:500px; position:relative;
-        [data-list] {width:100%; height:100%; position:absolute;
-            &.tab_contents1 {background:url("../img/01.jpg") no-repeat center top; background-size:cover;}
-            &.tab_contents2 {background:url("../img/02.jpg") no-repeat center top; background-size:cover;}
-            &.tab_contents3 {background:url("../img/03.jpg") no-repeat center top; background-size:cover;}
-            &.tab_contents4 {background:url("../img/04.jpg") no-repeat center top; background-size:cover;}
-            &.tab_contents5 {background:url("../img/05.jpg") no-repeat center top; background-size:cover;}
-        }
-    }
-}
+// page
+@import "page/page";

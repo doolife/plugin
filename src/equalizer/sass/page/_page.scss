@@ -1,0 +1,77 @@
+.btn_eq {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
+.btn_eq:before {content:"stop"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+.btn_eq.on:before {content:"play";}
+.btn_layer {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
+.btn_layer:before {content:"layer"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+.btn_close1 {margin:10px auto 0; width:100px; height:50px; display:block; position:relative; background:#ddd;}
+.btn_close1:before {content:"close1"; width:100%; height:100%; line-height:50px; text-align:center; position:absolute; left:0; top:0;}
+[data-media="audio"] {}
+#equalizer {margin:0 auto 0; width:40px; height:30px; position:relative; overflow:hidden; cursor:pointer; }
+#equalizer>span {width:3px; height:1px; display:inline-block; bottom:0; position:absolute; background-color:#000;
+    animation-duration:500ms;
+    animation-play-state:running;
+    animation-direction:alternate;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+}
+
+#equalizer>span.stop {
+    animation:none;
+    animation-name:none;
+}
+
+#equalizer>.bar1 {
+    left:0;
+    animation-name:danceHeight1;
+    animation-delay:300ms;
+}
+#equalizer>.bar2 {
+    left:6px;
+    animation-name:danceHeight2;
+    animation-delay:600ms;
+}
+#equalizer>.bar3 {
+    left:12px;
+    animation-name:danceHeight3;
+    animation-delay:0ms;
+}
+#equalizer>.bar4 {
+    left:18px;
+    animation-name:danceHeight4;
+    animation-delay:1500ms;
+}
+#equalizer>.bar5 {
+    left:24px;
+    animation-name:danceHeight5;
+    animation-delay:1200ms;
+}
+#equalizer>.bar6 {
+    left:30px;
+    animation-name:danceHeight6;
+    animation-delay:900ms;
+}
+
+@keyframes danceHeight1 {
+    from {height:1px;}
+    to {height:18px;}
+}
+@keyframes danceHeight2 {
+    from {height:1px;}
+    to {height:15px;}
+}
+@keyframes danceHeight3 {
+    from {height:1px;}
+    to {height:22px;}
+}
+@keyframes danceHeight4 {
+    from {height:1px;}
+    to {height:10px;}
+}
+@keyframes danceHeight5 {
+    from {height:1px;}
+    to {height:20px;}
+}
+@keyframes danceHeight6 {
+    from {height:1px;}
+    to {height:15px;}
+}

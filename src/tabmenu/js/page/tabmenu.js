@@ -1,6 +1,6 @@
 class TabMenu{
     constructor(opts){
-        this.opts = $.extend({
+        this.opts = Object.assign({
             el:"#tabmenu",
             idx:1
         }, opts);

@@ -1,21 +1,6 @@
-#container {width:100%; height:100%; position:relative; background:#000; overflow:hidden;
-    .skew_wrap {height:100%; display:block; position:absolute; left:50%; top:0; background:red;}
+@import "util/variable";
+@import "mixin/mixin";
+@import "util/reset";
 
-    .left {height:100%; position:absolute; top:0; z-index:1; transform:skewX(-19deg); background:#fff; overflow:hidden;
-        .skew_con {width:100%; height:100%; display:block; position:absolute; left:0; top:0; background:url("https://rc-wstatic.plaync.co.kr/promo/bns/history/2018/180607_warrior/img/warrior/warrior-intro-bg-1.png") center right no-repeat; background-size:cover; transform:skewX(19deg);
-            .skew_char {margin:-100px 0 0 0; width:200px; height:200px; position:absolute; right:150px; top:50%; background:#fff;}
-        }
-    }
-
-    .center {height:100%; position:absolute; top:0; transform:skewX(-19deg);
-        .skew_con {width:100%; height:100%; display:block; position:absolute; left:0; top:0; background:url("https://rc-wstatic.plaync.co.kr/promo/bns/history/2018/180607_warrior/img/warrior/warrior-intro-bg-2.jpg") center center no-repeat; background-size:cover; transform:skewX(19deg);
-            .skew_char {margin:-100px 0 0 -100px; width:200px; height:200px; position:absolute; left:50%; top:50%; background:#fff;}
-        }
-    }
-
-    .right {height:100%; position:absolute; z-index:1; transform:skewX(-19deg); background:#fff; overflow:hidden;
-        .skew_con {width:100%; height:100%; display:block; position:absolute; left:0; top:0; background:url("https://rc-wstatic.plaync.co.kr/promo/bns/history/2018/180607_warrior/img/warrior/warrior-intro-bg-3.png") center left no-repeat; background-size:cover; transform:skewX(19deg);
-            .skew_char {margin:-100px 0 0 0; width:200px; height:200px; position:absolute; left:150px; top:50%; background:#fff;}
-        }
-    }
-}
+// page
+@import "page/page";

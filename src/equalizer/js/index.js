@@ -8,11 +8,11 @@ var Equalizer = (function(){
         startSet:true
     }
 
-    function Person(opts){
+    function Constructor(opts){
         this.init(opts);
     }
 
-    Person.prototype = {
+    Constructor.prototype = {
         init : function(opts){
             $parent = $(opts.parent), $children = $(opts.children), $btn = $(opts.btn), state.url = opts.url, state.volume = opts.volume;
 
@@ -61,7 +61,7 @@ var Equalizer = (function(){
         }
     };
 
-    return Person;
+    return Constructor;
 })();
 
 var eq = new Equalizer({
