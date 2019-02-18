@@ -46,17 +46,6 @@ module.exports = {
                         }
                     }
                 ]
-            },
-            {
-                test: /\.(mov|mp4|mp3|ogg)$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: `${staticConfig.path}/media/[name].[ext]`,
-                        }
-                    }
-                ]
             }
         ]
     }
