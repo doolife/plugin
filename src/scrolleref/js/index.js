@@ -2,13 +2,15 @@ import '../sass/index.scss';
 
 var Scrolleref = (function(){
 
-    function Construct(opts){
-        this.opts = $.extend({
+    function Constructor(opts){
+        this.opts = Object.assign({
             el:"#scrolleref",
             dp1:0,
             dp2:0,
-            wsp:700
+            wsp:700,
+            hash:false
         }, opts);
+
         this.el = {
             navWrap:"[data-nav='wrap']",
             gnb:"[data-nav='gnb']",
@@ -16,20 +18,25 @@ var Scrolleref = (function(){
             dep1con:"[data-con='dep1con']",
             dep2con:"[data-con='dep2con']"
         };
+
         this.state = {
             dep1len:"",
             dep2len:[],
             isScrolling:false
         };
+
+        console.log(this.opts)
+
         this.init();
     };
 
-    Construct.prototype = {
+    Constructor.prototype = {
         init:function(){
             this.hashSet();
             this.settings();
             this.mouseWheel();
             this.controls();
+            this.addClass();
         },
         hashSet:function(){
             var context = this;
@@ -153,6 +160,7 @@ var Scrolleref = (function(){
             this.opts.dp2 = dp2Num;
             this.locationHash();
             this.layoutAnimation();
+            this.addClass();
         },
         gnbAnchor:function(evthis){
             this.state.arr = [];
@@ -190,10 +198,15 @@ var Scrolleref = (function(){
                     window.location.hash = $(this.opts.el).find(this.el.gnb).children("li").eq(this.opts.dp1).find("li").eq(this.opts.dp2).find("a").attr("href");
                 }
             }
+        },
+        addClass:function(){
+            $(this.el.gnb).find("li").removeClass("on");
+            $(this.el.gnb).children("li").eq(this.opts.dp1).addClass("on");
+            $(this.el.gnb).children("li").eq(this.opts.dp1).find("li").eq(this.opts.dp2).addClass("on");
         }
     };
 
-    return Construct;
+    return Constructor;
 
 })();
 

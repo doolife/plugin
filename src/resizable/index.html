@@ -8,8 +8,7 @@
     <meta name="Keywords" content="">
     <meta name="Description" content="">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="../vendor/css/base.css" />
-    <script src="../vendor/js/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
@@ -40,28 +39,26 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <div id="resizeable2">
         <div data-drag="wrap" class="resizable_wrap video_wrap">
             <div data-drag="select" class="resizable">
                 <div class="drag_wrap">
-                    <video loop="" preload="auto" autoplay muted>
-                        <source src="../vendor/media/before.mp4" type="video/mp4">
-                    </video>
+                    <video loop="" preload="auto" autoplay muted data-media="before"></video>
                 </div>
             </div>
             <div class="resizable">
                 <div class="drag_wrap">
-                    <video loop="" preload="auto" autoplay muted>
-                        <source src="../vendor/media/after.mp4" type="video/mp4">
-                    </video>
+                    <video loop="" preload="auto" autoplay muted data-media="after"></video>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="resizeable2">
+    <div id="resizeable3">
         <div data-drag="wrap" class="resizable_wrap">
-            <div id="select2" data-drag="select" class="resizable">
+            <div id="select3" data-drag="select" class="resizable">
                 <div class="drag_wrap">
                     <div class="before_drag drag_bg1"></div>
                 </div>
@@ -72,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn reset2">RESET2</button>
+        <button type="button" class="btn reset3">RESET3</button>
 
         <div data-drag="wrap" class="resizable_wrap">
             <div data-drag="select" class="resizable">

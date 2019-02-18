@@ -1,14 +1,32 @@
 import '../sass/index.scss';
+import '../media/before.mp4';
+import '../media/after.mp4';
 
 var Resizable = (function(){
 
-    function Person(opts){
-        this.opts = opts;
+    function Constructor(opts){
+        this.opts = Object.assign({
+            element:"#resizeable1",
+            parent:"[data-drag='wrap']",
+            children:"[data-drag='select']",
+            halfWidth:"50%"
+        }, opts);
+
+        this.before = "[data-media='before']";
+        this.after = "[data-media='after']";
+
         this.init();
     }
 
-    Person.prototype = {
+    Constructor.prototype = {
         init : function(){
+
+            if($(this.opts.element).find(this.before).length!=0){
+                console.log(this.opts.beforeUrl)
+                $(this.opts.element).find(this.before).append("<source src='"+this.opts.beforeUrl+"' type='video/mp4' />");
+                $(this.opts.element).find(this.after).append("<source src='"+this.opts.afterUrl+"' type='video/mp4' />");
+            }
+
             var context = this;
             $.each($(this.opts.element).find($(this.opts.children)), function(i, item){
                 context.opts.wrapWidth = $(item).closest($(context.opts.parent)).width();
@@ -50,7 +68,7 @@ var Resizable = (function(){
         }
     }
 
-    return Person;
+    return Constructor;
 
 })();
 
@@ -75,6 +93,15 @@ var resizable2 = new Resizable({
     element:"#resizeable2",
     parent:"[data-drag='wrap']",
     children:"[data-drag='select']",
+    beforeUrl:"media/before.mp4",
+    afterUrl:"media/after.mp4",
+    halfWidth:"70%"
+});
+
+var resizable3 = new Resizable({
+    element:"#resizeable3",
+    parent:"[data-drag='wrap']",
+    children:"[data-drag='select']",
     halfWidth:"30%"
 });
 
@@ -82,6 +109,6 @@ $(".reset1").on("click", function(){
     resizable1.reset("#select1");
 });
 
-$(".reset2").on("click", function(){
-    resizable2.reset("#select2");
+$(".reset3").on("click", function(){
+    resizable2.reset("#select3");
 });
