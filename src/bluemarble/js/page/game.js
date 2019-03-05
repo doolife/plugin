@@ -8,7 +8,10 @@ class Bluemarble {
         this.randomArray = [1, 2, 3, 4, 5, 6];
         this.listArray = [];
         this.chtArray = [];
+        this.chtCurrentIdNum = "";
         this.chtCurrentNum = [];
+        this.chtCurrentPos = [];
+        this.stopChk = true;
 
         this.elBoardWrap = document.querySelector(this.opts.el);
         this.elBoardList = this.elBoardWrap.querySelectorAll("li");
@@ -21,24 +24,20 @@ class Bluemarble {
 
     init(){
         this.controls();
-        this.board();
+        this.boardSet();
         this.characterSet();
-        // this.random();
     }
 
     controls(){
         this.btnDice.addEventListener("click", (event) => {
-            console.log(event)
             this.random();
         });
     }
 
-    board(){
+    boardSet(){
         Array.prototype.forEach.call(this.elBoardList, (value, index)=> {
-            // value.dataset.list = "list"+index+"";    ie 11 미만 미지원
-            value.setAttribute("data-list", "list"+index+"");
-            this.listArray.push("list"+index);
-            // console.log(this.elBoardList[index].getAttribute("data-list"))
+            value.setAttribute("data-list", "board"+index+"");
+            this.listArray.push("board"+index);
         });
     }
 
@@ -50,17 +49,49 @@ class Bluemarble {
         Array.prototype.forEach.call(this.chtArray, (value, index)=> {
             let chtList = "<li data-cht='"+value+"'>"+index+"</li>";
             this.elChtWrap.innerHTML += chtList;
-            this.chtCurrentNum[index] = 0;
+            this.chtCurrentNum.push(0);
+            this.chtCurrentPos[index] = {
+                "x":0,
+                "y":0
+            };
         });
+
+        this.chtCurrentIdNum = 0;
     }
 
     random(){
+        if(!this.stopChk) return false;
         let randomIndex = Math.random()*this.randomArray.length;
         let cutIndex = Math.floor(randomIndex);
-        this.elResult.innerHTML = this.randomArray[cutIndex];
-        console.log(this.randomArray.length+" | 배열 길이");
-        console.log(cutIndex)
-        console.log(this.randomArray, this.randomArray[cutIndex])
+
+        this.elResult.innerHTML = "주사위="+this.randomArray[cutIndex]+" | cht"+this.chtCurrentIdNum;
+        this.chtCurrentNum[this.chtCurrentIdNum] = (this.chtCurrentNum[this.chtCurrentIdNum]+this.randomArray[cutIndex]);
+
+        this.moving();
+        this.currentNumSet();
+
+    }
+
+    moving(){
+        if (this.chtCurrentNum[this.chtCurrentIdNum] >= this.elBoardList.length){
+            this.chtCurrentPos[this.chtCurrentIdNum].x = 0;
+            this.chtCurrentPos[this.chtCurrentIdNum].y = 0;
+            this.stopChk = false;
+        }else{
+            this.chtCurrentPos[this.chtCurrentIdNum].x = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]").offsetLeft;
+            this.chtCurrentPos[this.chtCurrentIdNum].y = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]").offsetTop;
+        }
+
+        this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]").style.left = this.chtCurrentPos[this.chtCurrentIdNum].x+"px";
+        this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]").style.top = this.chtCurrentPos[this.chtCurrentIdNum].y+"px";
+    }
+
+    currentNumSet(){
+        this.chtCurrentIdNum = this.chtCurrentIdNum+1;
+
+        if(this.chtCurrentIdNum===this.opts.total){
+            this.chtCurrentIdNum = 0;
+        }
     }
 }
 

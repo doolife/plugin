@@ -4,9 +4,9 @@
     "description": "제이쿼리 플러그인 제작 및 버전업을 위한 저장소",
     "author": "doolife",
     "scripts": {
-        "start": "webpack-dev-server --mode none --hot --inline",
-        "dev": "webpack --mode development",
-        "build": "webpack --mode production"
+        "start": "npm run dev",
+        "dev": "webpack-dev-server --config webpack.dev.js --hot --inline",
+        "build": "webpack --config webpack.prod.js"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
@@ -17,12 +17,13 @@
         "file-loader": "^3.0.1",
         "html-webpack-plugin": "^3.2.0",
         "mini-css-extract-plugin": "^0.5.0",
+        "node-sass": "^4.11.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "sass-loader": "^7.1.0",
         "style-loader": "^0.23.1",
-        "uglifyjs-webpack-plugin": "^2.0.1",
-        "webpack-cli": "^3.1.2",
-        "webpack-dev-server": "^3.1.10",
-        "webpack-stream": "^5.1.1"
+        "webpack": "^4.28.1",
+        "webpack-cli": "^3.2.1",
+        "webpack-dev-server": "^3.1.14",
+        "webpack-merge": "^4.2.1"
     }
 }
