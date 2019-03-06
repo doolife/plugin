@@ -17,7 +17,9 @@ class Bluemarble {
         this.elBoardList = this.elBoardWrap.querySelectorAll("li");
         this.elChtWrap = this.elBoardWrap.querySelector("#characters");
         this.elResult = this.elBoardWrap.querySelector("#result");
-        this.btnDice = this.elBoardWrap.querySelector(".btn_dice");
+        this.elBtnDice = this.elBoardWrap.querySelector(".btn_dice");
+        this.$elBoardList;
+        this.$elChtList;
 
         this.init();
     }
@@ -29,7 +31,7 @@ class Bluemarble {
     }
 
     controls(){
-        this.btnDice.addEventListener("click", (event) => {
+        this.elBtnDice.addEventListener("click", (event) => {
             this.random();
         });
     }
@@ -67,6 +69,9 @@ class Bluemarble {
         this.elResult.innerHTML = "주사위="+this.randomArray[cutIndex]+" | cht"+this.chtCurrentIdNum;
         this.chtCurrentNum[this.chtCurrentIdNum] = (this.chtCurrentNum[this.chtCurrentIdNum]+this.randomArray[cutIndex]);
 
+        this.$elBoardList = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]");
+        this.$elchtList = this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]");
+
         this.moving();
         this.currentNumSet();
 
@@ -78,12 +83,12 @@ class Bluemarble {
             this.chtCurrentPos[this.chtCurrentIdNum].y = 0;
             this.stopChk = false;
         }else{
-            this.chtCurrentPos[this.chtCurrentIdNum].x = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]").offsetLeft;
-            this.chtCurrentPos[this.chtCurrentIdNum].y = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]").offsetTop;
+            this.chtCurrentPos[this.chtCurrentIdNum].x = this.$elBoardList.offsetLeft;
+            this.chtCurrentPos[this.chtCurrentIdNum].y = this.$elBoardList.offsetTop;
         }
 
-        this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]").style.left = this.chtCurrentPos[this.chtCurrentIdNum].x+"px";
-        this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]").style.top = this.chtCurrentPos[this.chtCurrentIdNum].y+"px";
+        this.$elchtList.style.left = this.chtCurrentPos[this.chtCurrentIdNum].x+"px";
+        this.$elchtList.style.top = this.chtCurrentPos[this.chtCurrentIdNum].y+"px";
     }
 
     currentNumSet(){
