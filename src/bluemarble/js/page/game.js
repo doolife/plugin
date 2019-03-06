@@ -2,11 +2,17 @@ class Bluemarble {
     constructor(opts){
         this.opts = Object.assign({
             el:"#element",
-            total:4
+            total:4,
+            chtPos:[
+                {"x":0, "y":0},
+                {"x":50, "y":0},
+                {"x":0, "y":30},
+                {"x":50, "y":30}
+            ]
         }, opts);
 
         this.randomArray = [1, 2, 3, 4, 5, 6];
-        this.listArray = [];
+        this.boardArray = [];
         this.chtArray = [];
         this.chtCurrentIdNum = "";
         this.chtCurrentNum = [];
@@ -39,7 +45,7 @@ class Bluemarble {
     boardSet(){
         Array.prototype.forEach.call(this.elBoardList, (value, index)=> {
             value.setAttribute("data-list", "board"+index+"");
-            this.listArray.push("board"+index);
+            this.boardArray.push("board"+index);
         });
     }
 
@@ -56,6 +62,8 @@ class Bluemarble {
                 "x":0,
                 "y":0
             };
+            this.elChtWrap.querySelector("[data-cht=character"+index+"]").style.left = this.opts.chtPos[index].x+"px";
+            this.elChtWrap.querySelector("[data-cht=character"+index+"]").style.top = this.opts.chtPos[index].y+"px";
         });
 
         this.chtCurrentIdNum = 0;
@@ -87,8 +95,8 @@ class Bluemarble {
             this.chtCurrentPos[this.chtCurrentIdNum].y = this.$elBoardList.offsetTop;
         }
 
-        this.$elchtList.style.left = this.chtCurrentPos[this.chtCurrentIdNum].x+"px";
-        this.$elchtList.style.top = this.chtCurrentPos[this.chtCurrentIdNum].y+"px";
+        this.$elchtList.style.left = this.chtCurrentPos[this.chtCurrentIdNum].x+this.opts.chtPos[this.chtCurrentIdNum].x+"px";
+        this.$elchtList.style.top = this.chtCurrentPos[this.chtCurrentIdNum].y+this.opts.chtPos[this.chtCurrentIdNum].y+"px";
     }
 
     currentNumSet(){
