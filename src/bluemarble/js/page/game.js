@@ -38,7 +38,7 @@ class Bluemarble {
 
     controls(){
         this.elBtnDice.addEventListener("click", (event) => {
-            this.random();
+            this.boardAction();
         });
     }
 
@@ -69,13 +69,12 @@ class Bluemarble {
         this.chtCurrentIdNum = 0;
     }
 
-    random(){
+    boardAction(){
         if(!this.stopChk) return false;
-        let randomIndex = Math.random()*this.randomArray.length;
-        let cutIndex = Math.floor(randomIndex);
+        let ranNumber = this.random(0, this.randomArray.length);
 
-        this.elResult.innerHTML = "주사위="+this.randomArray[cutIndex]+" | cht"+this.chtCurrentIdNum;
-        this.chtCurrentNum[this.chtCurrentIdNum] = (this.chtCurrentNum[this.chtCurrentIdNum]+this.randomArray[cutIndex]);
+        this.elResult.innerHTML = "주사위="+this.randomArray[ranNumber]+" | cht"+this.chtCurrentIdNum;
+        this.chtCurrentNum[this.chtCurrentIdNum] = (this.chtCurrentNum[this.chtCurrentIdNum]+this.randomArray[ranNumber]);
 
         this.$elBoardList = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]");
         this.$elchtList = this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]");
@@ -83,6 +82,12 @@ class Bluemarble {
         this.moving();
         this.currentNumSet();
 
+    }
+
+    random(min, max){
+        let randomIndex = Math.random()*(max - min) + min;
+        let cutIndex = Math.floor(randomIndex);
+        return cutIndex;
     }
 
     moving(){
