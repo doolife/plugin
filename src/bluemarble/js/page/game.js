@@ -18,6 +18,7 @@ class Bluemarble {
         this.chtCurrentNum = [];
         this.chtCurrentPos = [];
         this.stopChk = true;
+        this.startChk = true;
 
         this.elBoardWrap = document.querySelector(this.opts.el);
         this.elBoardList = this.elBoardWrap.querySelectorAll("li");
@@ -53,33 +54,34 @@ class Bluemarble {
         for ( let i=0 ; i<this.opts.total ; i++ ){
             this.chtArray.push("character"+i);
         }
+        this.characterReset();
+    }
 
+    characterReset(){
         Array.prototype.forEach.call(this.chtArray, (value, index)=> {
-            let chtList = "<li data-cht='"+value+"'>"+index+"</li>";
-            this.elChtWrap.innerHTML += chtList;
-            this.chtCurrentNum.push(0);
+            if(this.startChk){
+                let chtList = "<li data-cht='"+value+"'>"+index+"</li>";
+                this.elChtWrap.innerHTML += chtList;
+                this.chtCurrentNum.push(0);
+            }else{
+                this.chtCurrentNum[index] = 0;
+            }
             this.chtCurrentPos[index] = {
                 "x":0,
                 "y":0
             };
-            this.elChtWrap.querySelector("[data-cht=character"+index+"]").style.left = this.opts.chtPos[index].x+"px";
-            this.elChtWrap.querySelector("[data-cht=character"+index+"]").style.top = this.opts.chtPos[index].y+"px";
+            this.elChtWrap.querySelector("[data-cht="+value+"]").style.left = this.opts.chtPos[index].x+"px";
+            this.elChtWrap.querySelector("[data-cht="+value+"]").style.top = this.opts.chtPos[index].y+"px";
         });
-
         this.chtCurrentIdNum = 0;
     }
 
     boardAction(){
         if(!this.stopChk) return false;
+
         let ranNumber = this.random(0, this.randomArray.length);
 
-        this.elResult.innerHTML = "주사위="+this.randomArray[ranNumber]+" | cht"+this.chtCurrentIdNum;
-        this.chtCurrentNum[this.chtCurrentIdNum] = (this.chtCurrentNum[this.chtCurrentIdNum]+this.randomArray[ranNumber]);
-
-        this.$elBoardList = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]");
-        this.$elchtList = this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]");
-
-        this.moving();
+        this.moving(ranNumber);
         this.currentNumSet();
 
     }
@@ -90,7 +92,12 @@ class Bluemarble {
         return cutIndex;
     }
 
-    moving(){
+    moving(ranNumber){
+        this.chtCurrentNum[this.chtCurrentIdNum] = (this.chtCurrentNum[this.chtCurrentIdNum]+this.randomArray[ranNumber]);
+
+        this.$elBoardList = this.elBoardWrap.querySelector("[data-list=board"+this.chtCurrentNum[this.chtCurrentIdNum]+"]");
+        this.$elchtList = this.elChtWrap.querySelector("[data-cht=character"+this.chtCurrentIdNum+"]");
+
         if (this.chtCurrentNum[this.chtCurrentIdNum] >= this.elBoardList.length){
             this.chtCurrentPos[this.chtCurrentIdNum].x = 0;
             this.chtCurrentPos[this.chtCurrentIdNum].y = 0;
@@ -98,6 +105,7 @@ class Bluemarble {
         }else{
             this.chtCurrentPos[this.chtCurrentIdNum].x = this.$elBoardList.offsetLeft;
             this.chtCurrentPos[this.chtCurrentIdNum].y = this.$elBoardList.offsetTop;
+            this.elResult.innerHTML = "cht"+this.chtCurrentIdNum+" | 주사위="+this.randomArray[ranNumber];
         }
 
         this.$elchtList.style.left = this.chtCurrentPos[this.chtCurrentIdNum].x+this.opts.chtPos[this.chtCurrentIdNum].x+"px";
@@ -110,6 +118,19 @@ class Bluemarble {
         if(this.chtCurrentIdNum===this.opts.total){
             this.chtCurrentIdNum = 0;
         }
+        if(!this.stopChk) this.result();
+
+    }
+
+    result(){
+        this.elResult.innerHTML = "cht"+(this.chtCurrentIdNum-1)+" 승!";
+        setTimeout( ()=> {
+            alert("다시 시작 합니다.");
+            this.elResult.innerHTML = "";
+            this.startChk = false;
+            this.stopChk = true;
+            this.characterReset();
+        }, 0);
     }
 }
 
