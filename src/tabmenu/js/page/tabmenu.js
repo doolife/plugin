@@ -5,50 +5,55 @@ class TabMenu{
             idx:1
         }, opts);
 
-        this.state = {};
+        this.elWrap = document.querySelector(this.opts.el);
+        this.elTabWrap = this.elWrap.querySelector("[data-tab='wrap']");
+        this.elTabMenu = this.elTabWrap.querySelectorAll("[data-tab]");
+        this.elConWrap = this.elWrap.querySelector("[data-con='wrap']");
+        this.elConList = this.elConWrap.querySelectorAll("[data-tab]");
+        this.selected;
 
-        this.$el = document.querySelector(this.opts.el);
-        this.$menuWrap = this.$el.querySelector("[data-tab='wrap']");
-        this.$menu = this.$menuWrap.querySelectorAll("[data-list]");
-        this.$conWrap = this.$el.querySelector("[data-con='wrap']");
-        this.$con = this.$conWrap.querySelectorAll("[data-list]");
-
-        this._init();
+        this.init();
     };
 
-    _init(){
-        this._startSet();
-        this._controls();
+    init(){
+        this.settings();
+        this.controls();
     };
 
-    _startSet(){
-        this._showHide(this.opts.idx);
-    };
-
-    _controls(){
-        this.$menu.forEach(menu => menu.addEventListener("click", (e) => {
-            this.state.str = menu.getAttribute("data-list");
-            this._showHide(this.state.str);
-        }));
-        // for ( let i = 0 ; i<this.$menu.length ; i++ ) {
-        //     this.$menu[i].addEventListener('click', this._showHide.bind(this));
-        // }
-    };
-
-    _showHide(str){
-        this.$con.forEach(con => {
-            this.state.data = con.getAttribute("data-list");
-            if(str==this.state.data){
-                con.style.display = "block";
-            }else{
-                con.style.display = "none";
+    settings(){
+        Array.from(this.elTabMenu).forEach((value, index)=>{
+            if(index==this.opts.idx-1){
+                this.selected = this.elTabMenu[index].getAttribute("data-tab");
             }
         });
-    };
+        this.selection(this.selected);
+    }
 
-    set menu(str){
+    controls(){
+        this.elTabWrap.addEventListener("click", (e)=>{
+            if(e.target.nodeName == "BUTTON") {
+                if(e.target.parentNode.hasAttribute("disabled")) return;
+                if(e.target.parentNode.classList.contains("active")) return;
+                this.selection(e.target.parentNode.getAttribute("data-tab"));
+            }
+        });
+    }
 
-    };
+    selection(name){
+        Array.from(this.elTabMenu).forEach((tab)=>{
+            tab.classList.remove("active");
+        });
+        Array.from(this.elConList).forEach((contents)=>{
+            contents.classList.remove("active");
+        });
+
+        this.elTabWrap.querySelector(`[data-tab="${name}"]`).classList.add("active");
+        this.elConWrap.querySelector(`[data-tab="${name}"]`).classList.add("active");
+    }
+
+    set seletedSet(name){
+        this.selection(name);
+    }
 
 };
 
