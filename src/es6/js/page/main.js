@@ -1,14 +1,19 @@
 class Main {
     constructor(opts){
-        this.opts = $.extend({
-            el:"#element1",
-            idx:1
+        this.opts = Object.assign({
+            el:"#parent",
+            name:"doonam"
         }, opts);
-        this._init();
+
+        this.init();
     }
 
-    _init(){
-        console.log("initMain")
+    init(){
+        console.log(this.opts.el+" | 2")
+    }
+
+    controls(){
+        console.log("super controls")
     }
 }
 
