@@ -29,7 +29,6 @@ class Datacontrols {
     };
 
     getData(){
-        const url = "https://www.cheil.com";
         return new Promise(function (resolve, reject) {
             $.get(`${Datacontrols.siteUrl}/hq/addportfolio?page=0&pname=portfolio&title=&latest=&office=KORE&lang=ko&slatest=&atoz=latest&pageSize=12&pageBlockSize=10`, function (response) {
                 if(response){
@@ -42,7 +41,6 @@ class Datacontrols {
     };
 
     insertGetData(boardData){
-        const url = "https://www.cheil.com";
         boardData.list.forEach((key, index)=>{
             this.$elBoardWrap.append(
                 "<li data-list='"+index+"'>" +
