@@ -19,7 +19,7 @@ class Placeholder {
         if(!this.elInput.disabled){
             this.elInput.addEventListener("focus", this.label.bind(this));
         }else{
-            if(this.elInput.value!==0){
+            if(this.elInput.value!==""){
                 this.label();
             }
         }
@@ -30,7 +30,7 @@ class Placeholder {
         this.elLabel.style.display = "none";
     }
     input(){
-        if(this.elInput.value==0){
+        if(this.elInput.value==""){
             this.elLabel.style.display = "block";
         }
     }
