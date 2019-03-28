@@ -1,14 +1,15 @@
 class Sub {
     constructor(opts){
-        this.opts = $.extend({
-            el:"#element2",
-            idx:2
+        this.opts = Object.assign({
+            el:"#wife",
+            name:"uihwa"
         }, opts);
-        this._init();
+
+        this.init();
     }
 
-    _init(){
-        console.log("initSub")
+    init(){
+        console.log(this.opts.el, this.opts.name+" | 3")
     }
 }
 

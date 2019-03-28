@@ -1,16 +1,26 @@
 import '../sass/index.scss';
+import 'babel-polyfill';
 import Main from './page/main';
 import Sub from './page/sub';
 
-let main = new Main({
-    el:'#ES6',
-    idx:0
+class Intro extends Main{
+    constructor(opts){
+        super(opts);
+    }
+}
+
+const intro = new Intro({
+    el:"#children",
+    name:"eunseok"
 });
 
-let sub = new Sub({
-    el:'#ES7',
-    idx:0
-});
+console.log(intro)
 
-console.log(main);
-console.log(sub);
+
+// const sub = new Sub({
+//     el:'#ES7',
+//     idx:0
+// });
+//
+// console.dir(main);
+// console.log(sub);
