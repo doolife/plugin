@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title> flipcounter </title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div id="flipcounter">
+        <ul data-flip="days1">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="days2">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="hours1">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="hours2">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="minutes1">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="minutes2">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="second1">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul data-flip="second2">
+            <li data-num="0">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">0</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">0</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="1">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">1</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">1</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="2">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">2</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">2</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="3">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">3</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">3</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="4">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">4</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">4</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="5">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">5</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">5</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="6">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">6</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">6</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="7">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">7</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">7</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="8">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">8</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">8</span>
+                    </div>
+                </div>
+            </li>
+            <li data-num="9">
+                <div class="number_wrap">
+                    <div class="top">
+                        <span class="number">9</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="number">9</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

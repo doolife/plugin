@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title> scrollbehavior </title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div id="scrollbehavior">
+        <div id="navgation">
+            <ul data-wrap="gnb">
+                <li data-gnb="scene1">
+                    <button type="button">section1</button>
+                    <ul data-wrap="snb">
+                        <li data-snb="scene1">
+                            <button type="button">section1_1</button>
+                        </li>
+                        <li data-snb="scene2">
+                            <button type="button">section1_2</button>
+                        </li>
+                        <li data-snb="scene3">
+                            <button type="button">section1_3</button>
+                        </li>
+                    </ul>
+                </li>
+                <li data-gnb="scene2">
+                    <button type="button">section2</button>
+                </li>
+                <li data-gnb="scene3">
+                    <button type="button">section3</button>
+                    <ul data-wrap="snb">
+                        <li data-snb="scene1">
+                            <button type="button">section3_1</button>
+                        </li>
+                        <li data-snb="scene2">
+                            <button type="button">section3_2</button>
+                        </li>
+                    </ul>
+                </li>
+                <li data-gnb="scene4">
+                    <button type="button">section4</button>
+                </li>
+            </ul>
+        </div>
+
+        <section data-main="scene1">
+            <div data-sub="scene1">section1_1
+                <div class="obj obj1_1"></div>
+                <div class="obj obj1_2"></div>
+                <div class="obj obj1_3"></div>
+            </div>
+            <div data-sub="scene2">section1_2</div>
+            <div data-sub="scene3">section1_3</div>
+        </section>
+
+        <section data-main="scene2">section2_1
+            <div class="obj obj2_1"></div>
+            <div class="obj obj2_2"></div>
+            <div class="obj obj2_3"></div>
+        </section>
+
+        <section data-main="scene3">
+            <div data-sub="scene1">section3_1
+                <div class="obj obj3_1"></div>
+                <div class="obj obj3_2"></div>
+                <div class="obj obj3_3"></div>
+            </div>
+            <div data-sub="scene2">section3_2</div>
+        </section>
+
+        <section data-main="scene4">section4_1
+            <div class="obj obj4_1"></div>
+            <div class="obj obj4_2"></div>
+            <div class="obj obj4_3"></div>
+        </section>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+</body>
+</html>

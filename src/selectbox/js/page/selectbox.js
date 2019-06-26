@@ -2,72 +2,64 @@ class Selectbox {
     constructor(opts){
         this.opts = Object.assign({
             el:"#select1",
-            scHeight:400
-        }, opts)
+            scHeight:400,
+            listDisabled:false
+        }, opts);
 
+        if(document.querySelector(this.opts.el)==null) return false;
         this.elWrap = document.querySelector(this.opts.el);
         this.elComWrap = document.querySelectorAll("[data-select='wrap']");
         this.elTitle = this.elWrap.querySelector("[data-select='title']");
         this.elListWrap = this.elWrap.querySelector("[data-select='listWrap']");
-        this.elList = this.elWrap.querySelector("[data-select='list']");
-        this.elNoData = this.elWrap.querySelector("[data-list='no']");
 
-        this.titEvent = "";
-        this.listEvent = "";
         this.tagClone = "";
+        this.actvieChk;
 
-        this.init()
+        this.init();
     }
 
     init() {
-        this.controls()
+        this.controls();
     }
     controls(){
-        this.elTitle.addEventListener("click", (e)=>{
-            this.titEvent = e;
-            this.display()
-        })
+        this.elTitle.addEventListener("click", this.display.bind(this));
 
-        if(this.elListWrap!=null){
-            this.elListWrap.addEventListener("click", (e)=>{
-                this.listEvent = e;
-                if(this.listEvent.target.nodeName=="DIV"){
-                    this.tagClone = this.listEvent.target.cloneNode(true);
-                    this.select();
-                }
-            })
-        }
+        this.elListWrap.addEventListener("click", this.listSelect.bind(this));
 
-        document.addEventListener("click", (e)=>{
-            if(e.target==document.querySelector("body")){
-                if(!this.elTitle.classList.contains("active")) return;
-                this.remove()
-            }
-        })
+        document.addEventListener("click", ()=>{
+            if(this.actvieChk==true){
+                this.remove();
+            };
+        });
     }
-    display(){
-        if(this.titEvent.currentTarget.hasAttribute("disabled")) return;
-        if(!this.titEvent.currentTarget.classList.contains("active")){
-            this.remove()
-            this.active()
+    display(evt){
+        evt.stopPropagation();
+        if(evt.currentTarget.hasAttribute("disabled")) return;
+        if(!evt.currentTarget.classList.contains("active")){
+            this.remove();
+            this.active();
         }else{
-            this.remove()
-        }
+            this.remove();
+        };
     }
     active(){
-        this.elTitle.classList.add("active")
-        this.elListWrap.classList.add("active")
+        this.actvieChk = true;
+        this.elWrap.classList.add("active");
+        this.elTitle.classList.add("active");
+        this.elListWrap.classList.add("active");
         if(this.elListWrap.clientHeight>=this.opts.scHeight){
             this.elListWrap.style.height = this.opts.scHeight+"px";
             this.elListWrap.style.overflowY = "auto";
-        }
+        };
     }
     remove(){
+        this.actvieChk = false;
         Array.from(this.elComWrap).forEach((contents)=>{
             if(contents.querySelector("[data-select='listWrap']")!=null){
-                contents.querySelector("[data-select='title']").classList.remove("active")
-                contents.querySelector("[data-select='listWrap']").classList.remove("active")
-            }
+                contents.classList.remove("active");
+                contents.querySelector("[data-select='title']").classList.remove("active");
+                contents.querySelector("[data-select='listWrap']").classList.remove("active");
+            };
         });
         this.elListWrap.style.height = "";
         this.elListWrap.style.overflowY = "";
@@ -80,15 +72,28 @@ class Selectbox {
             this.elTitle.removeChild(txt);
         }else{
             this.elTitle.removeChild(tag);
-        }
+        };
 
         this.remove();
         this.elTitle.appendChild(this.tagClone);
     }
-}
-
-for (let i = 1; i < 9; i++) {
-    document.querySelector(".s1").querySelector(".select_list").innerHTML += "<li  data-select='list'><div data-result='text'><span>서버</span><span>캐릭터</span>1_"+i+"</div></li>";
+    listSelect(evt){
+        evt.stopPropagation();
+        if(this.opts.listDisabled) return false;
+        let target = evt.target;
+        console.log(target.parentNode, "1")
+        console.log(target && target.parentNode, "2")
+        while (target && target.parentNode !== this.elListWrap) {
+            target = target.parentNode;   // 클릭된 요소가 직접 자식이 아닌 경우
+            console.log(target, "3")
+            if(!target) return;     // 요소가 없는 경우
+        }
+        console.log(target, "4")
+        if (target.tagName === 'LI'){   // 요소가 LI 인지 확인
+            this.tagClone = target.children[0].cloneNode(true)
+            this.select();
+        }
+    }
 }
 
 export default Selectbox;

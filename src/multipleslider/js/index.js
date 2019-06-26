@@ -1,11 +1,12 @@
 import '../sass/index.scss';
-import 'babel-polyfill';
 import Multipleslider from './page/multipleslider';
 
 const multipleslider = new Multipleslider({
     el:"#multipleslider",
     auto:false,
-    idx:4,
+    depth1:2,
+    depth2:1,
     pagination:true,
-    type:"fade"
+    type:"fade",
+    interval:3000
 });

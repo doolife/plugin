@@ -1,0 +1,69 @@
+#flipcounter {margin:200px auto 0; width:980px; height:150px; font-size:0; position:relative; background:darkslategray;
+    [data-flip] {width:98px; height:110px; display:inline-block; position:relative;
+        [data-num] {width:100%; height:100%; position:absolute; left:0; top:0; z-index:1;
+            .number_wrap {display:block; height:100%; perspective:200px;
+                .top, .bottom {width:100%; height:50%; position:absolute; left:0; overflow:hidden; z-index:1;
+                    .number {width:100%; height:200%; display:block; position:absolute; left:0; background:url("../img/counter_number.png") no-repeat left top; z-index:1;}
+                }
+                .top {top:0;
+                    transform-origin:50% 100%;
+                    .number {top:0;}
+                }
+                .bottom {bottom:0;
+                    transform-origin:50% 0%;
+                    .number {bottom:0;}
+                }
+            }
+            &.before {z-index:3;
+                .number_wrap {
+                    .top {z-index:2;
+                        animation:flipTop .5s linear both;
+                    }
+                }
+            }
+            &.active {z-index:2;
+                animation:flipOpacity .5s .5s linear both;
+                .number_wrap {
+                    .bottom {z-index: 2;
+                        animation:flipBottom .5s .5s linear both;
+                    }
+                }
+            }
+            @for $i from 0 through 9 {
+                &[data-num="#{$i}"] {
+                    .top, .bottom {.number {background-position-x:-98px*$i;}}
+                }
+            }
+        }
+    }
+}
+
+@keyframes flipOpacity {
+    0% {
+        z-index:2;
+    }
+    5% {
+        z-index:4;
+    }
+    100% {
+        z-index:4;
+    }
+}
+
+@keyframes flipBottom {
+    0% {
+        transform:rotateX(90deg);
+    }
+    100% {
+        transform:rotateX(0deg);
+    }
+}
+
+@keyframes flipTop {
+    0% {
+        transform:rotateX(0deg);
+    }
+    100% {
+        transform:rotateX(-90deg);
+    }
+}

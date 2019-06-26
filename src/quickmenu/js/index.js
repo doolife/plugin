@@ -1,7 +1,7 @@
 import '../sass/index.scss';
 var Quickmenu = (function(){
 
-    function Person(opts){
+    function Constructor(opts){
         this.opts = $.extend({
             element:"#contents",
             position:"center",
@@ -31,7 +31,7 @@ var Quickmenu = (function(){
         this.init();
     };
 
-    Person.prototype = {
+    Constructor.prototype = {
         init:function(){
             this.position();
             this.resize();
@@ -117,15 +117,15 @@ var Quickmenu = (function(){
             $("html, body").stop().animate({scrollTop:0}, this.opts.speed);
         },
         sticky:function(){
-            if(this.state.scrollTop>=this.state.quickTop - this.opts.fix){
-                if(this.opts.quickAni){
+            if(this.opts.quickAni){
+                if(this.state.scrollTop>=this.state.quickTop - this.opts.fix){
                     $(this.selector.wrap).stop().animate({top:this.state.scrollTop + this.opts.margin}, 300);
                 }else{
-                    $(this.selector.wrap).addClass("fixed");
+                    $(this.selector.wrap).stop().animate({top:this.state.quickTop}, 300);
                 }
             }else{
-                if(this.opts.quickAni){
-                    $(this.selector.wrap).stop().animate({top:this.state.quickTop}, 300);
+                if(this.state.scrollTop>=this.state.quickTop - this.opts.fix){
+                    $(this.selector.wrap).addClass("fixed");
                 }else{
                     $(this.selector.wrap).removeClass("fixed");
                 }
@@ -133,7 +133,7 @@ var Quickmenu = (function(){
         }
     };
 
-    return Person;
+    return Constructor;
 
 })();
 

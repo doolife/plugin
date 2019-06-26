@@ -10,6 +10,7 @@ module.exports = {
         publicPath: '',
         filename: `${staticConfig.path}/js/[name].js`,
     },
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {

@@ -1,5 +1,5 @@
 let config = {
-    path: 'imgslider'
+    path: 'scrollbehavior'
 };
 
 module.exports = config;

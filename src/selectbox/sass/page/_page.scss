@@ -13,6 +13,11 @@
             &:hover {background:#3e6b88;}
         }
     }
+    &#select3 {
+        .select_list {
+            li {cursor: default;}
+        }
+    }
 }
 .no_data {padding:0 20px 0 20px; display:none; height:64px; line-height:64px; color:#bfb690; background-color:#1f1903; border-top:1px solid #000;
     &.active {display:block;}
