@@ -1,0 +1,94 @@
+.section {
+    &1 {
+        position:relative;
+        &__content1 {
+            height:400px;
+            position:relative;
+            background-color:#172434;
+            &--bg {
+                background-color:darkseagreen;
+            }
+        }
+        &__content2 {
+            height:988px;
+            background-color:#172434;
+            position:relative;
+            &--bg {
+                background-image:url("https://wstatic-cdn.plaync.com/promo/aion/event/2019/190522_deva/img/crash/section1_bg1.jpg");
+                background-position:center top;
+                background-repeat:no-repeat;
+            }
+        }
+        &__content3 {
+            height:400px;
+            background-color:#172434;
+            position:relative;
+            &--bg {
+                background-color:cornflowerblue;
+            }
+        }
+    }
+    &2 {
+        position:relative;
+        &__content1 {
+            height:300px;
+            background-color:#172434;
+            position:relative;
+            &--bg {
+                background-color:palevioletred;
+            }
+        }
+        &__content2 {
+            height:400px;
+            background-color:#172434;
+            position:relative;
+            &--bg {
+                background-color:lightpink;
+            }
+        }
+    }
+    &3 {
+        position:relative;
+        &__content1 {
+            height:300px;
+            background-color:#172434;
+            position:relative;
+            &--bg {
+                background-color:saddlebrown;
+            }
+        }
+    }
+}
+
+.btn {
+    display:block;
+    position:absolute;
+    left:50%;
+    &--pos1 {
+        margin-left:-435px;
+        top:420px;
+    }
+    &--pos2 {
+        margin-left:-178px;
+        top:420px;
+    }
+    &--pos3 {
+        margin-left:78px;
+        top:420px;
+    }
+    &--pos4 {
+        margin-left:336px;
+        top:420px;
+    }
+    &__reward {
+        width:100px;
+        height:100px;
+        display:block;
+        &--off {
+            background:#fff;
+        }
+        &--on {
+            background:darkgray;
+        }
+    }
+}
