@@ -28,7 +28,7 @@ class Flipcounter {
         let distance = this.opts.date.getTime()-this.opts.currentDate.getTime();
         let days = Math.floor(distance / (1000 * 60 * 60 * 24));
         let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((distance % (1000 * 60 * 60) / (1000 * 60)));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         if(distance>0){
