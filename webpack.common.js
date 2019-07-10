@@ -5,6 +5,7 @@ module.exports = {
     entry:{
         index: `./src/${staticConfig.path}/js/index.js`,
     },
+    devtool: 'inline-source-map',
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '',
