@@ -17,7 +17,9 @@ const tabmenu3 = new TabMenu({
     idx:1
 });
 
-tabmenu1.seletedSet = "tab1";
+tabmenu1.seletedSet = "tab1_1";
+
+tabmenu3.seletedSet = "tab3_2";
 
 
 
