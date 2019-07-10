@@ -93,22 +93,22 @@ var resizable2 = new Resizable({
     element:"#resizeable2",
     parent:"[data-drag='wrap']",
     children:"[data-drag='select']",
-    beforeUrl:"media/before.mp4",
-    afterUrl:"media/after.mp4",
-    halfWidth:"70%"
+    halfWidth:"30%",
 });
 
 var resizable3 = new Resizable({
     element:"#resizeable3",
     parent:"[data-drag='wrap']",
     children:"[data-drag='select']",
-    halfWidth:"30%"
+    beforeUrl:"media/before.mp4",
+    afterUrl:"media/after.mp4",
+    halfWidth:"70%"
 });
 
 $(".reset1").on("click", function(){
     resizable1.reset("#select1");
 });
 
-$(".reset3").on("click", function(){
-    resizable2.reset("#select3");
+$(".reset2").on("click", function(){
+    resizable2.reset("#select2");
 });
