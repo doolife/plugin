@@ -28,6 +28,7 @@ class Selectbox {
 
         document.addEventListener("click", ()=>{
             if(this.actvieChk==true){
+                console.log("document")
                 this.remove();
             };
         });
@@ -81,14 +82,10 @@ class Selectbox {
         evt.stopPropagation();
         if(this.opts.listDisabled) return false;
         let target = evt.target;
-        console.log(target.parentNode, "1")
-        console.log(target && target.parentNode, "2")
         while (target && target.parentNode !== this.elListWrap) {
             target = target.parentNode;   // 클릭된 요소가 직접 자식이 아닌 경우
-            console.log(target, "3")
             if(!target) return;     // 요소가 없는 경우
         }
-        console.log(target, "4")
         if (target.tagName === 'LI'){   // 요소가 LI 인지 확인
             this.tagClone = target.children[0].cloneNode(true)
             this.select();
