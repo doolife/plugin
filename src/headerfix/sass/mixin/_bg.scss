@@ -3,6 +3,6 @@
 		background:$color;
 	}
 	@if $bg{
-		background:url($folder +'/'+ $bg) if($repeat, $repeat, no-repeat) if($position, $position, 50% 0);
+		background:url($static + $folder +'/img/'+ $bg) if($repeat, $repeat, no-repeat) if($position, $position, 50% 0);
 	}
 }

@@ -1,0 +1,10 @@
+#container {width:100%; height:100%; position:relative;
+    #header {width:100%; height:100%; position:fixed; left:0; top:0; background:url("https://op-wstatic.ncsoft.com/promo/aion/history/2019/190522_red/img/bg_header.jpg") center no-repeat; background-size:cover;}
+    .main_effect {margin:-250px 0 0 -250px; width:500px; height:500px; position:fixed; left:50%; top:50%; background:#fff;}
+    #contents {position:relative; background:#fff;
+        .section {width:100%; height:1300px;
+            &1 {background:orange;}
+            &2 {background:hotpink;}
+        }
+    }
+}
