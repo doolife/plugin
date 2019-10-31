@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title> scrollbehavior </title>
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+</head>
+<body>
+    <div id="scrollbehavior">
+        <div id="navigator" class="p-nav">
+            <ul class="p-nav__menu">
+                <li class="p-nav__list" data-main="scene1">
+                    <button type="button" class="p-nav__btn">scene1</button>
+                    <ul class="p-nav__menu">
+                        <li class="p-nav__list" data-sub="scene1-1">
+                            <button type="button" class="p-nav__btn">scene1-1</button>
+                        </li>
+                        <li class="p-nav__list" data-sub="scene1-2">
+                            <button type="button" class="p-nav__btn">scene1-2</button>
+                        </li>
+                    </ul>
+                </li>
+                <li class="p-nav__list" data-main="scene2" onclick="alert('2020.11.06 오픈합니다.')">
+                    <button type="button" class="p-nav__btn">scene2</button>
+                </li>
+                <li class="p-nav__list" data-main="scene3">
+                    <button type="button" class="p-nav__btn">scene3</button>
+                    <ul class="p-nav__menu">
+                        <li class="p-nav__list" data-sub="scene3-1">
+                            <button type="button" class="p-nav__btn">scene3-1</button>
+                        </li>
+                        <li class="p-nav__list" data-sub="scene3-2">
+                            <button type="button" class="p-nav__btn">scene3-2</button>
+                        </li>
+                        <li class="p-nav__list" data-sub="scene3-3" onclick="alert('2030.11.06 오픈합니다.')">
+                            <button type="button" class="p-nav__btn">scene3-3</button>
+                        </li>
+                    </ul>
+                </li>
+                <li class="p-nav__list" data-main="scene4">
+                    <button type="button" class="p-nav__btn">scene4</button>
+                    <ul class="p-nav__menu">
+                        <li class="p-nav__list" data-sub="scene4-1">
+                            <button type="button" class="p-nav__btn">scene4-1</button>
+                        </li>
+                        <li class="p-nav__list" data-sub="scene4-2">
+                            <button type="button" class="p-nav__btn">scene4-2</button>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div id="contents">
+            <section class="scene" data-main="scene1">
+                <article class="scene--comm scene1__con1" data-sub="scene1-1">scene1__content1
+                    <div class="obj obj1_1"></div>
+                    <div class="obj obj1_2"></div>
+                    <div class="obj obj1_3"></div>
+                </article>
+                <article class="scene--comm scene1__con2" data-sub="scene1-2">scene1__content2</article>
+            </section>
+
+            <section class="scene" data-main="scene2">
+            </section>
+
+            <section class="scene" data-main="scene3">
+                <article class="scene--comm scene3__con1" data-sub="scene3-1">scene3__content1</article>
+                <article class="scene--comm scene3__con2" data-sub="scene3-2">scene3__content2
+                    <div class="obj obj3_1"></div>
+                    <div class="obj obj3_2"></div>
+                    <div class="obj obj3_3"></div>
+                </article>
+            </section>
+
+            <section class="scene" data-main="scene4">
+                <article class="scene--comm scene4__con1" data-sub="scene4-1">scene4__content1</article>
+                <article class="scene--comm scene4__con2" data-sub="scene4-2">scene4__content2
+                    <div class="obj obj4_1"></div>
+                    <div class="obj obj4_2"></div>
+                    <div class="obj obj4_3"></div>
+                </article>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+</body>
+</html>

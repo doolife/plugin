@@ -1,0 +1,107 @@
+.p-nav {
+    $self:&;
+    width:150px;
+    position:absolute;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:10;
+    &__menu {
+        width:100%;
+    }
+    &__list {
+        width:100%;
+        background-color:#ddd;
+        &--on {
+            color:#fff;
+            background-color:rosybrown;
+        }
+    }
+    &__btn {
+        width:100%;
+        height:100%;
+        height:50px;
+        display:block;
+    }
+}
+
+#contents {
+    width:100%;
+    height:100%;
+    position:absolute;
+    overflow:hidden;
+}
+
+.scene {
+    width:100%;
+    height:100%;
+    position:absolute;
+    left:0;
+    top:0;
+    &--comm {
+        width:100%;
+        height:100%;
+        position:absolute;
+        left:0;
+        top:0;
+    }
+    &1 {
+        background:#3e6b88;
+        &__con1 {
+            background:cornflowerblue;
+        }
+        &__con2 {
+            background:deepskyblue;
+        }
+    }
+    &2 {
+        background:#3e6b88;
+        &__con1 {
+            background:hotpink;
+        }
+    }
+    &3 {
+        background:#3e6b88;
+        &__con1 {
+            background:darkseagreen;
+        }
+        &__con2 {
+            background:forestgreen;
+        }
+        &__con3 {
+            background:lightgreen;
+        }
+    }
+    &4 {
+        background:#3e6b88;
+        &__con1 {
+            background:coral;
+        }
+        &__con2 {
+            background:goldenrod;
+        }
+    }
+}
+
+.obj {position:absolute; left:50%; top:50%;
+    &1 {
+        &_1 {width:150px; height:200px; margin:-100px 0 0 -75px; background:white;}
+        &_2 {width:150px; height:200px; margin:-200px 0 0 -300px; background:lightpink;}
+        &_3 {width:150px; height:200px; margin:0 0 0 150px; background:lightgoldenrodyellow;}
+    }
+    &2 {
+        &_1 {width:150px; height:200px; margin:-100px 0 0 -75px; background:white;}
+        &_2 {width:150px; height:200px; margin:-100px 0 0 -300px; background:lightpink;}
+        &_3 {width:150px; height:200px; margin:-100px 0 0 150px; background:lightgoldenrodyellow;}
+    }
+    &3 {
+        &_1 {width:150px; height:200px; margin:-100px 0 0 -75px; background:white;}
+        &_2 {width:150px; height:200px; margin:-100px 0 0 -300px; background:lightpink;}
+        &_3 {width:150px; height:200px; margin:-100px 0 0 150px; background:lightgoldenrodyellow;}
+    }
+    &4 {
+        &_1 {width:150px; height:200px; margin:-100px 0 0 -75px; background:white;}
+        &_2 {width:150px; height:200px; margin:-100px 0 0 -300px; background:lightpink;}
+        &_3 {width:150px; height:200px; margin:-100px 0 0 150px; background:lightgoldenrodyellow;}
+    }
+}
