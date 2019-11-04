@@ -1,34 +1,50 @@
+/* nav */
 .p-nav {
-    $self:&;
-    width:150px;
+    width:100px;
     position:absolute;
-    left:0;
+    left:50px;
     top:50%;
-    transform:translateY(-50%);
-    z-index:10;
+    background-color:rgba(255, 255, 255, 0.4);
+    z-index:1;
+    transform:translateY(-50.5%);   // blur 현상이 발생하면 50.5% or 50%로 수정
     &__menu {
-        width:100%;
+        &--sub {
+            border-top:1px solid ghostwhite;
+        }
     }
     &__list {
         width:100%;
-        background-color:#ddd;
-        &--on {
-            color:#fff;
-            background-color:rosybrown;
-        }
+        position:relative;
     }
     &__btn {
-        width:100%;
-        height:100%;
-        height:50px;
+        padding-left:15px;
+        position:relative;
         display:block;
+        &--dep1 {
+            height:30px;
+            line-height:30px;
+            border-top:1px solid ghostwhite;
+            &:last-child {
+                border-bottom:1px solid ghostwhite;
+            }
+        }
+        &--dep2 {
+            padding-left:15px;
+            height:25px;
+            line-height:25px;
+        }
+        &--on {
+            background-color:rgba(255, 255, 255, 1.0);
+        }
     }
 }
 
-#contents {
+#content {
     width:100%;
     height:100%;
-    position:absolute;
+    position:relative;
+    left:0;
+    top:0;
     overflow:hidden;
 }
 
@@ -59,17 +75,14 @@
         &__con1 {
             background:hotpink;
         }
+        &__con2 {
+            background:coral;
+        }
     }
     &3 {
         background:#3e6b88;
         &__con1 {
             background:darkseagreen;
-        }
-        &__con2 {
-            background:forestgreen;
-        }
-        &__con3 {
-            background:lightgreen;
         }
     }
     &4 {
@@ -79,6 +92,9 @@
         }
         &__con2 {
             background:goldenrod;
+        }
+        &__con3 {
+            background:lightgreen;
         }
     }
 }
