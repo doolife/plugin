@@ -45,6 +45,10 @@ const objScene = [
                 key:"scene4-1",
                 ele:document.querySelector("[data-scene='scene4-1']")
             },
+            // {
+            //     key:"scene4-2",
+            //     ele:document.querySelector("[data-scene='scene4-2']")
+            // },
             {
                 key:"scene4-3",
                 ele:document.querySelector("[data-scene='scene4-3']")
