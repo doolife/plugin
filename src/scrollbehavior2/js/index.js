@@ -7,13 +7,6 @@ import page2 from './page/page2';
 import page3 from './page/page3';
 import page4 from './page/page4';
 
-const sceneAnimation= {
-    scene1:page1,
-    scene2:page2,
-    scene3:page3,
-    scene4:page4,
-};
-
 const navigation = new navigator({
     el:"#navigator",
     depth1:"scene1",
@@ -36,19 +29,18 @@ const sceneAction = new scrollbehavior({
         navigation.current.dep1Num = curr1Num;
         navigation.current.dep2Num = curr2Num;
         navigation.display();
-        console.log(depth1Id, depth2Id)
         switch (true) {
             case depth1Id==="scene1" && depth2Id==="scene1-1":
-                sceneAnimation.scene1();
+                page1.palyAnimation();
                 break;
             case depth1Id==="scene2" && depth2Id==="scene2-1":
-                sceneAnimation.scene2();
+                page2.palyAnimation();
                 break;
             case depth1Id==="scene3" && depth2Id==="scene3-2":
-                sceneAnimation.scene3();
+                page3.palyAnimation();
                 break;
             case depth1Id==="scene4" && depth2Id==="scene4-2":
-                sceneAnimation.scene4();
+                page4.palyAnimation();
                 break;
         }
     }

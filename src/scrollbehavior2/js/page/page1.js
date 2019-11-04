@@ -3,10 +3,8 @@ let obj2 = document.querySelector(".obj1_2");
 let obj3 = document.querySelector(".obj1_3");
 let pageTimeline = new TimelineMax({paused:true});
 
-const page1 = (str)=>{
+const init = ()=>{
     setAnimation();
-    ingAnimation();
-    return str;
 };
 
 const setAnimation = ()=>{
@@ -16,8 +14,14 @@ const setAnimation = ()=>{
     .from(obj3, 0.8, {y:300, autoAlpha:0}, "-=0.5");
 };
 
-const ingAnimation = ()=>{
+const palyAnimation = ()=>{
+    pageTimeline.seek(0);
     pageTimeline.play();
 };
 
-export default page1;
+init();
+
+export default {
+    init,
+    palyAnimation
+};
