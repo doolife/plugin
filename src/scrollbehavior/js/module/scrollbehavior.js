@@ -46,7 +46,11 @@ class scrollbehavior {
 
     _settings(){
         TweenMax.to(this.scene, 0, {autoAlpha:0});
-        this.sceneAction(this.infoFind(this.opts.idx));
+        if(!window.location.hash){
+            this.sceneAction(this.infoFind(this.opts.idx));
+        }else{
+            this.sceneAction(this.infoFind(this.strConversion(window.location.hash)));
+        }
     }
 
     _urlCheck(strUrl){
@@ -132,6 +136,7 @@ class scrollbehavior {
 
     sceneAction(eleData){
         this.isScrolling = true;
+
         TweenMax.fromTo(eleData, 0.8, {yPercent:0, scale:0.5}, {yPercent:0, scale:1.0, autoAlpha:1, onComplete:()=>{    // current element
             this.isScrolling = false;
         }});
@@ -142,8 +147,10 @@ class scrollbehavior {
                 TweenMax.to(this.prevScene.parentElement, 0.6, {autoAlpha:0});    // previous-parent element
             };
         }
+
         this.callback();
         this.anchorWheel();
+        window.location.hash = this.currentId;
         this.prevScene = eleData;
         this.previousId = this.prevScene.getAttribute("data-scene");
     }
@@ -162,6 +169,7 @@ class scrollbehavior {
         Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
             ele.classList.remove("p-nav__btn--on");
         });
+
         Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
             let dataKey = ele.getAttribute("data-key");
             if(ele.getAttribute("data-key")==strIdx){
