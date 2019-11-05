@@ -7,75 +7,98 @@
     <title> scrollbehavior </title>
     <meta name="Keywords" content="">
     <meta name="Description" content="">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-    <div id="scrollbehavior">
-        <div id="navgation">
-            <ul data-wrap="gnb">
-                <li data-gnb="scene1">
-                    <button type="button">section1</button>
-                    <ul data-wrap="snb">
-                        <li data-snb="scene1">
-                            <button type="button">section1_1</button>
-                        </li>
-                        <li data-snb="scene2">
-                            <button type="button">section1_2</button>
-                        </li>
-                        <li data-snb="scene3">
-                            <button type="button">section1_3</button>
-                        </li>
-                    </ul>
-                </li>
-                <li data-gnb="scene2">
-                    <button type="button">section2</button>
-                </li>
-                <li data-gnb="scene3">
-                    <button type="button">section3</button>
-                    <ul data-wrap="snb">
-                        <li data-snb="scene1">
-                            <button type="button">section3_1</button>
-                        </li>
-                        <li data-snb="scene2">
-                            <button type="button">section3_2</button>
-                        </li>
-                    </ul>
-                </li>
-                <li data-gnb="scene4">
-                    <button type="button">section4</button>
-                </li>
-            </ul>
-        </div>
-
-        <section data-main="scene1">
-            <div data-sub="scene1">section1_1
+    <nav class="p-nav">
+        <ul class="p-nav__menu p-nav__menu--main" data-nav="wrap">
+            <li class="p-nav__list p-nav__list1">
+                <a href="#scene1-1" class="p-nav__btn p-nav__btn--dep1" data-key="menu1">메뉴1</a>
+                <ul class="p-nav__menu p-nav__menu--sub">
+                    <li class="p-nav__list p-nav__list1-1">
+                        <a href="#scene1-1" class="p-nav__btn p-nav__btn--dep2" data-key="menu1-1">메뉴1-1</a>
+                    </li>
+                    <li class="p-nav__list p-nav__list1-2">
+                        <a href="#scene1-2" class="p-nav__btn p-nav__btn--dep2" data-key="menu1-2">메뉴1-2</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="p-nav__list p-nav__list2">
+                <a href="#scene2-1" class="p-nav__btn p-nav__btn--dep1" data-key="menu2">메뉴2</a>
+                <ul class="p-nav__menu p-nav__menu--sub">
+                    <li class="p-nav__list p-nav__list2-1">
+                        <a href="#scene2-1" class="p-nav__btn p-nav__btn--dep2" data-key="menu2-1">메뉴2-1</a>
+                    </li>
+                    <li class="p-nav__list p-nav__list2-2">
+                        <a href="#scene2-2" class="p-nav__btn p-nav__btn--dep2" data-key="menu2-2">메뉴2-2</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="p-nav__list p-nav__list3">
+                <a href="#scene3-1" class="p-nav__btn p-nav__btn--dep1" data-key="menu3">메뉴3</a>
+            </li>
+            <li class="p-nav__list p-nav__list4">
+                <a href="#scene4-1" class="p-nav__btn p-nav__btn--dep1" data-key="menu4">메뉴4</a>
+                <ul class="p-nav__menu p-nav__menu--sub">
+                    <li class="p-nav__list p-nav__list4-1">
+                        <a href="#scene4-1" class="p-nav__btn p-nav__btn--dep2" data-key="menu4-1">메뉴4-1</a>
+                    </li>
+                    <li class="p-nav__list p-nav__list4-2">
+                        <a href="#scene4-2" class="p-nav__btn p-nav__btn--dep2" data-key="menu4-2" onclick="alert('3월 22일은 제 생일입니다.')">메뉴4-2</a>
+                    </li>
+                    <li class="p-nav__list p-nav__list4-3">
+                        <a href="#scene4-3" class="p-nav__btn p-nav__btn--dep2" data-key="menu4-3">메뉴4-3</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <div id="content">
+        <section class="scene" data-scene="scene1">
+            <div class="scene--comm scene1__con1" data-scene="scene1-1">
+                section1-1
                 <div class="obj obj1_1"></div>
                 <div class="obj obj1_2"></div>
                 <div class="obj obj1_3"></div>
             </div>
-            <div data-sub="scene2">section1_2</div>
-            <div data-sub="scene3">section1_3</div>
+            <div class="scene--comm scene1__con2" data-scene="scene1-2">
+                section1-2
+            </div>
         </section>
 
-        <section data-main="scene2">section2_1
-            <div class="obj obj2_1"></div>
-            <div class="obj obj2_2"></div>
-            <div class="obj obj2_3"></div>
+        <section class="scene" data-scene="scene2">
+            <div class="scene--comm scene2__con1" data-scene="scene2-1">
+                section2-1
+            </div>
+            <div class="scene--comm scene2__con2" data-scene="scene2-2">
+                section2-2
+                <div class="obj obj2_1"></div>
+                <div class="obj obj2_2"></div>
+                <div class="obj obj2_3"></div>
+            </div>
         </section>
 
-        <section data-main="scene3">
-            <div data-sub="scene1">section3_1
+        <section class="scene" data-scene="scene3">
+            <div class="scene--comm scene3__con1" data-scene="scene3-1">
+                section3-1
                 <div class="obj obj3_1"></div>
                 <div class="obj obj3_2"></div>
                 <div class="obj obj3_3"></div>
             </div>
-            <div data-sub="scene2">section3_2</div>
         </section>
 
-        <section data-main="scene4">section4_1
-            <div class="obj obj4_1"></div>
-            <div class="obj obj4_2"></div>
-            <div class="obj obj4_3"></div>
+        <section class="scene" data-scene="scene4">
+            <div class="scene--comm scene4__con1" data-scene="scene4-1">
+                section4-1
+            </div>
+            <div class="scene--comm scene4__con2" data-scene="scene4-2">
+                section4-2
+            </div>
+            <div class="scene--comm scene4__con3" data-scene="scene4-3">
+                section4-3
+                <div class="obj obj4_1"></div>
+                <div class="obj obj4_2"></div>
+                <div class="obj obj4_3"></div>
+            </div>
         </section>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>

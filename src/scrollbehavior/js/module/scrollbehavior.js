@@ -1,209 +1,180 @@
 class scrollbehavior {
     constructor(opts){
         this.opts = Object.assign({
-            el:"#element",
-            depth1:0,
-            depth2:1,
-            type:"fade",
-            timer:2000,
-            sceneCallback:(dep1, dep2, prev1, prev2)=>{
+            el:"#content",
+            idx:"scene3-2",
+            sceneCallback:(currentId)=>{
 
             }
         }, opts);
 
-        this.wrap = document.querySelector(this.opts.el);
-        this.main = this.wrap.querySelectorAll("[data-main]");
-        this.sub = this.wrap.querySelectorAll("[data-sub]");
-
-        this.parentArray = [];
-        this.childrenArray = [];
-        this.listArray = [];
-        this.listLengthArray = [];
-
+        this.el = document.querySelector(this.opts.el);
+        this.menu = document.querySelector("[data-nav='wrap']");
+        this.menuList = document.querySelectorAll("[data-key]");
+        this.scene = document.querySelectorAll("[data-scene]");
+        this.currScene;
+        this.prevScene;
         this.current = {
-            depth1Id:"",
-            depth2Id:"",
+            dep1Id:"",
+            dep2Id:"",
+            dep1Num:"",
+            dep2Num:""
         };
-
-        this.previous = {
-            depth1Id:"",
-            depth2Id:"",
-        };
-
-        this.isScrolling = true;
+        this.isScrolling = false;
 
         this._init();
-    };
+    }
 
     _init(){
-        this._basicSettings();
-        this._typeSettings();
-        this._constrols();
-        this.prevDepth();
-        this.display();
-    };
+        this._settings();
+        this._controls();
+        this.anchorWheel();
+    }
 
-    _constrols(){
-        this.wrap.addEventListener("wheel", this.wheelEvent.bind(this));
-    };
+    _controls(){
+        this.menu.addEventListener("click", e=>{
+            e.preventDefault();
+            if(this.isScrolling) return false;
+            this.anchorNav(e);
+        });
 
-    _basicSettings(){
-        Array.prototype.slice.call(this.main).forEach((element1, index1)=>{
-            this.childrenArray[index1] = [];
-            this.parentArray.push(element1.getAttribute("data-main"));
-            this.listLengthArray.push(element1.querySelectorAll("[data-sub]").length);
-            if(index1==this.opts.depth1){
-                this.current.depth1Id = this.parentArray[index1];
-            };
-            Array.prototype.slice.call(element1.querySelectorAll("[data-sub]")).forEach((element2, index2)=>{
-                this.listArray.push(element2.getAttribute("data-sub"));
-                this.childrenArray[index1][index2] = element2.getAttribute("data-sub");
-                if(index1==this.opts.depth1){
-                    if(index2==this.opts.depth2){
-                        this.current.depth2Id = this.childrenArray[index1][index2];
-                    }
+        this.el.addEventListener("wheel", this._wheelEvent.bind(this));
+    }
+
+    _settings(){
+        TweenMax.to(this.scene, 0, {autoAlpha:0});
+        this.sceneAction(this.infoFind(this.opts.idx));
+    }
+
+    _wheelEvent(e){
+        if(this.isScrolling) return false;
+        if(this._wheelData(e) > 0) {
+            this._scrollDown();
+        }else {
+            this._scrollUp();
+        }
+    }
+
+    _wheelData(e){
+        let delta = Math.sign(e.deltaY);
+        if(e.type == "wheel") return e.deltaY > 0 ? delta : delta;
+    }
+
+    _scrollDown(){
+        if(this.current.dep2Num>=this.opts.info[this.current.dep1Num].sub.length-1) {
+            if(this.current.dep1Num>=this.opts.info.length-1) return false;
+            this.current.dep1Num++;
+            this.current.dep2Num = 0;
+        }else{
+            this.current.dep2Num++;
+        }
+        this.sceneAction(this.infoFind(this.opts.info[this.current.dep1Num].sub[this.current.dep2Num].key));
+        this.anchorWheel();
+    }
+
+    _scrollUp(){
+        if(this.current.dep2Num<=0){
+            if(this.current.dep1Num<=0) return false;
+            this.current.dep1Num--;
+            this.current.dep2Num = this.opts.info[this.current.dep1Num].sub.length-1;
+        }else{
+            this.current.dep2Num--;
+        }
+        this.sceneAction(this.infoFind(this.opts.info[this.current.dep1Num].sub[this.current.dep2Num].key));
+        this.anchorWheel();
+    }
+
+    anchorNav(e){
+        let anchor;
+        let target = e.target;
+        let tag = target.tagName;
+        if(tag==="A"){
+            anchor = this.strHref(target);
+        }else if(tag==="LI"){
+            anchor = this.strHref(target.children[0]);
+        }else{
+            return false;
+        }
+        let eleFind = this.infoFind(this.strConversion(anchor));
+        if(eleFind===this.prevScene || eleFind===undefined) return false;
+        this.sceneAction(eleFind);
+        this.anchorClass(target.getAttribute("data-key"));
+    }
+
+    strHref(target){
+        return target.getAttribute("href");
+    }
+
+    strConversion(str){
+        return str.replace(/#/,"");
+    }
+
+    infoFind(eleStr){
+        let currStr;
+        this.opts.info.forEach((dataMain, mainIdx)=>{
+            dataMain.sub.forEach((dataSub, subIdx)=>{
+                if(dataSub.key==eleStr){
+                    this.current.dep1Num = mainIdx;
+                    this.current.dep2Num = subIdx;
+                    currStr = dataSub.ele;
+                    this.currScene = currStr.getAttribute("data-scene");
                 }
             });
         });
-    };
+        return currStr;
+    }
 
-    _typeSettings(){
-        if(this.opts.type=="fade"){
-            TweenMax.to(this.main, 0, {autoAlpha:0, zIndex:""});
-            TweenMax.to(this.sub, 0, {autoAlpha:0, zIndex:""});
-            if(this.current.depth2Id==""){
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]`), 0, {autoAlpha:1});
-            }else{
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]`), 0, {autoAlpha:1});
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]>[data-sub="${this.current.depth2Id}"]`) , 0, {autoAlpha:1});
-            }
-        };
-    };
-
-    wheelEvent(e){
-        if(this.isScrolling) return false;
-        if(this.wheelData(e) > 0) {
-            this.scrollDown();
-        }else {
-            this.scrollUp();
-        };
-    };
-
-    wheelData(e){
-        let delta = Math.sign(e.deltaY);
-        if(e.type == "wheel") return e.deltaY > 0 ? delta : delta;
-    };
-
-    scrollDown(){
-        this.next();
-    };
-
-    scrollUp(){
-        this.prev();
-    };
-
-    display(){
-        switch(this.opts.type){
-            case "fade":
-                this.fadeType();
-                break;
-        };
-
-        this.prevDepth();
+    sceneAction(eleData){
         this.isScrolling = true;
-    };
-
-    prev(){
-        this.current1Num = this.parentArray.indexOf(this.current.depth1Id);
-        this.current2Num = this.childrenArray[this.current1Num].indexOf(this.current.depth2Id)-1;
-
-        if(this.childrenArray[this.current1Num][this.current2Num]==undefined){
-            if(this.parentArray.indexOf(this.current.depth1Id)==0){
-                return false;
-            }else{
-                this.current1Num = this.parentArray.indexOf(this.current.depth1Id)-1;
-                this.current2Num = this.childrenArray[this.current1Num].indexOf(this.childrenArray[this.current1Num][this.childrenArray[this.current1Num].length-1]);
-            }
-        };
-
-        this.current.depth1Id = this.parentArray[this.current1Num];
-        this.current.depth2Id = this.childrenArray[this.current1Num][this.current2Num];
-
-        this.display();
-    };
-
-    next(){
-        this.current1Num = this.parentArray.indexOf(this.current.depth1Id);
-        this.current2Num = this.childrenArray[this.current1Num].indexOf(this.current.depth2Id)+1;
-
-        if(this.childrenArray[this.current1Num][this.current2Num]==undefined){
-            if(this.parentArray.indexOf(this.current.depth1Id)==this.parentArray.length-1){
-                return false;
-            }else{
-                this.current1Num = this.parentArray.indexOf(this.current.depth1Id)+1;
-                this.current2Num = this.childrenArray[this.current1Num].indexOf(this.childrenArray[this.current1Num][0]);
-            }
-        };
-
-        this.current.depth1Id = this.parentArray[this.current1Num];
-        this.current.depth2Id = this.childrenArray[this.current1Num][this.current2Num];
-
-        this.display();
-    };
-
-    prevDepth(){
-        this.previous.depth1Id = this.current.depth1Id;
-        this.previous.depth2Id = this.current.depth2Id;
-    };
-
-    fadeType(){
-        if(this.previous.depth2Id=="" || this.previous.depth2Id==undefined){
-            TweenMax.to(this.wrap.querySelector(`[data-main="${this.previous.depth1Id}"]`), this.opts.timer, {autoAlpha:0});
-        }else{
-            if(this.wrap.querySelector(`[data-main="${this.previous.depth1Id}"]>[data-sub="${this.previous.depth2Id}"]`)==null){
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.previous.depth1Id}"]`), this.opts.timer, {autoAlpha:0});
-            }else{
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.previous.depth1Id}"]`), this.opts.timer, {autoAlpha:0});
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.previous.depth1Id}"]>[data-sub="${this.previous.depth2Id}"]`), this.opts.timer, {autoAlpha:0});
-            }
-        };
-
-        if(this.current.depth2Id=="" || this.current.depth2Id==undefined){
-            TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]`), this.opts.timer, {autoAlpha:this.opts.timer, onComplete:this.sceneComplete.bind(this)});
-        }else{
-            if(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]>[data-sub="${this.current.depth2Id}"]`)==null){
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]`), this.opts.timer, {autoAlpha:this.opts.timer, onComplete:this.sceneComplete.bind(this)});
-            }else{
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]`), this.opts.timer, {autoAlpha:1});
-                TweenMax.to(this.wrap.querySelector(`[data-main="${this.current.depth1Id}"]>[data-sub="${this.current.depth2Id}"]`), this.opts.timer, {autoAlpha:1, onComplete:this.sceneComplete.bind(this)});
-            }
-        };
-
+        TweenMax.fromTo(eleData, 0.8, {yPercent:0, scale:0.5}, {yPercent:0, scale:1.0, autoAlpha:1, onComplete:()=>{    // current element
+            this.isScrolling = false;
+        }});
+        TweenMax.to(eleData.parentElement, 0.6, {autoAlpha:1});    // current-parent element
+        if(this.prevScene!==undefined){
+            TweenMax.to(this.prevScene, 0.6, {yPercent:-50, scale:0.8, autoAlpha:0});    // previous element
+            if(eleData.parentElement!==this.prevScene.parentElement){
+                TweenMax.to(this.prevScene.parentElement, 0.6, {autoAlpha:0});    // previous-parent element
+            };
+        }
         this.callback();
-    };
+        this.prevScene = eleData;
+    }
 
-    sceneComplete(){
-        this.isScrolling = false;
-    };
+    anchorWheel(){
+        Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
+            if(this.strConversion(ele.getAttribute("href"))==this.opts.info[this.current.dep1Num].sub[this.current.dep2Num].key){
+                this.anchorClass(ele.getAttribute("data-key"));
+            }
+        });
+    }
+
+
+    anchorClass(strIdx){
+        let addElement;
+        Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
+            ele.classList.remove("p-nav__btn--on");
+        });
+        Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
+            let dataKey = ele.getAttribute("data-key");
+            if(ele.getAttribute("data-key")==strIdx){
+                let dataSplit = dataKey.split("-");
+                ele.classList.add("p-nav__btn--on");
+                if(dataSplit[1]===undefined){
+                    addElement = document.querySelector(`[data-key=${dataSplit[0]+"-1"}]`);
+                    if(addElement===null) return false;
+                }else{
+                    addElement = document.querySelector(`[data-key=${dataSplit[0]}]`);
+                }
+                addElement.classList.add("p-nav__btn--on");
+            }
+        });
+    }
 
     callback(){
         if (typeof this.opts.sceneCallback == "function"){
-            this.opts.sceneCallback(this.current.depth1Id, this.current.depth2Id, this.previous.depth1Id, this.previous.depth2Id);
-            // this.on();
+            this.opts.sceneCallback(this.currScene);
         };
     };
-
-    on(){
-        let event = new CustomEvent('transform', {
-            detail: {
-                curr1dep:this.current.depth1Id,
-                curr2dep:this.current.depth2Id,
-                prev1dep:this.previous.depth1Id,
-                prev2dep:this.previous.depth2Id,
-            }
-        });
-        this.wrap.dispatchEvent(event);
-    }
-};
+}
 
 export default scrollbehavior;
