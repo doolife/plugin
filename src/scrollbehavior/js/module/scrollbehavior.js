@@ -12,7 +12,9 @@ class scrollbehavior {
         this.menu = document.querySelector("[data-nav='wrap']");
         this.menuList = document.querySelectorAll("[data-key]");
         this.scene = document.querySelectorAll("[data-scene]");
-        this.currScene;
+
+        this.currentId;
+        this.previousId;
         this.prevScene;
         this.current = {
             dep1Id:"",
@@ -33,9 +35,10 @@ class scrollbehavior {
 
     _controls(){
         this.menu.addEventListener("click", e=>{
-            e.preventDefault();
+            let target = e.target;
+            if(!this._urlCheck(target.getAttribute("href"))) e.preventDefault();
             if(this.isScrolling) return false;
-            this.anchorNav(e);
+            this.anchorNav(target);
         });
 
         this.el.addEventListener("wheel", this._wheelEvent.bind(this));
@@ -44,6 +47,11 @@ class scrollbehavior {
     _settings(){
         TweenMax.to(this.scene, 0, {autoAlpha:0});
         this.sceneAction(this.infoFind(this.opts.idx));
+    }
+
+    _urlCheck(strUrl){
+        let expUrl = /^http[s]?\:\/\//i;
+        return expUrl.test(strUrl);
     }
 
     _wheelEvent(e){
@@ -69,7 +77,6 @@ class scrollbehavior {
             this.current.dep2Num++;
         }
         this.sceneAction(this.infoFind(this.opts.info[this.current.dep1Num].sub[this.current.dep2Num].key));
-        this.anchorWheel();
     }
 
     _scrollUp(){
@@ -81,12 +88,11 @@ class scrollbehavior {
             this.current.dep2Num--;
         }
         this.sceneAction(this.infoFind(this.opts.info[this.current.dep1Num].sub[this.current.dep2Num].key));
-        this.anchorWheel();
     }
 
-    anchorNav(e){
+    anchorNav(eTarget){
         let anchor;
-        let target = e.target;
+        let target = eTarget;
         let tag = target.tagName;
         if(tag==="A"){
             anchor = this.strHref(target);
@@ -117,7 +123,7 @@ class scrollbehavior {
                     this.current.dep1Num = mainIdx;
                     this.current.dep2Num = subIdx;
                     currStr = dataSub.ele;
-                    this.currScene = currStr.getAttribute("data-scene");
+                    this.currentId = currStr.getAttribute("data-scene");
                 }
             });
         });
@@ -137,7 +143,9 @@ class scrollbehavior {
             };
         }
         this.callback();
+        this.anchorWheel();
         this.prevScene = eleData;
+        this.previousId = this.prevScene.getAttribute("data-scene");
     }
 
     anchorWheel(){
@@ -172,7 +180,7 @@ class scrollbehavior {
 
     callback(){
         if (typeof this.opts.sceneCallback == "function"){
-            this.opts.sceneCallback(this.currScene);
+            this.opts.sceneCallback(this.currentId, this.previousId);
         };
     };
 }

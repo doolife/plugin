@@ -10,8 +10,8 @@ import page4 from "./page/page4";
 const scrollbehavior = new Scrollbehavior({
     info:Info,
     idx:"scene1-2",
-    sceneCallback:(currentId)=>{
-        console.log(currentId)
+    sceneCallback:(currentId, previousId)=>{
+        console.log(currentId, previousId)
         switch (true) {
             case currentId==="scene1-1":
                 page1.palyAnimation();
@@ -28,3 +28,8 @@ const scrollbehavior = new Scrollbehavior({
         }
     }
 });
+
+document.querySelector(".obj1_1").addEventListener("click", ()=>{
+    scrollbehavior.sceneAction(scrollbehavior.infoFind("scene2-2"))
+    // scrollbehavior.sceneAction(document.querySelector(".scene2__con2"))
+})
