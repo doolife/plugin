@@ -99,9 +99,9 @@ class scrollbehavior {
         let target = eTarget;
         let tag = target.tagName;
         if(tag==="A"){
-            anchor = this.strHref(target);
+            anchor = target.getAttribute("href");
         }else if(tag==="LI"){
-            anchor = this.strHref(target.children[0]);
+            anchor = target.children[0].getAttribute("href");
         }else{
             return false;
         }
@@ -109,10 +109,6 @@ class scrollbehavior {
         if(eleFind===this.prevScene || eleFind===undefined) return false;
         this.sceneAction(eleFind);
         this.anchorClass(target.getAttribute("data-key"));
-    }
-
-    strHref(target){
-        return target.getAttribute("href");
     }
 
     strConversion(str){
