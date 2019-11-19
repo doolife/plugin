@@ -132,10 +132,18 @@ class scrollbehavior {
 
     sceneAction(eleData){
         this.isScrolling = true;
+        this.sceneAnimation(eleData);
+        this.callback();
+        this.anchorWheel();
+        window.location.hash = this.currentId;
+        this.prevScene = eleData;
+        this.previousId = this.prevScene.getAttribute("data-scene");
+    }
 
+    sceneAnimation(eleData){
         TweenMax.fromTo(eleData, 0.8, {yPercent:0, scale:0.5}, {yPercent:0, scale:1.0, autoAlpha:1, onComplete:()=>{    // current element
-            this.isScrolling = false;
-        }});
+                this.isScrolling = false;
+            }});
         TweenMax.to(eleData.parentElement, 0.6, {autoAlpha:1});    // current-parent element
         if(this.prevScene!==undefined){
             TweenMax.to(this.prevScene, 0.6, {yPercent:-50, scale:0.8, autoAlpha:0});    // previous element
@@ -143,12 +151,6 @@ class scrollbehavior {
                 TweenMax.to(this.prevScene.parentElement, 0.6, {autoAlpha:0});    // previous-parent element
             };
         }
-
-        this.callback();
-        this.anchorWheel();
-        window.location.hash = this.currentId;
-        this.prevScene = eleData;
-        this.previousId = this.prevScene.getAttribute("data-scene");
     }
 
     anchorWheel(){
