@@ -112,3 +112,7 @@ $(".reset1").on("click", function(){
 $(".reset2").on("click", function(){
     resizable2.reset("#select2");
 });
+
+$(".reset3").on("click", function(){
+    resizable3.reset("#select3");
+});
