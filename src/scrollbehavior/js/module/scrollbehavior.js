@@ -1,8 +1,11 @@
+// import Info from "./sceneInfo";
+
 class scrollbehavior {
     constructor(opts){
         this.opts = Object.assign({
             el:"#content",
-            idx:"scene3-2",
+            info:"",    // Info
+            idx:"scene1-2",
             sceneCallback:(currentId)=>{
 
             }
@@ -13,12 +16,17 @@ class scrollbehavior {
         this.menuList = document.querySelectorAll("[data-key]");
         this.scene = document.querySelectorAll("[data-scene]");
 
+        this.start = false;
         this.currentId;
         this.previousId;
         this.prevScene;
         this.current = {
             dep1Id:"",
             dep2Id:"",
+            dep1Num:"",
+            dep2Num:""
+        };
+        this.previous = {
             dep1Num:"",
             dep2Num:""
         };
@@ -101,7 +109,7 @@ class scrollbehavior {
         if(tag==="A"){
             anchor = target.getAttribute("href");
         }else if(tag==="LI"){
-            anchor = target.children[0].getAttribute("href");
+            anchor = target.children[0].getAttribute("data-key");
         }else{
             return false;
         }
@@ -138,17 +146,53 @@ class scrollbehavior {
         window.location.hash = this.currentId;
         this.prevScene = eleData;
         this.previousId = this.prevScene.getAttribute("data-scene");
+        this.previous.dep1Num = this.current.dep1Num;
+        this.previous.dep2Num = this.current.dep2Num;
+    }
+
+    situation(){
+        let state;
+        if(this.start){
+            if(this.current.dep1Num == this.previous.dep1Num){
+                if(this.current.dep2Num > this.previous.dep2Num){
+                    state = 1;
+                }else{
+                    state = 0;
+                }
+            }else if(this.current.dep1Num > this.previous.dep1Num){
+                state = 1;
+            }else{
+                state = 0;
+            }
+        }else{
+            state = 2;
+        }
+        this.start = true;
+        return state;
     }
 
     sceneAnimation(eleData){
-        TweenMax.fromTo(eleData, 0.8, {yPercent:0, scale:0.5}, {yPercent:0, scale:1.0, autoAlpha:1, onComplete:()=>{    // current element
+        let currY, prevY;
+        if(this.situation()==2){
+            currY = 0;
+            prevY = 0;
+        }else if(this.situation()==1){
+            currY = 100;
+            prevY = -100;
+        }else{
+            currY = -100;
+            prevY = 100;
+        }
+
+        TweenMax.fromTo(eleData, 0.75, {yPercent:currY, scale:1.15}, {yPercent:0, autoAlpha:1, scale:1.0, onComplete:()=>{
                 this.isScrolling = false;
             }});
-        TweenMax.to(eleData.parentElement, 0.6, {autoAlpha:1});    // current-parent element
+        TweenMax.to(eleData.parentElement, 0.75, {autoAlpha:1, zIndex:2});
+
         if(this.prevScene!==undefined){
-            TweenMax.to(this.prevScene, 0.6, {yPercent:-50, scale:0.8, autoAlpha:0});    // previous element
+            TweenMax.to(this.prevScene, 0.75, {yPercent:prevY});
             if(eleData.parentElement!==this.prevScene.parentElement){
-                TweenMax.to(this.prevScene.parentElement, 0.6, {autoAlpha:0});    // previous-parent element
+                TweenMax.to(this.prevScene.parentElement, 0, {zIndex:1});
             };
         }
     }
@@ -165,21 +209,21 @@ class scrollbehavior {
     anchorClass(strIdx){
         let addElement;
         Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
-            ele.classList.remove("p-nav__btn--on");
+            ele.offsetParent.classList.remove("p-nav__list--on");
         });
 
         Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
             let dataKey = ele.getAttribute("data-key");
             if(ele.getAttribute("data-key")==strIdx){
                 let dataSplit = dataKey.split("-");
-                ele.classList.add("p-nav__btn--on");
+                ele.offsetParent.classList.add("p-nav__list--on");
                 if(dataSplit[1]===undefined){
                     addElement = document.querySelector(`[data-key=${dataSplit[0]+"-1"}]`);
                     if(addElement===null) return false;
                 }else{
                     addElement = document.querySelector(`[data-key=${dataSplit[0]}]`);
                 }
-                addElement.classList.add("p-nav__btn--on");
+                addElement.offsetParent.classList.add("p-nav__list--on");
             }
         });
     }

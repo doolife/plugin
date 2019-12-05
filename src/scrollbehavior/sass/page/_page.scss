@@ -1,11 +1,12 @@
 /* nav */
 .p-nav {
+    $root:&;
     width:100px;
     position:absolute;
     left:50px;
     top:50%;
     background-color:rgba(255, 255, 255, 0.4);
-    z-index:1;
+    z-index:3;
     transform:translateY(-50.5%);   // blur 현상이 발생하면 50.5% or 50%로 수정
     &__menu {
         &--sub {
@@ -15,6 +16,11 @@
     &__list {
         width:100%;
         position:relative;
+        &:hover, &--on {
+            >#{$root}__btn {
+                background-color:rgba(255, 255, 255, 1.0);
+            }
+        }
     }
     &__btn {
         padding-left:15px;
@@ -31,9 +37,6 @@
         &--dep2 {
             height:25px;
             line-height:25px;
-        }
-        &--on {
-            background-color:rgba(255, 255, 255, 1.0);
         }
     }
 }

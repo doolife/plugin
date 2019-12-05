@@ -8,6 +8,7 @@ import page3 from "./page/page3";
 import page4 from "./page/page4";
 
 const scrollbehavior = new Scrollbehavior({
+    el:"#content",
     info:Info,
     idx:"scene1-2",
     sceneCallback:(currentId, previousId)=>{
