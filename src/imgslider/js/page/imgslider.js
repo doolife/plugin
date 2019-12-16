@@ -12,15 +12,13 @@ class Imgslider{
         this.$container = $(this.opts.el).find("[data-gallery='cover']");
         this.$wrap = $(this.opts.el).find("[data-gallery='wrap']");
         this.$list = this.$wrap.find("[data-slider]");
-        this.$pagingWrap = $(this.opts.el).find("[data-paging='wrap']");
-        this.$pagingList = this.$pagingWrap.find("[data-paging]");
 
-        this.listArray = [];
-        this.currentId;
-        this.currentNum;
+        this.listArr = [];
+        this.currId;
+        this.currNum;
         this.prevNum;
-        this.listLength;
-        this.ingAnimate = true;
+        this.listLen;
+        this.ingAni = true;
 
         this.init();
     };
@@ -29,16 +27,16 @@ class Imgslider{
         this.settings();
         this.clones();
         this.constrols();
-        if(this.opts.page) this.pagination();;
+        if(this.opts.page) this.pagination();
         this.display();
     };
 
     settings(){
         this.$wrap.find("[data-slider]").each((index, element)=>{
-            this.listArray.push($(element).data("slider"));
+            this.listArr.push($(element).data("slider"));
             if(index==this.opts.idx){
-                this.currentId = this.listArray[index];
-                this.currentNum = this.listArray.indexOf(this.currentId);
+                this.currId = this.listArr[index];
+                this.currNum = this.listArr.indexOf(this.currId);
             }
         });
     };
@@ -48,45 +46,45 @@ class Imgslider{
         let lastClone = this.$list.last().clone().removeAttr("data-slider");
         this.$wrap.append(firstClone);
         this.$wrap.prepend(lastClone);
-        this.listLength = this.$wrap.find("li").length;
+        this.listLen = this.$wrap.find("li").length;
     };
 
     constrols(){
         this.$btnPrev.on("click", ()=>{
-            if(!this.ingAnimate) return false;
+            if(!this.ingAni) return false;
             this.movePrev();
         });
 
         this.$btnNext.on("click", ()=>{
-            if(!this.ingAnimate) return false;
+            if(!this.ingAni) return false;
             this.moveNext();
         });
 
         this.$el.on("click", "[data-page]", (e)=>{
-            if(!this.ingAnimate) return false;
-            this.currentNum = $(e.currentTarget).index()+1;
+            if(!this.ingAni) return false;
+            this.currNum = $(e.currentTarget).index()+1;
             this.display();
         });
     };
 
     movePrev(){
-        this.currentNum = this.currentNum-1;
+        this.currNum = this.currNum-1;
         this.display();
     };
 
     moveNext(){
-        this.currentNum = this.currentNum+1;
+        this.currNum = this.currNum+1;
         this.display();
     };
 
     display(){
-        if(this.prevNum==this.currentNum) return false;
-        this.ingAnimate = false;
+        if(this.prevNum==this.currNum) return false;
+        this.ingAni = false;
         this.moveSlide();
     };
 
     classAdd(){
-        this.$el.find("[data-paging='wrap']").find("li").eq(this.currentNum-1).addClass("on");
+        this.$el.find("[data-paging='wrap']").find("li").eq(this.currNum-1).addClass("on");
     };
 
     classRemove(){
@@ -94,19 +92,19 @@ class Imgslider{
     };
 
     moveSlide(){
-        this.$wrap.stop().animate({left:-this.$container.width()*this.currentNum}, 500, ()=>{
+        this.$wrap.stop().animate({left:-this.$container.width()*this.currNum}, 500, ()=>{
             this.endCall();
         });
-        this.prevNum = this.currentNum;
+        this.prevNum = this.currNum;
     };
 
     endCall(){
-        this.ingAnimate = true;
+        this.ingAni = true;
 
-        let cycle = (this.currentNum==0 || this.currentNum==this.listLength-1);
-        if(cycle) this.currentNum = (this.currentNum === 0) ? this.listLength-2 : 1;
+        let cycle = (this.currNum==0 || this.currNum==this.listLen-1);
+        if(cycle) this.currNum = (this.currNum === 0) ? this.listLen-2 : 1;
 
-        this.$wrap.css({left:-this.$container.width()*this.currentNum});
+        this.$wrap.css({left:-this.$container.width()*this.currNum});
 
         if(this.opts.page){
             this.classRemove();
@@ -117,7 +115,7 @@ class Imgslider{
     pagination(){
         let pageWrap = "<ul data-paging='wrap'></ul>";
         this.$el.append(pageWrap);
-        $.each(this.listArray, (index, value)=>{
+        $.each(this.listArr, (index, value)=>{
             this.$el.find("[data-paging='wrap']").append("" +
                 "<li data-page='"+value+"'><button type='button'>"+(index+1)+"</button></li>" +
                 "");

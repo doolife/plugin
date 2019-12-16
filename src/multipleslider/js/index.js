@@ -7,6 +7,6 @@ const multipleslider = new Multipleslider({
     depth1:2,
     depth2:1,
     pagination:true,
-    type:"fade",
+    type:"slide",
     interval:3000
 });

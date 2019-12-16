@@ -185,8 +185,8 @@ class scrollbehavior {
         }
 
         TweenMax.fromTo(eleData, 0.75, {yPercent:currY, scale:1.15}, {yPercent:0, autoAlpha:1, scale:1.0, onComplete:()=>{
-                this.isScrolling = false;
-            }});
+            this.isScrolling = false;
+        }});
         TweenMax.to(eleData.parentElement, 0.75, {autoAlpha:1, zIndex:2});
 
         if(this.prevScene!==undefined){
