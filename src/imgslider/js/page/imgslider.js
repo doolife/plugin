@@ -16,8 +16,9 @@ class Imgslider{
         this.currId;
         this.currNum;
         this.prevNum;
-        this.listLen;
         this.ingAni = true;
+        this.listLen;
+        this.conWidth = this.$container.width();
 
         this.init();
     };
@@ -82,7 +83,7 @@ class Imgslider{
     };
 
     moveSlide(){
-        this.$wrap.stop().animate({left:-this.$container.width()*this.currNum}, 500, ()=>{
+        this.$wrap.stop().animate({left:-this.conWidth*this.currNum}, 500, ()=>{
             this.endCall();
         });
         this.prevNum = this.currNum;
@@ -94,7 +95,7 @@ class Imgslider{
         let cycle = (this.currNum==0 || this.currNum==this.listLen-1);
         if(cycle) this.currNum = (this.currNum === 0) ? this.listLen-2 : 1;
 
-        this.$wrap.css({left:-this.$container.width()*this.currNum});
+        this.$wrap.css({left:-this.conWidth*this.currNum});
 
         if(this.opts.page){
             this.classRemove();
