@@ -17,22 +17,22 @@ class Imgslider{
         this.currNum;
         this.prevNum;
         this.ingAni = true;
-        this.listLen;
+        this.listLen = this.$wrap.find("li").length;
         this.conWidth = this.$container.width();
 
         this.init();
     };
 
     init(){
-        this.settings();
-        this.clones();
+        this.settingsBasic();
+        this.settingsPosition();
         this.constrols();
         if(this.opts.btn) this.btnPrevNext();
-        if(this.opts.page) this.pagination();
-        this.display();
+        if(this.opts.page) this.pagination(); this.activation();
+
     };
 
-    settings(){
+    settingsBasic(){
         this.$wrap.find("[data-slider]").each((idx, ele)=>{
             this.listArr.push($(ele).data("slider"));
             if(idx==this.opts.idx){
@@ -42,65 +42,70 @@ class Imgslider{
         });
     };
 
-    clones(){
-        let firstClone = this.$list.first().clone().removeAttr("data-slider");
-        let lastClone = this.$list.last().clone().removeAttr("data-slider");
-        this.$wrap.append(firstClone);
-        this.$wrap.prepend(lastClone);
-        this.listLen = this.$wrap.find("li").length;
+    settingsPosition(){
+        let posX;
+        for( let i=0; i<this.listLen ; i++){
+            if(this.currNum==i){
+                posX = 0;
+            }else if(this.currNum<i){
+                posX = this.conWidth;
+            }else if(this.currNum>i){
+                posX = -this.conWidth;
+            }
+            this.$list.eq(i).css({left:posX}, 500);
+        }
+        this.prevNum = this.currNum;
     };
 
     constrols(){
         this.$el.on("click", "[data-btn]", (evt)=>{
-            this.moveBtn(evt);
+            this.separately(evt);
         });
 
         this.$el.on("click", "[data-page]", (evt)=>{
-            this.moveBtn(evt);
+            this.separately(evt);
         });
     };
 
-    moveBtn(evt){
-        if(!this.ingAni) return false;
+    separately(evt){
+        if(!this.ingAni) return;
         if($(evt.target).data("btn")=="prev") this.currNum = this.currNum-1;
         if($(evt.target).data("btn")=="next") this.currNum = this.currNum+1;
-        if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index()+1;
-        this.display();
-    }
-
-    display(){
-        if(this.prevNum==this.currNum) return false;
+        if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index();
+        if(this.prevNum==this.currNum) return;
         this.ingAni = false;
-        this.moveSlide();
+        this.slideMove();
     };
 
-    classAdd(){
-        this.$el.find("[data-paging='wrap']").find("li").eq(this.currNum-1).addClass("on");
+    activation(){
+        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.prevNum).removeClass("on");
+        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.currNum).addClass("on");
     };
 
-    classRemove(){
-        this.$el.find("[data-paging='wrap']").find("li").removeClass("on");
-    };
+    slideMove(){
+        let currPosX, prevPosX;
+        if(this.currNum>this.prevNum){
+            currPosX = this.conWidth;
+            prevPosX = -this.conWidth;
+        }
+        else{
+            currPosX = -this.conWidth;
+            prevPosX = this.conWidth;
+        }
 
-    moveSlide(){
-        this.$wrap.stop().animate({left:-this.conWidth*this.currNum}, 500, ()=>{
-            this.endCall();
+        if(this.currNum>=this.listLen){
+            this.currNum = 0;
+        }
+        else if(this.currNum==-1){
+            this.currNum = this.listLen-1;
+        }
+
+        if(this.opts.page) this.activation();
+        this.$list.eq(this.prevNum).stop().animate({left:prevPosX}, 500);
+        this.$list.eq(this.currNum).css({left:currPosX}).stop().animate({left:0}, 500, ()=>{
+            this.ingAni = true;
         });
         this.prevNum = this.currNum;
-    };
-
-    endCall(){
-        this.ingAni = true;
-
-        let cycle = (this.currNum==0 || this.currNum==this.listLen-1);
-        if(cycle) this.currNum = (this.currNum === 0) ? this.listLen-2 : 1;
-
-        this.$wrap.css({left:-this.conWidth*this.currNum});
-
-        if(this.opts.page){
-            this.classRemove();
-            this.classAdd();
-        };
     };
 
     pagination(){
