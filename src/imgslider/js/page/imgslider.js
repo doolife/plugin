@@ -83,22 +83,11 @@ class Imgslider{
     };
 
     slideMove(){
-        let currPosX, prevPosX;
-        if(this.currNum>this.prevNum){
-            currPosX = this.conWidth;
-            prevPosX = -this.conWidth;
-        }
-        else{
-            currPosX = -this.conWidth;
-            prevPosX = this.conWidth;
-        }
+        let currPosX = (this.currNum>this.prevNum) ? this.conWidth : -this.conWidth;
+        let prevPosX = (this.currNum>this.prevNum) ? -this.conWidth : this.conWidth;
 
-        if(this.currNum>=this.listLen){
-            this.currNum = 0;
-        }
-        else if(this.currNum==-1){
-            this.currNum = this.listLen-1;
-        }
+        if(this.currNum>=this.listLen) this.currNum = 0;
+        if(this.currNum==-1) this.currNum = this.listLen-1;
 
         if(this.opts.page) this.activation();
         this.$list.eq(this.prevNum).stop().animate({left:prevPosX}, 500);
