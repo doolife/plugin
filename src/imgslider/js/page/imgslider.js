@@ -78,8 +78,8 @@ class Imgslider{
     };
 
     activation(){
-        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.prevNum).removeClass("on");
-        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.currNum).addClass("on");
+        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.prevNum).removeClass("paging__list--on");
+        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.currNum).addClass("paging__list--on");
     };
 
     slideMove(){
@@ -89,26 +89,27 @@ class Imgslider{
         if(this.currNum>=this.listLen) this.currNum = 0;
         if(this.currNum==-1) this.currNum = this.listLen-1;
 
-        if(this.opts.page) this.activation();
         this.$list.eq(this.prevNum).stop().animate({left:prevPosX}, 500);
         this.$list.eq(this.currNum).css({left:currPosX}).stop().animate({left:0}, 500, ()=>{
             this.ingAni = true;
+            if(this.opts.page) this.activation();
+            this.prevNum = this.currNum;
         });
-        this.prevNum = this.currNum;
     };
 
     pagination(){
-        let pageWrap = "<ul data-paging='wrap'></ul>";
+        let pageWrap = "<ul class='paging' data-paging='wrap''></ul>";
         this.$el.append(pageWrap);
         $.each(this.listArr, (idx, value)=>{
             this.$el.find("[data-paging='wrap']").append("" +
-                "<li data-page='"+value+"'><button type='button'>"+(idx+1)+"</button></li>" +
+                "<li class='paging__list' data-page='"+value+"'><button type='button' class='paging__btn'>"+(idx+1)+"</button></li>" +
                 "");
         });
     }
 
     btnPrevNext(){
-        let pnBtn = "<button type='button' data-btn='prev'>prev</button>"+"<button type='button' data-btn='next'>next</button>";
+        let pnBtn = "<button type='button' class='img-slider__btn img-slider__btn--prev' data-btn='prev'>prev</button>" +
+            ""+"<button type='button' class='img-slider__btn img-slider__btn--next' data-btn='next'>next</button>";
         this.$el.prepend(pnBtn);
     }
 };
