@@ -25,7 +25,8 @@ class Imgslider{
 
     init(){
         this.settingsBasic();
-        this.settingsPosition();
+        if(this.opts.type=="fade") this.settingsFade();
+        if(this.opts.type=="slide") this.settingsSlide();
         this.constrols();
         if(this.opts.btn) this.btnPrevNext();
         if(this.opts.page) this.pagination(); this.activation();
@@ -42,7 +43,7 @@ class Imgslider{
         });
     };
 
-    settingsPosition(){
+    settingsSlide(){
         let posX;
         for( let i=0; i<this.listLen ; i++){
             if(this.currNum==i){
@@ -57,14 +58,24 @@ class Imgslider{
         this.prevNum = this.currNum;
     };
 
-    constrols(){
-        this.$el.on("click", "[data-btn]", (evt)=>{
-            this.separately(evt);
-        });
+    settingsFade(){
+        let opa, zix;
+        for( let i=0; i<this.listLen ; i++){
+            if(this.currNum==i){
+                opa = 1;
+                zix = 1;
+            }else{
+                opa = 0;
+                zix = 0;
+            }
+            this.$list.eq(i).css({opacity:opa, zIndex:zix}, 500);
+        }
+        this.prevNum = this.currNum;
+    };
 
-        this.$el.on("click", "[data-page]", (evt)=>{
-            this.separately(evt);
-        });
+    constrols(){
+        this.$el.on("click", "[data-btn]", evt=> this.separately(evt));
+        this.$el.on("click", "[data-page]", evt=> this.separately(evt));
     };
 
     separately(evt){
@@ -72,10 +83,15 @@ class Imgslider{
         if($(evt.target).data("btn")=="prev") this.currNum = this.currNum-1;
         if($(evt.target).data("btn")=="next") this.currNum = this.currNum+1;
         if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index();
+        this.display();
+    };
+
+    display(){
         if(this.prevNum==this.currNum) return;
         this.ingAni = false;
-        this.slideMove();
-    };
+        if(this.opts.type=="fade") this.fadeMove();
+        if(this.opts.type=="slide") this.slideMove();
+    }
 
     activation(){
         this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.prevNum).removeClass("paging__list--on");
@@ -86,15 +102,27 @@ class Imgslider{
         let currPosX = (this.currNum>this.prevNum) ? this.conWidth : -this.conWidth;
         let prevPosX = (this.currNum>this.prevNum) ? -this.conWidth : this.conWidth;
 
-        if(this.currNum>=this.listLen) this.currNum = 0;
-        if(this.currNum==-1) this.currNum = this.listLen-1;
+        this.firstEnd();
 
         this.$list.eq(this.prevNum).stop().animate({left:prevPosX}, 500);
-        this.$list.eq(this.currNum).css({left:currPosX}).stop().animate({left:0}, 500, ()=>{
-            this.ingAni = true;
-            if(this.opts.page) this.activation();
-            this.prevNum = this.currNum;
-        });
+        this.$list.eq(this.currNum).css({left:currPosX}).stop().animate({left:0}, 500, ()=> this.aniComplete());
+    };
+
+    fadeMove(){
+        this.firstEnd();
+        this.$list.eq(this.prevNum).stop().animate({opacity:0, zIndex:0}, 500);
+        this.$list.eq(this.currNum).stop().animate({opacity:1, zIndex:1}, 500, ()=> this.aniComplete());
+    };
+
+    firstEnd(){
+        if(this.currNum>=this.listLen) this.currNum = 0;
+        if(this.currNum==-1) this.currNum = this.listLen-1;
+    }
+
+    aniComplete(){
+        this.ingAni = true;
+        if(this.opts.page) this.activation();
+        this.prevNum = this.currNum;
     };
 
     pagination(){
@@ -105,13 +133,13 @@ class Imgslider{
                 "<li class='paging__list' data-page='"+value+"'><button type='button' class='paging__btn'>"+(idx+1)+"</button></li>" +
                 "");
         });
-    }
+    };
 
     btnPrevNext(){
         let pnBtn = "<button type='button' class='img-slider__btn img-slider__btn--prev' data-btn='prev'>prev</button>" +
             ""+"<button type='button' class='img-slider__btn img-slider__btn--next' data-btn='next'>next</button>";
         this.$el.prepend(pnBtn);
-    }
+    };
 };
 
 export default Imgslider;

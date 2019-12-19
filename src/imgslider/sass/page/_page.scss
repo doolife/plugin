@@ -9,6 +9,10 @@
         z-index:1;
         &--prev {left:-50px;}
         &--next {right:-50px;}
+        &:hover {
+            color:#fff;
+            background-color:rgba(47, 47, 47, 1.0);
+        }
     }
     &__cover {
         width:100%;
@@ -99,7 +103,7 @@
         display:inline-block;
         line-height:30px;
         background:#ddd;
-        &--on {background:#000;
+        &:hover, &--on {background:#000;
             button {color:#fff;}
         }
     }
