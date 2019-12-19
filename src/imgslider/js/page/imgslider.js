@@ -2,9 +2,16 @@ class Imgslider{
     constructor(opts){
         this.opts = $.extend({
             el:"#slider1",
-            idx:1,
+            idx:0,
             btn:true,
-            page:true
+            page:true,
+            type:"slide",
+            startCallback(currNum, prevNum){
+
+            },
+            endCallback(currNum, prevNum){
+
+            }
         }, opts);
 
         this.$el = $(this.opts.el);
@@ -114,14 +121,28 @@ class Imgslider{
         this.$list.eq(this.currNum).stop().animate({opacity:1, zIndex:1}, 500, ()=> this.aniComplete());
     };
 
+    startCallDepth(){
+        if (typeof this.opts.startCallback == "function"){
+            this.opts.startCallback(this.currNum, this.prevNum);
+        };
+    }
+
+    endCallDepth(){
+        if (typeof this.opts.endCallback == "function"){
+            this.opts.endCallback(this.currNum, this.prevNum);
+        };
+    }
+
     firstEnd(){
         if(this.currNum>=this.listLen) this.currNum = 0;
         if(this.currNum==-1) this.currNum = this.listLen-1;
+        this.startCallDepth();
     }
 
     aniComplete(){
         this.ingAni = true;
         if(this.opts.page) this.activation();
+        this.endCallDepth();
         this.prevNum = this.currNum;
     };
 

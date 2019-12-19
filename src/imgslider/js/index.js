@@ -6,7 +6,13 @@ const imgslider1 = new Imgslider({
     idx:2,
     btn:true,
     page:true,
-    type:"fade"
+    type:"fade",
+    startCallback(currNum, prevNum){
+        console.log(currNum, prevNum, "start callback")
+    },
+    endCallback(currNum, prevNum){
+        console.log(currNum, prevNum, "end callback")
+    }
 });
 
 const imgslider2 = new Imgslider({
@@ -14,7 +20,10 @@ const imgslider2 = new Imgslider({
     idx:1,
     btn:true,
     page:true,
-    type:"slide"
+    type:"slide",
+    startCallback(currNum, prevNum){
+
+    }
 });
 
 const imgslider3 = new Imgslider({
@@ -22,5 +31,8 @@ const imgslider3 = new Imgslider({
     idx:0,
     btn:false,
     page:true,
-    type:"slide"
+    type:"slide",
+    startCallback(currNum, prevNum){
+
+    }
 });
