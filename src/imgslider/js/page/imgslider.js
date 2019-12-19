@@ -23,10 +23,13 @@ class Imgslider{
         this.currId;
         this.currNum;
         this.prevNum;
-        this.ingAni = true;
+        this.aniCheck = true;
         this.listLen = this.$wrap.find("li").length;
-        this.conWidth = this.$container.width();
-
+        if(this.opts.direction==="y"){
+            this.conSize = this.$container.height();
+        }else{
+            this.conSize = this.$container.width();
+        }
         this.init();
     };
 
@@ -51,16 +54,26 @@ class Imgslider{
     };
 
     settingsSlide(){
-        let posX;
+        let posValue;
         for( let i=0; i<this.listLen ; i++){
-            if(this.currNum==i){
-                posX = 0;
-            }else if(this.currNum<i){
-                posX = this.conWidth;
-            }else if(this.currNum>i){
-                posX = -this.conWidth;
+            if(this.opts.direction==="y"){
+                if(this.currNum==i){
+                    posValue = {top:0};
+                }else if(this.currNum<i){
+                    posValue = {top:this.conSize};
+                }else if(this.currNum>i){
+                    posValue = {top:-this.conSize};
+                }
+            }else{
+                if(this.currNum==i){
+                    posValue = {left:0};
+                }else if(this.currNum<i){
+                    posValue = {left:this.conSize};
+                }else if(this.currNum>i){
+                    posValue = {left:-this.conSize};
+                }
             }
-            this.$list.eq(i).css({left:posX}, 500);
+            this.$list.eq(i).css(posValue, 500);
         }
         this.prevNum = this.currNum;
     };
@@ -69,11 +82,9 @@ class Imgslider{
         let opa, zix;
         for( let i=0; i<this.listLen ; i++){
             if(this.currNum==i){
-                opa = 1;
-                zix = 1;
+                opa = 1, zix = 1;
             }else{
-                opa = 0;
-                zix = 0;
+                opa = 0, zix = 0;
             }
             this.$list.eq(i).css({opacity:opa, zIndex:zix}, 500);
         }
@@ -86,7 +97,7 @@ class Imgslider{
     };
 
     separately(evt){
-        if(!this.ingAni) return;
+        if(!this.aniCheck) return;
         if($(evt.target).data("btn")=="prev") this.currNum = this.currNum-1;
         if($(evt.target).data("btn")=="next") this.currNum = this.currNum+1;
         if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index();
@@ -95,7 +106,7 @@ class Imgslider{
 
     display(){
         if(this.prevNum==this.currNum) return;
-        this.ingAni = false;
+        this.aniCheck = false;
         if(this.opts.type=="fade") this.fadeMove();
         if(this.opts.type=="slide") this.slideMove();
     }
@@ -106,13 +117,21 @@ class Imgslider{
     };
 
     slideMove(){
-        let currPosX = (this.currNum>this.prevNum) ? this.conWidth : -this.conWidth;
-        let prevPosX = (this.currNum>this.prevNum) ? -this.conWidth : this.conWidth;
+        let currPosInit, currPosValue, prevPosValue;
+        if(this.opts.direction==="y"){
+            currPosInit = {top:0};
+            currPosValue = (this.currNum>this.prevNum) ? {top:this.conSize} : {top:-this.conSize};
+            prevPosValue = (this.currNum>this.prevNum) ? {top:-this.conSize} : {top:this.conSize};
+        }else{
+            currPosInit = {left:0};
+            currPosValue = (this.currNum>this.prevNum) ? {left:this.conSize} : {left:-this.conSize};
+            prevPosValue = (this.currNum>this.prevNum) ? {left:-this.conSize} : {left:this.conSize};
+        }
 
         this.firstEnd();
 
-        this.$list.eq(this.prevNum).stop().animate({left:prevPosX}, 500);
-        this.$list.eq(this.currNum).css({left:currPosX}).stop().animate({left:0}, 500, ()=> this.aniComplete());
+        this.$list.eq(this.prevNum).stop().animate(prevPosValue, 500);
+        this.$list.eq(this.currNum).css(currPosValue).stop().animate(currPosInit, 500, ()=> this.aniComplete());
     };
 
     fadeMove(){
@@ -140,7 +159,7 @@ class Imgslider{
     }
 
     aniComplete(){
-        this.ingAni = true;
+        this.aniCheck = true;
         if(this.opts.page) this.activation();
         this.endCallDepth();
         this.prevNum = this.currNum;

@@ -11,7 +11,7 @@ const imgslider1 = new Imgslider({
         console.log(currNum, prevNum, "start callback")
     },
     endCallback(currNum, prevNum){
-        console.log(currNum, prevNum, "end callback")
+
     }
 });
 
@@ -23,15 +23,19 @@ const imgslider2 = new Imgslider({
     type:"slide",
     startCallback(currNum, prevNum){
 
+    },
+    endCallback(currNum, prevNum){
+        console.log(currNum, prevNum, "end callback")
     }
 });
 
 const imgslider3 = new Imgslider({
     el:"#slider3",
     idx:0,
-    btn:false,
+    btn:true,
     page:true,
     type:"slide",
+    direction:"y",
     startCallback(currNum, prevNum){
 
     }
