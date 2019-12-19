@@ -6,6 +6,9 @@ class Imgslider{
             btn:true,
             page:true,
             type:"slide",
+            initCallback(currNum, prevNum){
+
+            },
             startCallback(currNum, prevNum){
 
             },
@@ -23,24 +26,20 @@ class Imgslider{
         this.currId;
         this.currNum;
         this.prevNum;
+        this.conSize;
         this.aniCheck = true;
         this.listLen = this.$wrap.find("li").length;
-        if(this.opts.direction==="y"){
-            this.conSize = this.$container.height();
-        }else{
-            this.conSize = this.$container.width();
-        }
         this.init();
     };
 
     init(){
         this.settingsBasic();
+        this.settingsResize();
         if(this.opts.type=="fade") this.settingsFade();
         if(this.opts.type=="slide") this.settingsSlide();
         this.constrols();
         if(this.opts.btn) this.btnPrevNext();
         if(this.opts.page) this.pagination(); this.activation();
-
     };
 
     settingsBasic(){
@@ -51,7 +50,12 @@ class Imgslider{
                 this.currNum = this.listArr.indexOf(this.currId);
             }
         });
+        this.methodDepth(this.opts.initCallback);
     };
+
+    settingsResize(){
+        this.conSize = (this.opts.direction==="y") ? this.$container.height() : this.$container.width();
+    }
 
     settingsSlide(){
         let posValue;
@@ -140,29 +144,22 @@ class Imgslider{
         this.$list.eq(this.currNum).stop().animate({opacity:1, zIndex:1}, 500, ()=> this.aniComplete());
     };
 
-    startCallDepth(){
-        if (typeof this.opts.startCallback == "function"){
-            this.opts.startCallback(this.currNum, this.prevNum);
-        };
-    }
-
-    endCallDepth(){
-        if (typeof this.opts.endCallback == "function"){
-            this.opts.endCallback(this.currNum, this.prevNum);
-        };
-    }
-
     firstEnd(){
         if(this.currNum>=this.listLen) this.currNum = 0;
         if(this.currNum==-1) this.currNum = this.listLen-1;
-        this.startCallDepth();
-    }
+        this.methodDepth(this.opts.startCallback);
+    };
 
     aniComplete(){
         this.aniCheck = true;
         if(this.opts.page) this.activation();
-        this.endCallDepth();
+        this.methodDepth(this.opts.endCallback);
         this.prevNum = this.currNum;
+    };
+
+    methodDepth(funcValue){
+        if (typeof funcValue == "function") funcValue(this.currNum, this.prevNum);
+
     };
 
     pagination(){

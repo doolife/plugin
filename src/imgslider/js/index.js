@@ -7,11 +7,14 @@ const imgslider1 = new Imgslider({
     btn:true,
     page:true,
     type:"fade",
+    initCallback(currNum, prevNum){
+        console.log(currNum, prevNum, "init callback")
+    },
     startCallback(currNum, prevNum){
         console.log(currNum, prevNum, "start callback")
     },
     endCallback(currNum, prevNum){
-
+        console.log(currNum, prevNum, "end callback")
     }
 });
 
@@ -25,7 +28,7 @@ const imgslider2 = new Imgslider({
 
     },
     endCallback(currNum, prevNum){
-        console.log(currNum, prevNum, "end callback")
+
     }
 });
 
