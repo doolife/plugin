@@ -61,21 +61,11 @@ class Imgslider{
         let posValue;
         for( let i=0; i<this.listLen ; i++){
             if(this.opts.direction==="y"){
-                if(this.currNum==i){
-                    posValue = {top:0};
-                }else if(this.currNum<i){
-                    posValue = {top:this.conSize};
-                }else if(this.currNum>i){
-                    posValue = {top:-this.conSize};
-                }
+                posValue = (this.currNum==i) ? {top:0} :
+                posValue = (this.currNum<i) ? {top:this.conSize} : {top:-this.conSize};
             }else{
-                if(this.currNum==i){
-                    posValue = {left:0};
-                }else if(this.currNum<i){
-                    posValue = {left:this.conSize};
-                }else if(this.currNum>i){
-                    posValue = {left:-this.conSize};
-                }
+                posValue = (this.currNum==i) ? {left:0} :
+                posValue = (this.currNum<i) ? {left:this.conSize} : {left:-this.conSize};
             }
             this.$list.eq(i).css(posValue, 500);
         }
@@ -85,11 +75,8 @@ class Imgslider{
     settingsFade(){
         let opa, zix;
         for( let i=0; i<this.listLen ; i++){
-            if(this.currNum==i){
-                opa = 1, zix = 1;
-            }else{
-                opa = 0, zix = 0;
-            }
+            opa = (this.currNum==i) ? 1 : 0 ;
+            zix = (this.currNum==i) ? 1 : 0 ;
             this.$list.eq(i).css({opacity:opa, zIndex:zix}, 500);
         }
         this.prevNum = this.currNum;
