@@ -39,8 +39,7 @@ module.exports = merge(common, {
     },
     plugins:[
         new HtmlWebPackPlugin({
-            template:`./src/${staticConfig.path}/index.html`,
-            filename:'index.html',
+            template:`./src/${staticConfig.path}/index.html`
         }),
         new CopyWebpackPlugin([
             {from:`./src/${staticConfig.path}/img`, to:'img'}

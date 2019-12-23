@@ -3,7 +3,7 @@ const staticConfig = require('./static.config');
 
 module.exports = {
     entry:{
-        index:`./src/${staticConfig.path}/js/index.js`,
+        index:path.resolve(__dirname, `./src/${staticConfig.path}/js/index.js`),
     },
     devtool:'inline-source-map',
     module:{

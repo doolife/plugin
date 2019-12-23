@@ -7,14 +7,14 @@ const imgslider1 = new Imgslider({
     btn:true,
     page:true,
     type:"fade",
-    initCallback(currNum, prevNum){
-        console.log(currNum, prevNum, "init callback")
+    initCallback(currId, prevId, currNum, prevNum){
+        console.log(currId, prevId, currNum, prevNum, "init callback")
     },
-    startCallback(currNum, prevNum){
-        console.log(currNum, prevNum, "start callback")
+    startCallback(currId, prevId, currNum, prevNum){
+        console.log(currId, prevId, currNum, prevNum, "start callback")
     },
-    endCallback(currNum, prevNum){
-        console.log(currNum, prevNum, "end callback")
+    endCallback(currId, prevId, currNum, prevNum){
+        console.log(currId, prevId, currNum, prevNum, "end callback")
     }
 });
 
@@ -24,11 +24,14 @@ const imgslider2 = new Imgslider({
     btn:true,
     page:true,
     type:"slide",
-    startCallback(currNum, prevNum){
-
+    initCallback(currId, prevId, currNum, prevNum){
+        console.log(currId, prevId, currNum, prevNum, "init callback")
     },
-    endCallback(currNum, prevNum){
-
+    startCallback(currId, prevId, currNum, prevNum){
+        console.log(currId, prevId, currNum, prevNum, "start callback")
+    },
+    endCallback(currId, prevId, currNum, prevNum){
+        console.log(currId, prevId, currNum, prevNum, "end callback")
     }
 });
 
@@ -39,7 +42,7 @@ const imgslider3 = new Imgslider({
     page:true,
     type:"slide",
     direction:"y",
-    startCallback(currNum, prevNum){
+    startCallback(currId, prevId, currNum, prevNum){
 
     }
 });

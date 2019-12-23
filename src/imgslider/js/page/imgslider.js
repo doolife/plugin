@@ -6,13 +6,13 @@ class Imgslider{
             btn:true,
             page:true,
             type:"slide",
-            initCallback(currNum, prevNum){
+            initCallback(currId, prevId, currNum, prevNum){
 
             },
-            startCallback(currNum, prevNum){
+            startCallback(currId, prevId, currNum, prevNum){
 
             },
-            endCallback(currNum, prevNum){
+            endCallback(currId, prevId, currNum, prevNum){
 
             }
         }, opts);
@@ -24,6 +24,7 @@ class Imgslider{
 
         this.listArr = [];
         this.currId;
+        this.prevId;
         this.currNum;
         this.prevNum;
         this.conSize;
@@ -69,6 +70,8 @@ class Imgslider{
             }
             this.$list.eq(i).css(posValue, 500);
         }
+
+        this.prevId = this.listArr[this.currNum];
         this.prevNum = this.currNum;
     };
 
@@ -79,6 +82,8 @@ class Imgslider{
             zix = (this.currNum==i) ? 1 : 0 ;
             this.$list.eq(i).css({opacity:opa, zIndex:zix}, 500);
         }
+
+        this.prevId = this.listArr[this.currNum];
         this.prevNum = this.currNum;
     };
 
@@ -134,6 +139,7 @@ class Imgslider{
     firstEnd(){
         if(this.currNum>=this.listLen) this.currNum = 0;
         if(this.currNum==-1) this.currNum = this.listLen-1;
+        this.currId = this.listArr[this.currNum];
         this.methodDepth(this.opts.startCallback);
     };
 
@@ -141,11 +147,12 @@ class Imgslider{
         this.aniCheck = true;
         if(this.opts.page) this.activation();
         this.methodDepth(this.opts.endCallback);
+        this.prevId = this.listArr[this.currNum];
         this.prevNum = this.currNum;
     };
 
     methodDepth(funcValue){
-        if (typeof funcValue == "function") funcValue(this.currNum, this.prevNum);
+        if (typeof funcValue == "function") funcValue(this.currId, this.prevId, this.currNum, this.prevNum);
 
     };
 
