@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import '../sass/index.scss';
 import Imgslider from './page/imgslider';
 
@@ -24,6 +25,7 @@ const imgslider2 = new Imgslider({
     btn:true,
     page:true,
     type:"slide",
+    wheel:true,
     initCallback(currId, prevId, currNum, prevNum){
         console.log(currId, prevId, currNum, prevNum, "init callback")
     },

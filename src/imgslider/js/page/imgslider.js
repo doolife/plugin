@@ -6,6 +6,7 @@ class Imgslider{
             btn:true,
             page:true,
             type:"slide",
+            wheel:false,
             initCallback(currId, prevId, currNum, prevNum){
 
             },
@@ -86,12 +87,31 @@ class Imgslider{
     constrols(){
         this.$el.on("click", "[data-btn]", evt=> this.separately(evt));
         this.$el.on("click", "[data-page]", evt=> this.separately(evt));
+        this.$el.on("mousewheel DOMMouseScroll", evt=> {
+            if(!this.opts.wheel) return;
+            this.wheelEvent(evt);
+        });
     };
+
+    wheelEvent(evt){
+        if(this.wheelData(evt) > 0) {
+            this.separately("down");
+        }else {
+            this.separately("up");
+        }
+        return false;
+    }
+
+    wheelData(evt){
+        if (evt.type === 'DOMMouseScroll') return evt.detail > 0 ? 1 : -1;
+        if (evt.originalEvent.wheelDeltaY) return evt.originalEvent.wheelDeltaY > 0 ? -1 : 1;
+        return evt.originalEvent.wheelDelta > 0 ? -1 : 1;
+    }
 
     separately(evt){
         if(!this.aniCheck) return;
-        if($(evt.target).data("btn")=="prev") this.currNum = this.currNum-1;
-        if($(evt.target).data("btn")=="next") this.currNum = this.currNum+1;
+        if($(evt.target).data("btn")=="prev" || evt=="up") this.currNum = this.currNum-1;
+        if($(evt.target).data("btn")=="next" || evt=="down") this.currNum = this.currNum+1;
         if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index();
         this.display();
     };
