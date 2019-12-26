@@ -1,12 +1,13 @@
 class Imgslider{
     constructor(opts){
-        this.opts = $.extend({
+        this.opts = $.extend(true, {
             el:"#slider1",
             idx:0,
             btn:true,
             page:true,
             type:"slide",
             wheel:false,
+            infinity:false,
             initCallback(currId, prevId, currNum, prevNum){
 
             },
@@ -29,6 +30,7 @@ class Imgslider{
         this.currNum;
         this.prevNum;
         this.conSize;
+        this.infCheck;
         this.aniCheck = true;
         this.listLen = this.$wrap.find("li").length;
         this.init();
@@ -37,7 +39,7 @@ class Imgslider{
     init(){
         this.settingsBasic();
         this.settingsResize();
-        this.constrols();
+        this.controls();
         if(this.opts.type=="fade") this.settingsFade();
         if(this.opts.type=="slide") this.settingsSlide();
         if(this.opts.btn) this.btnPrevNext();
@@ -84,7 +86,7 @@ class Imgslider{
         this.prevDepth();
     };
 
-    constrols(){
+    controls(){
         this.$el.on("click", "[data-btn]", evt=> this.separately(evt));
         this.$el.on("click", "[data-page]", evt=> this.separately(evt));
         this.$el.on("mousewheel DOMMouseScroll", evt=> {
@@ -110,8 +112,8 @@ class Imgslider{
 
     separately(evt){
         if(!this.aniCheck) return;
-        if($(evt.target).data("btn")=="prev" || evt=="up") this.currNum = this.currNum-1;
-        if($(evt.target).data("btn")=="next" || evt=="down") this.currNum = this.currNum+1;
+        if(this.infCheck!="leftEnd") if($(evt.target).data("btn")=="prev" || evt=="up") this.currNum = this.currNum-1;
+        if(this.infCheck!="rightEnd") if($(evt.target).data("btn")=="next" || evt=="down") this.currNum = this.currNum+1;
         if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index();
         this.display();
     };
@@ -153,8 +155,19 @@ class Imgslider{
     };
 
     firstEnd(){
-        if(this.currNum>=this.listLen) this.currNum = 0;
-        if(this.currNum==-1) this.currNum = this.listLen-1;
+        if(this.opts.infinity){
+            if(this.currNum>=this.listLen) this.currNum = 0;
+            if(this.currNum<=-1) this.currNum = this.listLen-1;
+        }else{
+            if(this.currNum>=this.listLen-1){
+                this.infCheck = "rightEnd";
+            }else if(this.currNum<=0){
+                this.infCheck = "leftEnd";
+            }else{
+                this.infCheck = undefined;
+            }
+            this.methodDepth(this.opts.endPrevNext);
+        };
         this.currId = this.listArr[this.currNum];
         this.methodDepth(this.opts.startCallback);
     };
@@ -172,7 +185,7 @@ class Imgslider{
     };
 
     methodDepth(funcValue){
-        if (typeof funcValue == "function") funcValue(this.currId, this.prevId, this.currNum, this.prevNum);
+        if (typeof funcValue == "function") funcValue.call(this);
     };
 
     pagination(){

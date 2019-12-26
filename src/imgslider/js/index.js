@@ -4,36 +4,41 @@ import Imgslider from './page/imgslider';
 
 const imgslider1 = new Imgslider({
     el:"#slider1",
-    idx:2,
-    btn:true,
-    page:true,
-    type:"fade",
-    initCallback(currId, prevId, currNum, prevNum){
-        console.log(currId, prevId, currNum, prevNum, "init callback")
-    },
-    startCallback(currId, prevId, currNum, prevNum){
-        console.log(currId, prevId, currNum, prevNum, "start callback")
-    },
-    endCallback(currId, prevId, currNum, prevNum){
-        console.log(currId, prevId, currNum, prevNum, "end callback")
-    }
-});
-
-const imgslider2 = new Imgslider({
-    el:"#slider2",
     idx:1,
     btn:true,
     page:true,
     type:"slide",
     wheel:true,
-    initCallback(currId, prevId, currNum, prevNum){
-        console.log(currId, prevId, currNum, prevNum, "init callback")
+    infinity:false,
+    initCallback(){
+
     },
-    startCallback(currId, prevId, currNum, prevNum){
-        console.log(currId, prevId, currNum, prevNum, "start callback")
+    startCallback(){
+
     },
-    endCallback(currId, prevId, currNum, prevNum){
-        console.log(currId, prevId, currNum, prevNum, "end callback")
+    endCallback(){
+        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "endCallback")
+    },
+    endPrevNext(){
+        console.log(this.infCheck)
+    }
+});
+
+const imgslider2 = new Imgslider({
+    el:"#slider2",
+    idx:2,
+    btn:true,
+    page:true,
+    type:"fade",
+    infinity:true,
+    initCallback(){
+        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "initCallback", this)
+    },
+    startCallback(){
+
+    },
+    endCallback(){
+
     }
 });
 
@@ -44,7 +49,14 @@ const imgslider3 = new Imgslider({
     page:true,
     type:"slide",
     direction:"y",
-    startCallback(currId, prevId, currNum, prevNum){
+    infinity:true,
+    initCallback(){
+
+    },
+    startCallback(){
+        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "startCallback")
+    },
+    endCallback(){
 
     }
 });
