@@ -92,6 +92,7 @@ class Imgslider{
         this.$el.on("mousewheel DOMMouseScroll", evt=> {
             if(!this.opts.wheel) return;
             this.wheelEvent(evt);
+            return false;
         });
     };
 
@@ -101,7 +102,6 @@ class Imgslider{
         }else {
             this.separately("up");
         }
-        return false;
     }
 
     wheelData(evt){
