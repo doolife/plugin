@@ -11,8 +11,8 @@ module.exports = merge(common, {
     mode:'production',
     output:{
         path:path.resolve(__dirname, './dist'),
-        publicPath:'/PLUGIN/dist/',
-        filename:`${staticConfig.path}/js/[name].js`,
+        publicPath:'./',
+        filename:`js/[name].js`,
     },
     module:{
         rules:[
@@ -36,7 +36,7 @@ module.exports = merge(common, {
                     {
                         loader:'file-loader',
                         options:{
-                            name:`${staticConfig.path}/media/[name].[ext]`,
+                            name:`/media/[name].[ext]`,
                         }
                     }
                 ]
@@ -47,7 +47,8 @@ module.exports = merge(common, {
                     {
                         loader:'file-loader',
                         options:{
-                            name:`${staticConfig.path}/img/[name].[ext]`,
+                            name:`img/[name].[ext]`,
+                            publicPath: '../'
                         }
                     }
                 ]
@@ -57,14 +58,11 @@ module.exports = merge(common, {
     plugins:[
         new HtmlWebPackPlugin({
             template:`./src/${staticConfig.path}/index.html`,
-            filename:`${staticConfig.path}/index.html`,
+            filename:`index.html`,
         }),
         new MiniCssExtractPlugin({
-            filename:`${staticConfig.path}/css/[name].css`
+            filename:`css/[name].css`
         }),
-        new CopyWebpackPlugin([
-            {from:`./src/${staticConfig.path}/img`, to:`${staticConfig.path}/img`}
-        ]),
         new OptimizeCSSAssetsPlugin({})
     ]
 });
