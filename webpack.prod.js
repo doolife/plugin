@@ -36,7 +36,7 @@ module.exports = merge(common, {
                     {
                         loader:'file-loader',
                         options:{
-                            name:`/media/[name].[ext]`,
+                            name:`media/[name].[ext]`,
                         }
                     }
                 ]
@@ -63,6 +63,9 @@ module.exports = merge(common, {
         new MiniCssExtractPlugin({
             filename:`css/[name].css`
         }),
+        // new CopyWebpackPlugin([
+        //     {from:`./src/${staticConfig.path}/img`, to:`${staticConfig.path}/img`}
+        // ]),
         new OptimizeCSSAssetsPlugin({})
     ]
 });
