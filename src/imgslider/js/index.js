@@ -9,18 +9,15 @@ const imgslider1 = new Imgslider({
     page:true,
     type:"slide",
     wheel:true,
-    infinity:false,
+    infinity:true,
     initCallback(){
-
+        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "initCallback", this)
     },
     startCallback(){
-
+        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "startCallback")
     },
     endCallback(){
         console.log(this.currId, this.prevId, this.currNum, this.prevNum, "endCallback")
-    },
-    endPrevNext(){
-        console.log(this.infCheck)
     }
 });
 
@@ -30,15 +27,9 @@ const imgslider2 = new Imgslider({
     btn:true,
     page:true,
     type:"fade",
-    infinity:true,
-    initCallback(){
-        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "initCallback", this)
-    },
-    startCallback(){
-
-    },
-    endCallback(){
-
+    infinity:false,
+    endPrevNext(){
+        console.log(this.infCheck)
     }
 });
 
@@ -49,14 +40,5 @@ const imgslider3 = new Imgslider({
     page:true,
     type:"slide",
     direction:"y",
-    infinity:true,
-    initCallback(){
-
-    },
-    startCallback(){
-        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "startCallback")
-    },
-    endCallback(){
-
-    }
+    infinity:true
 });

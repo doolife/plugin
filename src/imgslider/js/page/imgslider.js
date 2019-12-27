@@ -159,13 +159,9 @@ class Imgslider{
             if(this.currNum>=this.listLen) this.currNum = 0;
             if(this.currNum<=-1) this.currNum = this.listLen-1;
         }else{
-            if(this.currNum>=this.listLen-1){
-                this.infCheck = "rightEnd";
-            }else if(this.currNum<=0){
-                this.infCheck = "leftEnd";
-            }else{
-                this.infCheck = undefined;
-            }
+            this.infCheck = undefined;
+            if(this.currNum>=this.listLen-1) this.infCheck = "rightEnd";
+            if(this.currNum<=0) this.infCheck = "leftEnd";
             this.methodDepth(this.opts.endPrevNext);
         };
         this.currId = this.listArr[this.currNum];
@@ -192,16 +188,18 @@ class Imgslider{
         let pageWrap = "<ul class='paging' data-paging='wrap''></ul>";
         this.$el.append(pageWrap);
         $.each(this.listArr, (idx, value)=>{
-            this.$el.find("[data-paging='wrap']").append("" +
-                "<li class='paging__list' data-page='"+value+"'><button type='button' class='paging__btn'>"+(idx+1)+"</button></li>" +
-                "");
+            this.$el.find("[data-paging='wrap']").append(
+                `<li class="paging__list" data-page="${value}">`+
+                    `<button type="button" class="paging__btn">${idx+1}</button>`+
+                `</li>`
+            );
         });
     };
 
     btnPrevNext(){
-        let pnBtn = "<button type='button' class='img-slider__btn img-slider__btn--prev' data-btn='prev'>prev</button>" +
-            ""+"<button type='button' class='img-slider__btn img-slider__btn--next' data-btn='next'>next</button>";
-        this.$el.prepend(pnBtn);
+        let prevBtn = `<button type="button" class="img-slider__btn img-slider__btn--prev" data-btn="prev">prev</button>`
+        let nextBtn = `<button type="button" class="img-slider__btn img-slider__btn--next" data-btn="next">next</button>`;
+        this.$el.prepend(prevBtn, nextBtn);
     };
 };
 
