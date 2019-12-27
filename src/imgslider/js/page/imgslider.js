@@ -22,7 +22,6 @@ class Imgslider{
         this.$el = $(this.opts.el);
         this.$container = $(this.opts.el).find("[data-gallery='cover']");
         this.$wrap = $(this.opts.el).find("[data-gallery='wrap']");
-        this.$list = this.$wrap.find("[data-slider]");
 
         this.listArr = [];
         this.currId;
@@ -31,8 +30,9 @@ class Imgslider{
         this.prevNum;
         this.conSize;
         this.infCheck;
+        this.listLen;
         this.aniCheck = true;
-        this.listLen = this.$wrap.find("li").length;
+
         this.init();
     };
 
@@ -40,8 +40,8 @@ class Imgslider{
         this.settingsBasic();
         this.settingsResize();
         this.controls();
-        if(this.opts.type=="fade") this.settingsFade();
-        if(this.opts.type=="slide") this.settingsSlide();
+        if(this.opts.type==="fade") this.settingsFade();
+        if(this.opts.type==="slide") this.settingsSlide();
         if(this.opts.btn) this.btnPrevNext();
         if(this.opts.page) this.pagination(); this.activation();
     };
@@ -49,11 +49,12 @@ class Imgslider{
     settingsBasic(){
         this.$wrap.find("[data-slider]").each((idx, ele)=>{
             this.listArr.push($(ele).data("slider"));
-            if(idx==this.opts.idx){
+            if(idx===this.opts.idx){
                 this.currId = this.listArr[idx];
                 this.currNum = this.listArr.indexOf(this.currId);
             }
         });
+        this.listLen = this.listArr.length;
         this.methodDepth(this.opts.initCallback);
     };
 
@@ -65,13 +66,13 @@ class Imgslider{
         let posValue;
         for( let i=0; i<this.listLen ; i++){
             if(this.opts.direction==="y"){
-                posValue = (this.currNum==i) ? {top:0} :
+                posValue = (this.currNum===i) ? {top:0} :
                 posValue = (this.currNum<i) ? {top:this.conSize} : {top:-this.conSize};
             }else{
-                posValue = (this.currNum==i) ? {left:0} :
+                posValue = (this.currNum===i) ? {left:0} :
                 posValue = (this.currNum<i) ? {left:this.conSize} : {left:-this.conSize};
             }
-            this.$list.eq(i).css(posValue, 500);
+            this.$wrap.find(`[data-slider=${this.listArr[i]}]`).css(posValue, 500);
         }
         this.prevDepth();
     };
@@ -79,9 +80,9 @@ class Imgslider{
     settingsFade(){
         let opa, zix;
         for( let i=0; i<this.listLen ; i++){
-            opa = (this.currNum==i) ? 1 : 0 ;
-            zix = (this.currNum==i) ? 1 : 0 ;
-            this.$list.eq(i).css({opacity:opa, zIndex:zix}, 500);
+            opa = (this.currNum===i) ? 1 : 0;
+            zix = (this.currNum===i) ? 1 : 0;
+            this.$wrap.find(`[data-slider=${this.listArr[i]}]`).css({opacity:opa, zIndex:zix}, 500);
         }
         this.prevDepth();
     };
@@ -112,22 +113,22 @@ class Imgslider{
 
     separately(evt){
         if(!this.aniCheck) return;
-        if(this.infCheck!="leftEnd") if($(evt.target).data("btn")=="prev" || evt=="up") this.currNum = this.currNum-1;
-        if(this.infCheck!="rightEnd") if($(evt.target).data("btn")=="next" || evt=="down") this.currNum = this.currNum+1;
+        if(this.infCheck!=="leftEnd") if($(evt.target).data("btn")==="prev" || evt==="up") this.currNum = this.currNum-1;
+        if(this.infCheck!=="rightEnd") if($(evt.target).data("btn")==="next" || evt==="down") this.currNum = this.currNum+1;
         if($(evt.currentTarget).data("page")) this.currNum = $(evt.currentTarget).index();
         this.display();
     };
 
     display(){
-        if(this.prevNum==this.currNum) return;
+        if(this.prevNum===this.currNum) return;
         this.aniCheck = false;
-        if(this.opts.type=="fade") this.fadeMove();
-        if(this.opts.type=="slide") this.slideMove();
+        if(this.opts.type==="fade") this.fadeMove();
+        if(this.opts.type==="slide") this.slideMove();
     }
 
     activation(){
-        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.prevNum).removeClass("paging__list--on");
-        this.$el.find("[data-paging='wrap']").find("[data-page]").eq(this.currNum).addClass("paging__list--on");
+        this.$el.find("[data-paging='wrap']").find(`[data-page=${this.prevId}]`).removeClass("paging__list--on");
+        this.$el.find("[data-paging='wrap']").find(`[data-page=${this.currId}]`).addClass("paging__list--on");
     };
 
     slideMove(){
@@ -143,15 +144,14 @@ class Imgslider{
         }
 
         this.firstEnd();
-
-        this.$list.eq(this.prevNum).stop().animate(prevPosValue, 500);
-        this.$list.eq(this.currNum).css(currPosValue).stop().animate(currPosInit, 500, ()=> this.aniComplete());
+        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate(prevPosValue, 500);
+        this.$wrap.find(`[data-slider="${this.currId}"]`).css(currPosValue).stop().animate(currPosInit, 500, ()=> this.aniComplete());
     };
 
     fadeMove(){
         this.firstEnd();
-        this.$list.eq(this.prevNum).stop().animate({opacity:0, zIndex:0}, 500);
-        this.$list.eq(this.currNum).stop().animate({opacity:1, zIndex:1}, 500, ()=> this.aniComplete());
+        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate({opacity:0, zIndex:0}, 500);
+        this.$wrap.find(`[data-slider="${this.currId}"]`).stop().animate({opacity:1, zIndex:1}, 500, ()=> this.aniComplete());
     };
 
     firstEnd(){
