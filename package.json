@@ -1,12 +1,12 @@
 {
     "name": "plugin",
     "version": "1.0.0",
-    "description": "제이쿼리 플러그인 제작 및 버전업을 위한 저장소",
+    "description": "라이브러리 제작 및 버전업을 위한 저장소",
     "author": "doolife <cyber0322@hanmail.net>",
     "scripts": {
         "start": "npm run dev",
         "dev": "webpack-dev-server --config webpack.dev.js --hot --inline",
-        "build": "webpack --config webpack.prod.js"
+        "build": "rimraf dist/* && webpack --progress --config webpack.prod.js"
     },
     "repository": {
         "type": "git",
