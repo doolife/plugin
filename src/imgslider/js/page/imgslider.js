@@ -178,6 +178,7 @@ class Imgslider{
 
     aniComplete(){
         this.aniCheck = true;
+        this.$el.trigger("end");
         if(this.opts.page) this.activation();
         this.methodDepth("endCallback");
         this.prevDepth();
@@ -204,6 +205,10 @@ class Imgslider{
         let prevBtn = `<button type="button" class="img-slider__btn img-slider__btn--prev" data-btn="prev">prev</button>`
         let nextBtn = `<button type="button" class="img-slider__btn img-slider__btn--next" data-btn="next">next</button>`;
         this.$el.prepend(prevBtn, nextBtn);
+    };
+
+    on(event, func){
+        this.$el.on(event, func);
     };
 
     set setMove(thisNum){

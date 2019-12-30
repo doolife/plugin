@@ -35,6 +35,10 @@ const imgslider2 = new Imgslider({
     }
 });
 
+imgslider2.on("end",()=>{
+    console.log("end!!")
+});
+
 const imgslider3 = new Imgslider({
     el:"#slider3",
     idx:0,
