@@ -21,6 +21,8 @@ const imgslider1 = new Imgslider({
     }
 });
 
+imgslider1.setMove = 3;
+
 const imgslider2 = new Imgslider({
     el:"#slider2",
     idx:2,
@@ -37,7 +39,7 @@ const imgslider3 = new Imgslider({
     el:"#slider3",
     idx:0,
     btn:true,
-    page:true,
+    page:false,
     type:"slide",
     direction:"y",
     infinity:true

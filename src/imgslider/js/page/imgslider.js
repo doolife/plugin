@@ -31,6 +31,8 @@ class Imgslider{
         this.conSize;
         this.infCheck;
         this.listLen;
+        this.setStr;
+        this.setSpeed;
         this.aniCheck = true;
 
         this.init();
@@ -40,10 +42,10 @@ class Imgslider{
         this.settingsBasic();
         this.settingsResize();
         this.controls();
-        if(this.opts.type==="fade") this.settingsFade();
-        if(this.opts.type==="slide") this.settingsSlide();
         if(this.opts.btn) this.btnPrevNext();
         if(this.opts.page) this.pagination(); this.activation();
+        if(this.opts.type==="fade") this.settingsFade();
+        if(this.opts.type==="slide") this.settingsSlide();
     };
 
     settingsBasic(){
@@ -55,7 +57,7 @@ class Imgslider{
             }
         });
         this.listLen = this.listArr.length;
-        this.methodDepth(this.opts.initCallback);
+        this.methodDepth("initCallback");
     };
 
     settingsResize(){
@@ -121,7 +123,8 @@ class Imgslider{
 
     display(){
         if(this.prevNum===this.currNum) return;
-        this.aniCheck = false;
+        this.setSpeed = (this.setStr) ? 0 : 500;
+        this.aniCheck = false, this.setStr = false;
         if(this.opts.type==="fade") this.fadeMove();
         if(this.opts.type==="slide") this.slideMove();
     }
@@ -144,14 +147,14 @@ class Imgslider{
         }
 
         this.firstEnd();
-        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate(prevPosValue, 500);
-        this.$wrap.find(`[data-slider="${this.currId}"]`).css(currPosValue).stop().animate(currPosInit, 500, ()=> this.aniComplete());
+        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate(prevPosValue, this.setSpeed);
+        this.$wrap.find(`[data-slider="${this.currId}"]`).css(currPosValue).stop().animate(currPosInit, this.setSpeed, ()=> this.aniComplete());
     };
 
     fadeMove(){
         this.firstEnd();
-        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate({opacity:0, zIndex:0}, 500);
-        this.$wrap.find(`[data-slider="${this.currId}"]`).stop().animate({opacity:1, zIndex:1}, 500, ()=> this.aniComplete());
+        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate({opacity:0, zIndex:0}, this.setSpeed);
+        this.$wrap.find(`[data-slider="${this.currId}"]`).stop().animate({opacity:1, zIndex:1}, this.setSpeed, ()=> this.aniComplete());
     };
 
     firstEnd(){
@@ -162,10 +165,10 @@ class Imgslider{
             this.infCheck = undefined;
             if(this.currNum>=this.listLen-1) this.infCheck = "rightEnd";
             if(this.currNum<=0) this.infCheck = "leftEnd";
-            this.methodDepth(this.opts.endPrevNext);
+            this.methodDepth("endPrevNext");
         };
         this.currId = this.listArr[this.currNum];
-        this.methodDepth(this.opts.startCallback);
+        this.methodDepth("startCallback");
     };
 
     prevDepth(){
@@ -176,12 +179,13 @@ class Imgslider{
     aniComplete(){
         this.aniCheck = true;
         if(this.opts.page) this.activation();
-        this.methodDepth(this.opts.endCallback);
+        this.methodDepth("endCallback");
         this.prevDepth();
     };
 
     methodDepth(funcValue){
-        if (typeof funcValue == "function") funcValue.call(this);
+        if (typeof this.opts[`${funcValue}`] == "function") this.opts[`${funcValue}`].call(this);
+        // if (typeof funcValue == "function") funcValue.call(this);
     };
 
     pagination(){
@@ -201,6 +205,12 @@ class Imgslider{
         let nextBtn = `<button type="button" class="img-slider__btn img-slider__btn--next" data-btn="next">next</button>`;
         this.$el.prepend(prevBtn, nextBtn);
     };
+
+    set setMove(thisNum){
+        this.setStr = true;
+        this.currNum = thisNum;
+        this.display();
+    }
 };
 
 export default Imgslider;
