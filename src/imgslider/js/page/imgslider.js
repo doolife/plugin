@@ -91,14 +91,12 @@ class Imgslider{
     controls(){
         this.$el.on("click", "[data-btn]", evt=> this.separately(evt));
         this.$el.on("click", "[data-page]", evt=> this.separately(evt));
-        this.$el.on("mousewheel DOMMouseScroll", evt=> {
-            if(!this.opts.wheel) return;
-            this.wheelEvent(evt);
-            return false;
-        });
+        this.$el.on("mousewheel DOMMouseScroll", evt=> this.wheelEvent(evt));
     };
 
     wheelEvent(evt){
+        if(!this.opts.wheel) return;
+        evt.preventDefault();
         if(this.wheelData(evt) > 0) {
             this.separately("down");
         }else {
