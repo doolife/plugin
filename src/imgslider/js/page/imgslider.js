@@ -8,6 +8,7 @@ class Imgslider{
             type:"slide",
             wheel:false,
             infinity:false,
+            speed:500,
             initCallback(currId, prevId, currNum, prevNum){
 
             },
@@ -31,8 +32,6 @@ class Imgslider{
         this.conSize;
         this.infCheck;
         this.listLen;
-        this.setStr;
-        this.setSpeed;
         this.aniCheck = true;
 
         this.init();
@@ -74,7 +73,7 @@ class Imgslider{
                 posValue = (this.currNum===i) ? {left:0} :
                 posValue = (this.currNum<i) ? {left:this.conSize} : {left:-this.conSize};
             }
-            this.$wrap.find(`[data-slider=${this.listArr[i]}]`).css(posValue, 500);
+            this.$wrap.find(`[data-slider=${this.listArr[i]}]`).css(posValue);
         }
         this.prevDepth();
     };
@@ -84,7 +83,7 @@ class Imgslider{
         for( let i=0; i<this.listLen ; i++){
             opa = (this.currNum===i) ? 1 : 0;
             zix = (this.currNum===i) ? 1 : 0;
-            this.$wrap.find(`[data-slider=${this.listArr[i]}]`).css({opacity:opa, zIndex:zix}, 500);
+            this.$wrap.find(`[data-slider=${this.listArr[i]}]`).css({opacity:opa, zIndex:zix});
         }
         this.prevDepth();
     };
@@ -123,8 +122,7 @@ class Imgslider{
 
     display(){
         if(this.prevNum===this.currNum) return;
-        this.setSpeed = (this.setStr) ? 0 : 500;
-        this.aniCheck = false, this.setStr = false;
+        this.aniCheck = false;
         if(this.opts.type==="fade") this.fadeMove();
         if(this.opts.type==="slide") this.slideMove();
     }
@@ -147,14 +145,14 @@ class Imgslider{
         }
 
         this.firstEnd();
-        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate(prevPosValue, this.setSpeed);
-        this.$wrap.find(`[data-slider="${this.currId}"]`).css(currPosValue).stop().animate(currPosInit, this.setSpeed, ()=> this.aniComplete());
+        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate(prevPosValue, this.opts.speed);
+        this.$wrap.find(`[data-slider="${this.currId}"]`).css(currPosValue).stop().animate(currPosInit, this.opts.speed, ()=> this.aniComplete());
     };
 
     fadeMove(){
         this.firstEnd();
-        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate({opacity:0, zIndex:0}, this.setSpeed);
-        this.$wrap.find(`[data-slider="${this.currId}"]`).stop().animate({opacity:1, zIndex:1}, this.setSpeed, ()=> this.aniComplete());
+        this.$wrap.find(`[data-slider="${this.prevId}"]`).stop().animate({opacity:0, zIndex:0}, this.opts.speed);
+        this.$wrap.find(`[data-slider="${this.currId}"]`).stop().animate({opacity:1, zIndex:1}, this.opts.speed, ()=> this.aniComplete());
     };
 
     firstEnd(){
@@ -211,10 +209,12 @@ class Imgslider{
         this.$el.on(event, func);
     };
 
-    set setMove(thisNum){
-        this.setStr = true;
+    set reset(thisNum){
+        this.currId = this.listArr[thisNum];
         this.currNum = thisNum;
-        this.display();
+        if(this.opts.page) this.activation();
+        if(this.opts.type==="fade") this.settingsFade();
+        if(this.opts.type==="slide") this.settingsSlide();
     }
 };
 

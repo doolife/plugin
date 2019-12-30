@@ -10,6 +10,7 @@ const imgslider1 = new Imgslider({
     type:"slide",
     wheel:true,
     infinity:true,
+    speed:500,
     initCallback(){
         console.log(this.currId, this.prevId, this.currNum, this.prevNum, "initCallback", this)
     },
@@ -21,8 +22,6 @@ const imgslider1 = new Imgslider({
     }
 });
 
-imgslider1.setMove = 3;
-
 const imgslider2 = new Imgslider({
     el:"#slider2",
     idx:2,
@@ -30,13 +29,10 @@ const imgslider2 = new Imgslider({
     page:true,
     type:"fade",
     infinity:false,
+    speed:400,
     endPrevNext(){
         console.log(this.infCheck)
     }
-});
-
-imgslider2.on("end",()=>{
-    console.log("end!!")
 });
 
 const imgslider3 = new Imgslider({
@@ -46,5 +42,11 @@ const imgslider3 = new Imgslider({
     page:false,
     type:"slide",
     direction:"y",
-    infinity:true
+    infinity:true,
+    speed:800
+});
+
+imgslider2.on("end",()=>{
+    imgslider1.reset = 3;
+    console.log("end!!")
 });
