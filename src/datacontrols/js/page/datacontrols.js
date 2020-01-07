@@ -4,9 +4,9 @@ class Datacontrols {
             el:"#element"
         }, opts);
 
-        // Datacontrols.siteUrl = "https://www.cheil.com";
-
-        this.$elBoardWrap = $("[data-board='wrap']");
+        this.pageNum = 0;
+        this.listNum = 12;
+        this.$elWrap = $("[data-board='wrap']");
 
         this.init();
     };
@@ -16,9 +16,23 @@ class Datacontrols {
     };
 
     init(){
-        console.dir(Datacontrols)
+        this.controls();
         this.getDataResult();
     };
+
+    controls(){
+        $("[data-btn='prev']").on("click", ()=>{
+            this.$elWrap.find("li").remove();
+            this.pageNum--;
+            this.getDataResult();
+        });
+        $("[data-btn='next']").on("click", ()=>{
+            this.$elWrap.find("li").remove();
+            this.pageNum++;
+            this.getDataResult();
+        });
+    }
+
 
     getDataResult(){
         this.getData().then((boardData)=>{
@@ -29,24 +43,23 @@ class Datacontrols {
     };
 
     getData(){
-        return new Promise(function (resolve, reject) {
-            $.get(`${Datacontrols.siteUrl}/hq/addportfolio?page=0&pname=portfolio&title=&latest=&office=KORE&lang=ko&slatest=&atoz=latest&pageSize=12&pageBlockSize=10`, function (response) {
+        return new Promise( (resolve, reject)=> {
+            $.get(`${Datacontrols.siteUrl}/hq/addportfolio?page=${this.pageNum}&pname=portfolio&title=&latest=&office=KORE&pageSize=${this.listNum}`, (response)=> {
                 if(response){
                     resolve(response);
                     return false;
                 }
-                reject(Error("실패라구욧!"));
             });
         });
     };
 
     insertGetData(boardData){
         boardData.list.forEach((key, index)=>{
-            this.$elBoardWrap.append(
-                "<li data-list='"+index+"'>" +
-                    "<img src='"+Datacontrols.siteUrl+key.fi_path+"' alt=''>" +
-                    "<span>"+key.pf_title+"</span>"+
-                "</li>"
+            this.$elWrap.append(
+                `<li class="board__list" data-list="${index}">`+
+                    `<img src="${Datacontrols.siteUrl+key.fi_path}" alt="" class="board__img">`+
+                    `<p class="board__tit">${key.pf_title}</p>`+
+                `</li>`
             );
         });
     }

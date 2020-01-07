@@ -10,8 +10,10 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-    <div id="datacontrols">
-        <ul data-board="wrap"></ul>
+    <div id="datacontrols" class="board" data-board="cover">
+        <button type="button" class="board__btn board__btn--prev" data-btn="prev">prev</button>
+        <button type="button" class="board__btn board__btn--next" data-btn="next">next</button>
+        <ul class="board--wrap" data-board="wrap"></ul>
     </div>
 </body>
 </html>
