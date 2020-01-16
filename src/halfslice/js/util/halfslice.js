@@ -12,6 +12,7 @@ class Halfslice {
         this.$left = "";
         this.$right = "";
         this.isAnimation = true;
+        this.isReset = true;
 
         this.init();
     }
@@ -29,9 +30,10 @@ class Halfslice {
     }
 
     slices(){
-        if(!this.isAnimation) return;
+        if(!this.isAnimation || !this.isReset) return;
 
         this.isAnimation = false;
+        this.isReset = false;
         this.$slice.css({width:"50%"}).addClass("slice__left");
         this.$slice.clone().appendTo(this.$el).removeClass("slice__left").addClass("slice__right");
 
@@ -39,12 +41,17 @@ class Halfslice {
         this.$right = this.$el.find(".slice__right");
 
         this.$left.stop().animate({right:"50%"}, 1000, ()=>{
-            this.$right.remove();
-            this.$left.removeClass("slice__left").css({width:"", right:""});
             this.isAnimation = true;
         });
 
         this.$right.stop().animate({left:"50%"}, 1000);
+    }
+
+    reset(){
+        if(!this.isAnimation || this.isReset) return;
+        this.isReset = true;
+        this.$right.remove();
+        this.$left.removeClass("slice__left").css({width:"", right:""});
     }
 }
 

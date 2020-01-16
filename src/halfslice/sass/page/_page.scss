@@ -35,15 +35,21 @@
 }
 
 .btn {
-    &__click {
-        margin-left:-50px;
-        width:100px;
-        height:50px;
-        color:#fff;
-        position:absolute;
-        left:50%;
+    margin-left:-50px;
+    width:100px;
+    height:50px;
+    color:#fff;
+    position:absolute;
+    left:50%;
+    background:gray;
+    z-index:1;
+    &__slice {
         top:200px;
-        background:gray;
-        z-index:1;
+    }
+    &__reset {
+        top:260px;
+        &--slice {
+            top:320px;
+        }
     }
 }
