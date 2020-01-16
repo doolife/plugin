@@ -93,11 +93,7 @@ class Choose{
     }
 
     checkDevice(id){
-        if(this.isMobile===null){
-            this.jobMovie(id);
-        }else{
-            this.jobImage(id);
-        }
+        (this.isMobile===null) ? this.jobMovie(id) : this.jobImage(id);
         this.prev.tribe = this.curr.tribe;
         this.prev.job = this.curr.job;
         this.prev.gender = this.curr.gender;
@@ -105,18 +101,17 @@ class Choose{
 
     jobMovie(movieId){
         this.$target = this.$tribeWrap.find(`[data-tribe=${this.curr.tribe}]`).find(`[data-job=${movieId}]`);
-        this.$currMovie = this.$target.find("[data-movie]").attr("id");
-        console.log(this.$prevMovie, this.$currMovie);
-        this.$prevMovie = this.$target.find("[data-movie]").attr("id");
+        this.$currMovieId = this.$target.find("[data-movie]").attr("id");
+        console.log(this.$prevMovieId, this.prev.job, this.$currMovieId, this.curr.job);
+        this.$prevMovieId = this.$currMovieId;
     }
 
     jobImage(imgId){
-        // console.log(this.curr.tribe, `image__${imgId}`);
+        console.log(this.curr.tribe, `image__${imgId}`);
     }
 
     set complete(setArr){
         this.changeTribe(setArr[0]);
-        this.checkDevice(setArr[1]);
         this.changeJob(setArr[1]);
         this.changeGender(setArr[2]);
         this.opts.complete = setArr[3];
