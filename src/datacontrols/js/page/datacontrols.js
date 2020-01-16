@@ -1,42 +1,36 @@
 class Datacontrols {
     constructor(opts){
-        this.opts = Object.assign({
-            el:"#element"
-        }, opts);
+        let basicOpts = {
+            el:"#element",
+            url:"https://www.kobis.or.kr"
+        }
 
-        this.pageNum = 0;
-        this.listNum = 12;
-        this.$elWrap = $("[data-board='wrap']");
+        this.opts = Object.assign(opts, basicOpts);
+
+        this.$elTit = $("[data-board-tit]");
+        this.$elWrap = $("[data-board-wrap]");
 
         this.init();
     };
 
-    static get siteUrl(){
-        return "https://www.cheil.com";
-    };
-
     init(){
         this.controls();
-        this.getDataResult();
+        this.resultData();
     };
 
     controls(){
         $("[data-btn='prev']").on("click", ()=>{
-            this.$elWrap.find("li").remove();
-            this.pageNum--;
-            this.getDataResult();
+
         });
         $("[data-btn='next']").on("click", ()=>{
-            this.$elWrap.find("li").remove();
-            this.pageNum++;
-            this.getDataResult();
+
         });
     }
 
 
-    getDataResult(){
-        this.getData().then((boardData)=>{
-            this.insertGetData(boardData);
+    resultData(){
+        this.getData().then((data)=>{
+            this.insertGetData(data.boxOfficeResult);
         }).catch((error)=>{
             console.log(error, "실패라구욧!")
         });
@@ -44,21 +38,18 @@ class Datacontrols {
 
     getData(){
         return new Promise( (resolve, reject)=> {
-            $.get(`${Datacontrols.siteUrl}/hq/addportfolio?page=${this.pageNum}&pname=portfolio&title=&latest=&office=KORE&pageSize=${this.listNum}`, (response)=> {
-                if(response){
-                    resolve(response);
-                    return false;
-                }
+            $.get(`${this.opts.url}/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=${this.opts.key}&targetDt=20191225`, (response)=> {
+                if(response) resolve(response); return false;
             });
         });
     };
 
-    insertGetData(boardData){
-        boardData.list.forEach((key, index)=>{
+    insertGetData(data){
+        this.$elTit.append(`${data.boxofficeType}`);
+        data.weeklyBoxOfficeList.forEach((key, index)=>{
             this.$elWrap.append(
-                `<li class="board__list" data-list="${index}">`+
-                    `<img src="${Datacontrols.siteUrl+key.fi_path}" alt="" class="board__img">`+
-                    `<p class="board__tit">${key.pf_title}</p>`+
+                `<li class="board__list" data-list="${key.rank}">`+
+                    `${key.rank}위 : ${key.movieNm}`+
                 `</li>`
             );
         });
