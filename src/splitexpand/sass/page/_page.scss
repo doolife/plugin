@@ -1,0 +1,28 @@
+.split-expand {
+    width:100%;
+    height:100%;
+    font-size:0;
+    position:absolute;
+    overflow:hidden;
+    white-space:nowrap;
+    &__list {
+        height:100%;
+        display:inline-block;
+        font-size:12px;
+        &--con1 {
+            background-color:#3b75c5;
+        }
+        &--con2 {
+            background-color:#eda047;
+        }
+        &--con3 {
+            background-color:#bfb690;
+        }
+        &--con4 {
+            background-color:#eda047;
+        }
+        &--con5 {
+            background-color:#bfb690;
+        }
+    }
+}

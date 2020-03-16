@@ -13,6 +13,9 @@ module.exports = merge(common, {
         path:path.resolve(__dirname, './dist'),
         publicPath:'./',
         filename:`js/[name].js`,
+        // library:`${staticConfig.path}`,
+        // libraryExport:'default',
+        // libraryTarget:'window'
     },
     module:{
         rules:[
@@ -48,7 +51,7 @@ module.exports = merge(common, {
                         loader:'file-loader',
                         options:{
                             name:`img/[name].[ext]`,
-                            publicPath: '../'
+                            publicPath:'../'
                         }
                     }
                 ]
