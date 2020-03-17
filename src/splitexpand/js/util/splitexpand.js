@@ -7,7 +7,7 @@ class splitexpand {
             down:"25%"
         }, opts);
 
-        this.setStr = true;
+        this.setStr = null;
         this.$ele = $(this.opts.el).find(".split-expand__list");
 
         this.init();
@@ -20,26 +20,24 @@ class splitexpand {
     };
 
     controls(){
+        let context = this;
         this.$ele.on({
-            mouseenter:(e)=>{
-                this.$ele.stop().animate({width:this.opts.down});
-                $(e.target).stop().animate({width:this.opts.over});
+            mouseenter:function(){
+                context.$ele.stop().animate({width:context.opts.down});
+                $(this).stop().animate({width:context.opts.over});
             },
-            mouseleave:()=>{
-                this.resetWidth();
+            mouseleave:function(){
+                context.resetWidth();
             }
         });
     };
 
     resetWidth(){
         $.each(this.$ele, (index, element)=>{
-            if(this.setStr){
-                $(element).css({width:this.opts.resetArr[index]});
-                return;
-            }
-            $(element).stop().animate({width:this.opts.resetArr[index]});
+            this.setStr && $(element).stop().animate({width:this.opts.resetArr[index]});    // this.setStr === true 일 경우 뒤의 값을 반환
+            this.setStr || $(element).css({width:this.opts.resetArr[index]});    // this.setStr === false 일 경우 뒤의 값을 반환
         });
-        this.setStr = false;
+        this.setStr = true;
     };
 };
 

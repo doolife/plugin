@@ -2,27 +2,38 @@
     width:100%;
     height:100%;
     font-size:0;
-    position:absolute;
+    position:relative;
     overflow:hidden;
     white-space:nowrap;
     &__list {
         height:100%;
         display:inline-block;
-        font-size:12px;
-        &--con1 {
+        position:relative;
+        &--wrap1 {
             background-color:#3b75c5;
         }
-        &--con2 {
+        &--wrap2 {
             background-color:#eda047;
         }
-        &--con3 {
+        &--wrap3 {
             background-color:#bfb690;
         }
-        &--con4 {
+        &--wrap4 {
             background-color:#eda047;
         }
-        &--con5 {
+        &--wrap5 {
             background-color:#bfb690;
+        }
+    }
+    &__con {
+        background-color:#fff;
+        position:absolute;
+        top:100px;
+        right:100px;
+        bottom:100px;
+        left:100px;
+        &--1 {
+
         }
     }
 }
