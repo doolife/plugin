@@ -182,15 +182,14 @@ class scrollbehavior {
 
         TweenMax.fromTo(eleData, 1.1, currPos, {yPercent:0, ease:Power1.easeOut, onComplete:()=>{
             this.isScrolling = false;
-    }});
+        }});
         TweenMax.set(eleData.parentElement, {autoAlpha:1, zIndex:7});
         TweenMax.set(eleData, {autoAlpha:1, zIndex:6});
 
-        if(this.prevScene!==undefined){
-            TweenMax.fromTo(this.prevScene, 1.1, {yPercent:0}, prevPos);
-            TweenMax.set(this.prevScene, {zIndex:4});
-            if(eleData.parentElement!==this.prevScene.parentElement) TweenMax.set(this.prevScene.parentElement, {zIndex:5});
-        };
+        if(this.prevScene===undefined) return;
+        TweenMax.fromTo(this.prevScene, 1.1, {yPercent:0}, prevPos);
+        TweenMax.set(this.prevScene, {zIndex:4});
+        if(eleData.parentElement!==this.prevScene.parentElement) TweenMax.set(this.prevScene.parentElement, {zIndex:5});
     }
 
     anchorWheel(){
@@ -226,6 +225,12 @@ class scrollbehavior {
             this.opts.sceneCallback(this.currentId, this.previousId);
         };
     };
+
+    set setMove(eleData){
+        if(eleData===this.prevScene || eleData===undefined) return false;
+        console.log(this.prevScene, eleData)
+        this.sceneAction(eleData);
+    }
 }
 
 export default scrollbehavior;

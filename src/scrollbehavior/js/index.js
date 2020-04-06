@@ -29,7 +29,8 @@ const scrollbehavior = new Scrollbehavior({
     }
 });
 
+// scrollbehavior.setMove = scrollbehavior.infoFind("scene4-1");
+
 document.querySelector(".obj1_1").addEventListener("click", ()=>{
-    scrollbehavior.sceneAction(scrollbehavior.infoFind("scene2-2"))
-    // scrollbehavior.sceneAction(document.querySelector(".scene2__con2"))
-})
+    scrollbehavior.setMove = scrollbehavior.infoFind("scene2-2");
+});
