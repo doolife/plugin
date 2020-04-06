@@ -6,7 +6,7 @@
     left:50px;
     top:50%;
     background-color:rgba(255, 255, 255, 0.4);
-    z-index:3;
+    z-index:10;
     transform:translateY(-50.5%);   // blur 현상이 발생하면 50.5% or 50%로 수정
     &__menu {
         &--sub {

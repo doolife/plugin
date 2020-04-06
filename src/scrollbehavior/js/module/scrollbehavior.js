@@ -1,5 +1,3 @@
-// import Info from "./sceneInfo";
-
 class scrollbehavior {
     constructor(opts){
         this.opts = Object.assign({
@@ -38,7 +36,6 @@ class scrollbehavior {
     _init(){
         this._settings();
         this._controls();
-        this.anchorWheel();
     }
 
     _controls(){
@@ -172,29 +169,29 @@ class scrollbehavior {
     }
 
     sceneAnimation(eleData){
-        let currY, prevY;
+        let currPos = {yPercent:0}, prevPos = {yPercent:0};
         if(this.situation()==2){
-            currY = 0;
-            prevY = 0;
+            currPos.yPercent = 0;
+            prevPos.yPercent = 0;
         }else if(this.situation()==1){
-            currY = 100;
-            prevY = -100;
+            currPos.yPercent = 100;
+            prevPos.yPercent = -100;
         }else{
-            currY = -100;
-            prevY = 100;
-        }
+            currPos.yPercent = -100;
+            prevPos.yPercent = 100;
+        };
 
-        TweenMax.fromTo(eleData, 0.75, {yPercent:currY, scale:1.15}, {yPercent:0, autoAlpha:1, scale:1.0, onComplete:()=>{
-            this.isScrolling = false;
-        }});
-        TweenMax.to(eleData.parentElement, 0.75, {autoAlpha:1, zIndex:2});
+        TweenMax.fromTo(eleData, 1.1, currPos, {yPercent:0, ease:Power1.easeOut, onComplete:()=>{
+                this.isScrolling = false;
+            }});
+        TweenMax.set(eleData.parentElement, {autoAlpha:1, zIndex:7});
+        TweenMax.set(eleData, {autoAlpha:1, zIndex:6});
 
         if(this.prevScene!==undefined){
-            TweenMax.to(this.prevScene, 0.75, {yPercent:prevY});
-            if(eleData.parentElement!==this.prevScene.parentElement){
-                TweenMax.to(this.prevScene.parentElement, 0, {zIndex:1});
-            };
-        }
+            TweenMax.fromTo(this.prevScene, 1.1, {yPercent:0}, prevPos);
+            TweenMax.set(this.prevScene, {zIndex:4});
+            if(eleData.parentElement!==this.prevScene.parentElement) TweenMax.set(this.prevScene.parentElement, {zIndex:5});
+        };
     }
 
     anchorWheel(){
@@ -209,21 +206,21 @@ class scrollbehavior {
     anchorClass(strIdx){
         let addElement;
         Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
-            ele.offsetParent.classList.remove("p-nav__list--on");
+            ele.parentNode.classList.remove("p-nav__list--on");
         });
 
         Array.prototype.slice.call(this.menuList).forEach((ele, idx)=>{
             let dataKey = ele.getAttribute("data-key");
             if(ele.getAttribute("data-key")==strIdx){
                 let dataSplit = dataKey.split("-");
-                ele.offsetParent.classList.add("p-nav__list--on");
+                ele.parentNode.classList.add("p-nav__list--on");
                 if(dataSplit[1]===undefined){
                     addElement = document.querySelector(`[data-key=${dataSplit[0]+"-1"}]`);
                     if(addElement===null) return false;
                 }else{
                     addElement = document.querySelector(`[data-key=${dataSplit[0]}]`);
                 }
-                addElement.offsetParent.classList.add("p-nav__list--on");
+                addElement.parentNode.classList.add("p-nav__list--on");
             }
         });
     }

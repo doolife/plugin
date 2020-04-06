@@ -12,7 +12,6 @@ const scrollbehavior = new Scrollbehavior({
     info:Info,
     idx:"scene1-2",
     sceneCallback:(currentId, previousId)=>{
-        console.log(currentId, previousId)
         switch (true) {
             case currentId==="scene1-1":
                 page1.palyAnimation();
