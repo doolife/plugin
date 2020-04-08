@@ -51,10 +51,13 @@ class scrollbehavior {
 
     _settings(){
         TweenMax.to(this.scene, 0, {autoAlpha:0});
-        if(!window.location.hash){
+
+        let hashStr = window.location.hash;
+        if(!hashStr){
             this.sceneAction(this.infoFind(this.opts.idx));
         }else{
-            this.sceneAction(this.infoFind(this.strConversion(window.location.hash)));
+            let hashChk = (!this.infoFind(this.strConversion(hashStr))) ? this.opts.info[0].sub[0].key : hashStr;
+            this.sceneAction(this.infoFind(this.strConversion(hashChk)));
         }
     }
 
@@ -228,7 +231,6 @@ class scrollbehavior {
 
     set setMove(eleData){
         if(eleData===this.prevScene || eleData===undefined) return false;
-        console.log(this.prevScene, eleData)
         this.sceneAction(eleData);
     }
 }
