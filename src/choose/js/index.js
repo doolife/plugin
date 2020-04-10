@@ -12,8 +12,10 @@ const choose = new Choose({
 });
 
 $(".btn__cht").on("click", ()=>{
+    console.log(choose.opts.complete)
+    if(choose.opts.complete) return;
     console.log(choose.curr.tribe, choose.curr.job, choose.curr.gender)
 });
 
 // 캐릭터 선택 완료시
-// choose.complete = [1, 16, 0,true];
+// choose.complete = [1, 16, 0, true];

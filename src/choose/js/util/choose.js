@@ -10,9 +10,10 @@ class Choose{
             complete:false
         }, opts);
 
-        this.$tabWrap = $(this.opts.el).find("[data-tab-wrap]");
-        this.$tribeWrap = $(this.opts.el).find("[data-tribe-wrap]");
-        this.$genderWrap = $(this.opts.el).find("[data-gender-wrap]");
+        this.$el = $(this.opts.el);
+        this.$tabWrap = this.$el.find("[data-tab-wrap]");
+        this.$tribeWrap = this.$el.find("[data-tribe-wrap]");
+        this.$genderWrap = this.$el.find("[data-gender-wrap]");
 
         this.$target = "";
 
@@ -100,14 +101,11 @@ class Choose{
     }
 
     jobMovie(movieId){
-        this.$target = this.$tribeWrap.find(`[data-tribe=${this.curr.tribe}]`).find(`[data-job=${movieId}]`);
-        this.$currMovieId = this.$target.find("[data-movie]").attr("id");
-        console.log(this.$prevMovieId, this.prev.job, this.$currMovieId, this.curr.job);
-        this.$prevMovieId = this.$currMovieId;
+        console.log(this.curr.tribe, this.prev.job, this.curr.job, `movie__${movieId}`);
     }
 
     jobImage(imgId){
-        console.log(this.curr.tribe, `image__${imgId}`);
+        console.log(this.curr.tribe, this.prev.job, this.curr.job, `image__${imgId}`);
     }
 
     set complete(setArr){
