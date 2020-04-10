@@ -1,42 +1,36 @@
 import '../sass/index.scss';
 import Scrollmove from "./util/scrollmove";
-import headerfix from "./util/headerfix";
-import wheeldata from "./util/wheeldata";
+import Headerfix from "./util/headerfix";
+import Wheeldata from "./util/wheeldata";
 
-let isScrolling = false;
+let $element = $(`[data-fix="contents"]`);
+let isAnimation = false;
 let scrollCheck = true;
 
-const scrollmove = new Scrollmove({
-    el:"#contents"
-});
-
-scrollmove.on("end", ()=>{
+$element.on("end", ()=>{
+    if(!isAnimation) return;
     console.log("end!")
-    isScrolling = false;
+    isAnimation = false;
 });
 
 $("#container").on("mousewheel DOMMouseScroll", (e)=>{
-    if(!isScrolling){
-        if(wheeldata(e)>0 && scrollCheck){
-            e.preventDefault();
-            isScrolling = true;
-            scrollmove.move();
-
-        }
-    }else{
+    if(isAnimation) {e.preventDefault(); return;}
+    if(Wheeldata(e)>0 && scrollCheck){
         e.preventDefault();
+        isAnimation = true;
+        Scrollmove.move(`[data-fix="contents"]`);
     }
 });
 
-$(window).on("resize", (e)=>{
-    headerfix(window.innerHeight);
-}).resize();
-
 $(window).on("scroll", (e)=>{
-    let scTop = $(window).scrollTop();
-    if(scTop<$(window).height()){
+    let scTop = $(e.currentTarget).scrollTop();
+    if(scTop<$element.offset().top){
         scrollCheck = true;
     }else{
         scrollCheck = false;
     }
 });
+
+$(window).on("resize", (e)=>{
+    Headerfix(window.innerHeight);
+}).resize();
