@@ -8,8 +8,9 @@ class splitexpand {
             speed:500
         }, opts);
 
+        this.$el = $(this.opts.el);
+        this.$list = this.$el.find(".split-expand__list");
         this.setStr = null;
-        this.$ele = $(this.opts.el).find(".split-expand__list");
 
         this.init();
     };
@@ -17,24 +18,32 @@ class splitexpand {
 
     init(){
         this.controls();
-        this.resetWidth();
+        this.resetAct();
     };
 
     controls(){
-        let context = this;
-        this.$ele.on({
-            mouseenter:function(){
-                context.$ele.stop().animate({width:context.opts.down}, context.opts.speed);
-                $(this).stop().animate({width:context.opts.over}, context.opts.speed);
+        this.$list.on({
+            mouseenter:(evt)=>{
+                this.overAct(evt);
             },
-            mouseleave:function(){
-                context.resetWidth();
+            mouseleave:()=>{
+                this.resetAct();
             }
         });
     };
 
-    resetWidth(){
-        $.each(this.$ele, (index, element)=>{
+    overAct(evt){
+        $.each(this.$list, (index, element)=>{
+            if(element===evt.currentTarget) {
+                $(element).stop().animate({width:this.opts.over}, this.opts.speed);
+            }else{
+                $(element).stop().animate({width:this.opts.down}, this.opts.speed);
+            };
+        });
+    }
+
+    resetAct(){
+        $.each(this.$list, (index, element)=>{
             this.setStr && $(element).stop().animate({width:this.opts.resetArr[index]}, this.opts.speed);    // this.setStr === true 일 경우 뒤의 값을 반환
             this.setStr || $(element).css({width:this.opts.resetArr[index]});    // this.setStr === false 일 경우 뒤의 값을 반환
         });
