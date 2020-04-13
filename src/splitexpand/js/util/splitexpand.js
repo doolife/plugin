@@ -25,7 +25,10 @@ class splitexpand {
         this.$list.on({
             mouseenter:(evt)=>{
                 this.overAct(evt);
-            },
+            }
+        });
+
+        this.$el.on({
             mouseleave:()=>{
                 this.resetAct();
             }
