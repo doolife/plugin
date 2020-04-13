@@ -22,17 +22,8 @@ class splitexpand {
     };
 
     controls(){
-        this.$list.on({
-            mouseenter:(evt)=>{
-                this.overAct(evt);
-            }
-        });
-
-        this.$el.on({
-            mouseleave:()=>{
-                this.resetAct();
-            }
-        });
+        this.$list.on("mouseenter", evt=> this.overAct(evt));
+        this.$el.on("mouseleave", ()=> this.resetAct());
     };
 
     overAct(evt){
