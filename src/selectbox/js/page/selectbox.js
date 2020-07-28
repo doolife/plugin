@@ -22,15 +22,12 @@ class Selectbox {
         this.controls();
     }
     controls(){
-        this.elTitle.addEventListener("click", this.display.bind(this));
+        this.elWrap.addEventListener("click", this.display.bind(this));
 
         this.elListWrap.addEventListener("click", this.listSelect.bind(this));
 
         document.addEventListener("click", ()=>{
-            if(this.actvieChk==true){
-                console.log("document")
-                this.remove();
-            };
+            if(this.actvieChk==true) this.remove();
         });
     }
     display(evt){
