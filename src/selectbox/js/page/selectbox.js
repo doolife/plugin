@@ -1,19 +1,16 @@
 class Selectbox {
     constructor(opts){
-        this.opts = Object.assign({
+        this.opts = $.extend(true, {
             el:"#select1",
-            scHeight:400,
-            listDisabled:false
+            height:400
         }, opts);
 
-        if(document.querySelector(this.opts.el)==null) return false;
-        this.elWrap = document.querySelector(this.opts.el);
-        this.elComWrap = document.querySelectorAll("[data-select='wrap']");
-        this.elTitle = this.elWrap.querySelector("[data-select='title']");
-        this.elListWrap = this.elWrap.querySelector("[data-select='listWrap']");
+        this.$wrap = $(this.opts.el);
+        this.$title = this.$wrap.find("[data-select='title']");
+        this.$menu = this.$wrap.find("[data-select='menu']");
+        this.$list = this.$wrap.find("[data-select='list']");
 
-        this.tagClone = "";
-        this.actvieChk;
+        this.status;
 
         this.init();
     }
@@ -21,72 +18,40 @@ class Selectbox {
     init() {
         this.controls();
     }
+
     controls(){
-        this.elWrap.addEventListener("click", this.display.bind(this));
-
-        this.elListWrap.addEventListener("click", this.listSelect.bind(this));
-
-        document.addEventListener("click", ()=>{
-            if(this.actvieChk==true) this.remove();
-        });
+        this.$title.on("click", (evt)=> {this.display(evt)});
+        this.$wrap.on("click", "[data-select='list']", (evt)=> {this.copyAndPaste(evt)});
+        $(document).on("click", (evt)=> {if(this.status===true) this.hide()});
     }
+
     display(evt){
         evt.stopPropagation();
-        if(evt.currentTarget.hasAttribute("disabled")) return;
-        if(!evt.currentTarget.classList.contains("active")){
-            this.remove();
-            this.active();
+        if(this.$wrap.attr("disabled")!==undefined) return;
+        if(!this.$wrap.hasClass("active")){
+            this.hide();
+            this.show();
         }else{
-            this.remove();
-        };
-    }
-    active(){
-        this.actvieChk = true;
-        this.elWrap.classList.add("active");
-        this.elTitle.classList.add("active");
-        this.elListWrap.classList.add("active");
-        if(this.elListWrap.clientHeight>=this.opts.scHeight){
-            this.elListWrap.style.height = this.opts.scHeight+"px";
-            this.elListWrap.style.overflowY = "auto";
-        };
-    }
-    remove(){
-        this.actvieChk = false;
-        Array.from(this.elComWrap).forEach((contents)=>{
-            if(contents.querySelector("[data-select='listWrap']")!=null){
-                contents.classList.remove("active");
-                contents.querySelector("[data-select='title']").classList.remove("active");
-                contents.querySelector("[data-select='listWrap']").classList.remove("active");
-            };
-        });
-        this.elListWrap.style.height = "";
-        this.elListWrap.style.overflowY = "";
-    }
-    select(){
-        let txt = this.elTitle.querySelector("[data-tit='text']");
-        let tag = this.elTitle.querySelector("[data-result='text']");
-
-        if(txt!=null){
-            this.elTitle.removeChild(txt);
-        }else{
-            this.elTitle.removeChild(tag);
-        };
-
-        this.remove();
-        this.elTitle.appendChild(this.tagClone);
-    }
-    listSelect(evt){
-        evt.stopPropagation();
-        if(this.opts.listDisabled) return false;
-        let target = evt.target;
-        while (target && target.parentNode !== this.elListWrap) {
-            target = target.parentNode;   // 클릭된 요소가 직접 자식이 아닌 경우
-            if(!target) return;     // 요소가 없는 경우
+            this.hide();
         }
-        if (target.tagName === 'LI'){   // 요소가 LI 인지 확인
-            this.tagClone = target.children[0].cloneNode(true)
-            this.select();
-        }
+    }
+
+    show(){
+        this.$wrap.addClass("active");
+        this.$menu.css({height:this.opts.height, overflowY:"auto"});
+        this.status = true;
+    }
+
+    hide(){
+        $("[data-select='wrap']").removeClass("active");
+        this.$menu.css({height:"", overflowY:""});
+        this.status = false;
+    }
+
+    copyAndPaste(evt){
+        this.hide();
+        let clones = $(evt.currentTarget).find("[data-result]").clone();
+        this.$title.empty().append(clones);
     }
 }
 
