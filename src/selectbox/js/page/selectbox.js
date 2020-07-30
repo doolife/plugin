@@ -2,7 +2,8 @@ class Selectbox {
     constructor(opts){
         this.opts = $.extend(true, {
             el:"#select1",
-            height:400
+            height:400,
+            listDisabled:false
         }, opts);
 
         this.$wrap = $(this.opts.el);
@@ -49,6 +50,10 @@ class Selectbox {
     }
 
     copyAndPaste(evt){
+        if(this.opts.listDisabled) {
+            evt.stopPropagation();
+            return;
+        }
         this.hide();
         let clones = $(evt.currentTarget).find("[data-result]").clone();
         this.$title.empty().append(clones);

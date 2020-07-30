@@ -3,17 +3,20 @@ import Selectbox from './page/selectbox';
 
 const selectbox1 = new Selectbox({
     el:"#select1",
-    height:400
+    height:400,
+    listDisabled:false
 })
 
 const selectbox2 = new Selectbox({
     el:"#select2",
-    height:300
+    height:300,
+    listDisabled:false
 })
 
 const selectbox3 = new Selectbox({
     el:"#select3",
-    height:200
+    height:200,
+    listDisabled:true
 })
 
 for (let i = 0; i < 9; i++) {
