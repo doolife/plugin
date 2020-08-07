@@ -20,11 +20,11 @@ const selectbox3 = new Selectbox({
 })
 
 for (let i = 0; i < 9; i++) {
-    document.querySelector(".s1").querySelector(".select-box__menu").innerHTML += "<li data-select='list' data-id='"+i+"'><div data-result='text'>1_"+i+"</div></li>";
+    document.querySelector(".s1").querySelector(".select-box__menu").innerHTML += "<li data-select='list' data-id='"+i+"'><div data-result='text'><i>1_"+i+"</i></div></li>";
 }
 
 for (let i = 0; i < 4; i++) {
-    document.querySelector(".s3").querySelector(".select-box__menu").innerHTML += "<li data-select='list' data-id='"+i+"'><div data-result='text'><span>서버</span><span>캐릭터</span>3_"+i+"</div></li>";
+    document.querySelector(".s3").querySelector(".select-box__menu").innerHTML += "<li data-select='list' data-id='"+i+"'><div data-result='text'><i>서버</i><i>캐릭터</i>3_"+i+"</div></li>";
 }
 $("body").on("click", "[data-select=list]", function(){
     console.log("body!!")
