@@ -84,8 +84,8 @@ class Selection{
 
     setTribe(value){
         this.curr.tribe = value;
-        this.$tabWrap.find(`[data-tab]`).removeClass("p-tab__list--on");
-        this.$tabWrap.find(`[data-tab=${value}]`).addClass("p-tab__list--on");
+        this.$tabWrap.find(`[data-tab]`).removeClass("sele-tab__list--on");
+        this.$tabWrap.find(`[data-tab=${value}]`).addClass("sele-tab__list--on");
     }
 
     setGender(value){

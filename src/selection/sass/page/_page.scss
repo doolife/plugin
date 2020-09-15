@@ -1,5 +1,6 @@
 /* 탭메뉴 */
-.p-tab {
+.sele-tab {
+    $self:&;
     &__menu {
         text-align:center;
     }
@@ -10,7 +11,7 @@
         background-color:lightgray;
         &--on {
             background-color:darkslategray;
-            .p-tab__btn {
+            #{$self}__btn {
                 color:#fff;
             }
         }
@@ -21,12 +22,14 @@
         display:block;
     }
 }
-.selection {
+
+.sele-con {
     margin:0 auto 0;
     width:500px;
     height:400px;
     position:relative;
 }
+
 /* 성별 */
 .gender {
     width:100%;
@@ -86,7 +89,7 @@
     }
 }
 /* 직업 */
-.selection {
+.sele-con {
     &__tribe {
         width:100%;
         height:100%;
