@@ -86,15 +86,22 @@ class Selection{
         this.curr.tribe = value;
         this.$tabWrap.find(`[data-tab]`).removeClass("sele-tab__list--on");
         this.$tabWrap.find(`[data-tab=${value}]`).addClass("sele-tab__list--on");
+        this.$tribeWrap.find(`[data-tribe]`).removeClass("sele-con__tribe--on");
+        this.$tribeWrap.find(`[data-tribe=${value}]`).addClass("sele-con__tribe--on");
     }
 
     setGender(value){
+        let parent = this.$tribeWrap.find(`[data-tribe=${this.curr.tribe}]`);
         this.curr.gender = value;
         this.$genderWrap.find(`[data-gender]`).removeClass("gender__list--on");
         this.$genderWrap.find(`[data-gender=${value}]`).addClass("gender__list--on");
+        this.$tribeWrap.find(`[data-movie-wrap]`).removeClass("sele-con__movie--on");
+        parent.find(`[data-movie-wrap=${value}]`).addClass("sele-con__movie--on");
     }
 
     setJob(value){
+        let parent1 = this.$tribeWrap.find(`[data-tribe=${this.curr.tribe}]`);
+        let parent2 = parent1.find(`[data-movie-wrap=${this.curr.gender}]`);
         this.curr.job = value;
         $.each(chtinfo[this.curr.tribe][this.curr.gender], (key, value)=>{
             let $ele = $(this.$jobWrap.find("[data-job-menu]")[key]);
@@ -103,6 +110,8 @@ class Selection{
         });
         this.$jobWrap.find(`[data-job-menu]`).removeClass("job-menu__list--on");
         this.$jobWrap.find(`[data-job-menu=${value}]`).addClass("job-menu__list--on");
+        this.$tribeWrap.find(`[data-job]`).removeClass("sele-con__job--on");
+        parent2.find(`[data-job=${value}]`).addClass("sele-con__job--on");
         this.checkDevice(value);
     }
 
