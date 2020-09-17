@@ -1,4 +1,5 @@
-import chtinfo from "./cht-info";
+import chtInfo from "./cht-info";
+import videoInfo from "./video-info";
 class Selection{
     constructor(opts){
         this.opts = $.extend(false ,{
@@ -31,6 +32,9 @@ class Selection{
             job:"",
         };
 
+        this.search = [];
+        this.targetEvent = "tribe";
+
         this.isMobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
 
         this._init();
@@ -50,19 +54,23 @@ class Selection{
     _controls(){
         this.$tabWrap.find("[data-tab]").on("click", (evt)=>{
             if(this.opts.complete) return;
+            this.targetEvent = "tribe";
             let targetData = $(evt.currentTarget).data("tab");
-            let targetArr1 = Number(Object.keys(chtinfo[targetData])[0][0]);
-            let targetArr2 = chtinfo[targetData][0].find(this.searchArr);
+            let targetArr1 = Number(Object.keys(videoInfo[targetData])[0]);
+            this.aaa(videoInfo[targetData][0]);
+            console.log(this.search)
+            // let targetArr2 = chtInfo[targetData][0].find(this.searchArr);
             if(this.curr.tribe === targetData) return;
             this.setTribe(targetData);
             this.setGender(targetArr1);
-            this.setJob(targetArr2);
+            // this.setJob(targetArr2);
         });
 
         this.$genderWrap.find("[data-gender]").on("click", (evt)=>{
             if(this.opts.complete) return;
+            this.targetEvent = "gender";
             let targetData = $(evt.currentTarget).data("gender");
-            let targetArr2 = chtinfo[this.curr.tribe][targetData].find(this.searchArr);
+            let targetArr2 = chtInfo[this.curr.tribe][targetData].find(this.searchArr);
             if(this.curr.gender === targetData) return;
             this.setGender(targetData);
             this.setJob(targetArr2);
@@ -70,16 +78,23 @@ class Selection{
 
         this.$jobWrap.find("[data-job-menu]").on("click", (evt)=>{
             if(this.opts.complete) return;
+            this.targetEvent = "job";
             let targetData = $(evt.currentTarget).data("job-menu");
             if(this.curr.job === Number(targetData)) return;
             this.setJob(Number(targetData));
         });
     }
 
-    searchArr(value){
-        if(value !== "")  {
-            return true;
-        }
+    aaa(str){
+        $.each(str, (key, value)=>{
+            if(value!==""){
+                this.search.push(value.number);
+            }
+        });
+    }
+
+    searchArr(str){
+        console.log(str)
     }
 
     setTribe(value){
@@ -103,7 +118,7 @@ class Selection{
         let $parent1 = this.$tribeWrap.find(`[data-tribe=${this.curr.tribe}]`);
         let $parent2 = $parent1.find(`[data-movie-wrap=${this.curr.gender}]`);
         this.curr.job = value;
-        $.each(chtinfo[this.curr.tribe][this.curr.gender], (key, value)=>{
+        $.each(chtInfo[this.curr.tribe][this.curr.gender], (key, value)=>{
             let $ele = $(this.$jobWrap.find("[data-job-menu]")[key]);
             $ele.attr("data-job-menu", `${value}`).data("job-menu", `${value}`);
             ($ele.data("job-menu")!=="") ? $ele.css({display:"inline-block"}) : $ele.css({display:"none"}) ;
@@ -116,19 +131,24 @@ class Selection{
     }
 
     checkDevice(value){
-        (this.isMobile===null) ? this.jobMovie(value) : this.jobImage(value);
+        if(this.isMobile===null){
+            // console.log(videoInfo[this.curr.tribe][this.curr.gender][this.curr.job]);
+        }else{
+            console.log(this.prev.tribe, this.prev.gender, this.prev.job, "이전", this.curr.tribe, this.curr.gender, this.curr.job, "현재", `image__${value}`);
+        }
+        this.methodDepth("callback");
         this.prev.tribe = this.curr.tribe;
         this.prev.gender = this.curr.gender;
         this.prev.job = this.curr.job;
     }
 
-    jobMovie(value){
-        console.log(this.prev.tribe, this.prev.gender, this.prev.job, "이전", this.curr.tribe, this.curr.gender, this.curr.job, "현재", `movie__${value}`);
-    }
+    methodDepth(funcValue){
+        if (typeof this.opts[`${funcValue}`] == "function") this.opts[`${funcValue}`].call(this);
+    };
 
-    jobImage(value){
-        console.log(this.prev.tribe, this.prev.gender, this.prev.job, "이전", this.curr.tribe, this.curr.gender, this.curr.job, "현재", `image__${value}`);
-    }
+    on(event, func){
+        this.$el.on(event, func);
+    };
 
     set complete(value){
         this.setTribe(value[0]);

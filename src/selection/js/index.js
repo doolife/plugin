@@ -11,11 +11,11 @@ const selection = new Selection({
     complete:false
 });
 
-$(".btn__cht").on("click", ()=>{
-    console.log(selection.opts.complete)
-    if(selection.opts.complete) return;
-    console.log(selection.curr.tribe, selection.curr.gender, selection.curr.job)
-});
+// $(".btn__cht").on("click", ()=>{
+//     console.log(selection.opts.complete)
+//     if(selection.opts.complete) return;
+//     console.log(selection.curr.tribe, selection.curr.gender, selection.curr.job)
+// });
 
 // 캐릭터 선택 완료시
 // selection.complete = [2, 1, 31, true];
