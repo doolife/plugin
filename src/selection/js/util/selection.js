@@ -1,4 +1,3 @@
-import chtInfo from "./cht-info";
 import videoInfo from "./video-info";
 class Selection{
     constructor(opts){
@@ -32,7 +31,6 @@ class Selection{
             job:"",
         };
 
-        this.search = [];
         this.targetEvent = "tribe";
 
         this.isMobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i);
@@ -57,20 +55,18 @@ class Selection{
             this.targetEvent = "tribe";
             let targetData = $(evt.currentTarget).data("tab");
             let targetArr1 = Number(Object.keys(videoInfo[targetData])[0]);
-            this.aaa(videoInfo[targetData][0]);
-            console.log(this.search)
-            // let targetArr2 = chtInfo[targetData][0].find(this.searchArr);
+            let targetArr2 = this.searchArr(videoInfo[targetData][0]);
             if(this.curr.tribe === targetData) return;
             this.setTribe(targetData);
             this.setGender(targetArr1);
-            // this.setJob(targetArr2);
+            this.setJob(targetArr2);
         });
 
         this.$genderWrap.find("[data-gender]").on("click", (evt)=>{
             if(this.opts.complete) return;
             this.targetEvent = "gender";
             let targetData = $(evt.currentTarget).data("gender");
-            let targetArr2 = chtInfo[this.curr.tribe][targetData].find(this.searchArr);
+            let targetArr2 = this.searchArr(videoInfo[this.curr.tribe][targetData]);
             if(this.curr.gender === targetData) return;
             this.setGender(targetData);
             this.setJob(targetArr2);
@@ -85,16 +81,15 @@ class Selection{
         });
     }
 
-    aaa(str){
+    searchArr(str){
+        let num;
         $.each(str, (key, value)=>{
             if(value!==""){
-                this.search.push(value.number);
+                num = value.number;
+                return false;
             }
         });
-    }
-
-    searchArr(str){
-        console.log(str)
+        return num;
     }
 
     setTribe(value){
@@ -118,10 +113,10 @@ class Selection{
         let $parent1 = this.$tribeWrap.find(`[data-tribe=${this.curr.tribe}]`);
         let $parent2 = $parent1.find(`[data-movie-wrap=${this.curr.gender}]`);
         this.curr.job = value;
-        $.each(chtInfo[this.curr.tribe][this.curr.gender], (key, value)=>{
+        $.each(videoInfo[this.curr.tribe][this.curr.gender], (key, value)=>{
             let $ele = $(this.$jobWrap.find("[data-job-menu]")[key]);
-            $ele.attr("data-job-menu", `${value}`).data("job-menu", `${value}`);
-            ($ele.data("job-menu")!=="") ? $ele.css({display:"inline-block"}) : $ele.css({display:"none"}) ;
+            $ele.attr("data-job-menu", `${value.number}`).data("job-menu", `${value.number}`);
+            ($ele.data("job-menu")!=="undefined") ? $ele.css({display:"inline-block"}) : $ele.css({display:"none"}) ;
         });
         this.$jobWrap.find(`[data-job-menu]`).removeClass("job-menu__list--on");
         this.$jobWrap.find(`[data-job-menu=${value}]`).addClass("job-menu__list--on");
@@ -132,7 +127,11 @@ class Selection{
 
     checkDevice(value){
         if(this.isMobile===null){
-            // console.log(videoInfo[this.curr.tribe][this.curr.gender][this.curr.job]);
+            $.each(videoInfo[this.curr.tribe][this.curr.gender], (key, value)=>{
+                if(this.curr.job===value.number){
+                    console.log(value)
+                }
+            });
         }else{
             console.log(this.prev.tribe, this.prev.gender, this.prev.job, "이전", this.curr.tribe, this.curr.gender, this.curr.job, "현재", `image__${value}`);
         }
