@@ -1,8 +1,9 @@
 import 'babel-polyfill';
 import '../sass/index.scss';
-import Imgslider from './page/imgslider';
+import imgslider from './page/imgslider';
+import videoControl from './page/video-control';
 
-const imgslider1 = new Imgslider({
+const imgslider1 = new imgslider({
     el:"#slider1",
     idx:1,
     btn:true,
@@ -12,17 +13,19 @@ const imgslider1 = new Imgslider({
     infinity:true,
     speed:500,
     initCallback(){
-        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "initCallback", this)
+        videoControl(this.currId)
+        // console.log(this.currId, this.prevId, this.currNum, this.prevNum, "initCallback", this)
     },
     startCallback(){
-        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "startCallback")
+        videoControl(this.currId)
+        // console.log(this.currId, this.prevId, this.currNum, this.prevNum, "startCallback")
     },
     endCallback(){
-        console.log(this.currId, this.prevId, this.currNum, this.prevNum, "endCallback")
+        // console.log(this.currId, this.prevId, this.currNum, this.prevNum, "endCallback")
     }
 });
 
-const imgslider2 = new Imgslider({
+const imgslider2 = new imgslider({
     el:"#slider2",
     idx:2,
     btn:true,
@@ -35,7 +38,7 @@ const imgslider2 = new Imgslider({
     }
 });
 
-const imgslider3 = new Imgslider({
+const imgslider3 = new imgslider({
     el:"#slider3",
     idx:0,
     btn:true,
