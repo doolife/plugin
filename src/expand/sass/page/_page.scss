@@ -1,0 +1,106 @@
+#contents {
+    width:100%;
+    height:100%;
+    position:relative;
+}
+.expand {
+    width:100%;
+    height:100%;
+    position:relative;
+    background-color:#000;
+    overflow:hidden;
+    &--list {
+        position:absolute;
+        overflow:hidden;
+        background-color:#000;
+    }
+    &--bg {
+        width:100%;
+        height:100%;
+        position:absolute;
+        left:0;
+        top:0;
+    }
+    &__bg1 {
+        @include bg(
+            $bg:"expand1.jpg",
+            $position:center
+        );
+        background-size:cover;
+    }
+    &__bg2 {
+        @include bg(
+            $bg:"expand2.jpg",
+            $position:center
+        );
+        background-size:cover;
+    }
+    &__bg3 {
+        @include bg(
+            $bg:"expand3.jpg",
+            $position:center
+        );
+        background-size:cover;
+    }
+    &--layer {
+        position:absolute;
+        top:0;
+        right:0;
+        bottom:0;
+        left:0;
+        opacity:0;
+    }
+    &__layer1 {
+        @include bg(
+            $bg:"expand1.jpg",
+            $position:center
+        );
+        background-size:cover;
+    }
+    &__layer2 {
+        @include bg(
+            $bg:"expand2.jpg",
+            $position:center
+        );
+        background-size:cover;
+    }
+    &__layer3 {
+        @include bg(
+            $bg:"expand3.jpg",
+            $position:center
+        );
+        background-size:cover;
+    }
+    &__close {
+        width:44px;
+        height:44px;
+        font-size:0;
+        display:block;
+        position:absolute;
+        right:20px;
+        top:20px;
+        transition:1s;
+        &:before, &:after {
+            content:"";
+            margin:-1px 0 0 -22px;
+            width:44px;
+            height:2px;
+            position:absolute;
+            left:50%;
+            top:50%;
+            background:#fff;
+            transition:1s;
+            transform:rotate(45deg);
+        }
+        &:after {
+            transform:rotate(-45deg);
+        }
+        &:hover {
+            transform:rotate(360deg);
+
+            &:before, &:after {
+                background:#ffdd80;
+            }
+        }
+    }
+}
