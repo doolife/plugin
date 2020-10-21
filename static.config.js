@@ -1,5 +1,5 @@
 let config = {
-    path: 'scrollbehavior'
+    path: 'draggable'
 };
 
 module.exports = config;
