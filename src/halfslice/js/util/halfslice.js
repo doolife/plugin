@@ -1,7 +1,11 @@
 class Halfslice {
     constructor(opts){
         this.opts = $.extend({
-            el:"#contents"
+            el:"#contents",
+            speed:1000,
+            endCallback(){
+
+            }
         }, opts);
 
         this.$el = $(this.opts.el);
@@ -40,11 +44,13 @@ class Halfslice {
         this.$left = this.$el.find(".slice__left");
         this.$right = this.$el.find(".slice__right");
 
-        this.$left.stop().animate({right:"50%"}, 1000, ()=>{
+        this.$left.stop().animate({right:"50%"}, this.opts.speed, ()=>{
             this.isAnimation = true;
+            this.methodDepth("endCallback");
+            this.$el.trigger("end");
         });
 
-        this.$right.stop().animate({left:"50%"}, 1000);
+        this.$right.stop().animate({left:"50%"}, this.opts.speed);
     }
 
     reset(){
@@ -53,6 +59,14 @@ class Halfslice {
         this.$right.remove();
         this.$left.removeClass("slice__left").css({width:"", right:""});
     }
+
+    on(event, func){
+        this.$el.on(event, func);
+    };
+
+    methodDepth(funcValue){
+        if (typeof this.opts[`${funcValue}`] == "function") this.opts[`${funcValue}`].call(this);
+    };
 }
 
 export default Halfslice;
