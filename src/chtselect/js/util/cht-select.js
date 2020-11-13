@@ -14,6 +14,7 @@ class ChtSelect{
         this.$role = this.$wrap.find("[data-role]");
         this.$roleWrap = this.$wrap.find("[data-list-wrap]");
         this.listArr = [];
+        this.currArr;
 
         this._init();
     }
@@ -50,11 +51,22 @@ class ChtSelect{
             TweenMax.to(this.$wrap.find(`[data-role=${this.listArr[i]}]`), 0.3, roleCht[i]);
             TweenMax.to(this.$wrap.find(`[data-role=${this.listArr[i]}]`).find("[data-list-wrap]"), 0.3, findCht[i]);
         };
+        this.currArr = this.listArr[num];
+        this.methodDepth("enterCallback");
+    }
+
+    on(event, func){
+        this.$el.on(event, func);
+    }
+
+    methodDepth(funcValue){
+        if (typeof this.opts[`${funcValue}`] == "function") this.opts[`${funcValue}`].call(this);
     }
 
     reset(){
         TweenMax.to(this.$role, 0.3, {zIndex:1});
         TweenMax.to(this.$roleWrap, 0.3, {x:0, scale:1});
+        this.methodDepth("leaveCallback");
     }
 }
 
