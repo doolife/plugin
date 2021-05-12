@@ -9,7 +9,7 @@ const timer = new Timer({
 
 $(".btn_start").on("click", function(){
     timer.cleartimer(true);
-    timer.countdown(0.1);
+    timer.countdown(5);
 });
 
 $(".btn_stop").on("click", function(){
