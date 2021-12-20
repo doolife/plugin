@@ -1,0 +1,103 @@
+.board {
+    margin:10px auto 0;
+    max-width:500px;
+    text-align:center;
+    position:relative;
+    &--tit {
+        margin-top:10px;
+        text-align:center;
+        font-size:18px;
+        font-weight:bold;
+    }
+    &--wrap {
+        margin-top:10px;
+        padding:0 30px 0 30px;
+        height:100%;
+    }
+    &__btn {
+        margin-top:-10px;
+        width:30px;
+        height:20px;
+        display:block;
+        font-size:0;
+        position:absolute;
+        top:50%;
+        background:#ddd;
+        &:before {
+            display:block;
+            font-size:11px;
+        }
+        &--prev {
+            &:before {
+                content:"<";
+            }
+            left:-40px;
+        }
+        &--first {
+            &:before {
+                content:"<<";
+            }
+            left:-71px;
+        }
+        &--next {
+            &:before {
+                content:">";
+            }
+            right:-40px;
+        }
+        &--last {
+            &:before {
+                content:">>";
+            }
+            right:-71px;
+        }
+        &--none {
+            cursor:default;
+        }
+    }
+    &__list {
+        margin:10px 5px 0 5px;
+        padding-bottom:10px;
+        text-align:left;
+        vertical-align:top;
+        font-size:12px;
+        border-bottom:1px solid #ddd;
+        &:first-child {
+            margin-top:0;
+            padding-top:10px;
+            border-top:1px solid #ddd;
+        }
+    }
+    &__img {
+        max-width:100%;
+    }
+    &__tit {
+        padding:5px 5px 0 5px;
+        display:inline-block;
+    }
+    &--paging {
+        margin-top:10px;
+        text-align:center;
+        display:inline-block;
+        position:relative;
+    }
+    &__p-btn {
+        margin-right:5px;
+        padding-left:5px;
+        display:inline-block;
+        width:20px;
+        height:20px;
+        line-height:20px;
+        border-left:1px solid #ddd;
+        &:first-child {
+            border-left:0;
+        }
+        &--on {
+            font-weight:bold;
+        }
+    }
+    &__text {
+        margin-top:10px;
+        text-align:center;
+    }
+}
