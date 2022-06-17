@@ -9,7 +9,7 @@ const splitexpand = new Splitexpand({
     down:"25%",
     maxOver:"60%",
     minDown:"20%",
-    clickEvent:false,
+    clickEvent:true,
     speed:500,
     enterCallback(){
         // console.log(this.currIdx, "currIdx")

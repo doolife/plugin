@@ -42,7 +42,6 @@ class splitexpand {
     controls(){
         this.$list.on("click", evt=> {
             if(!this.opts.clickEvent) return;
-            console.log(this.opts.clickEvent)
             this.clickAct(evt);
         });
         this.$list.on("mouseenter", evt=> {
