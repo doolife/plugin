@@ -1,13 +1,23 @@
 html, body {overflow:hidden;}
 
-#smoke {position:absolute;
-    .sprite {background:url("../img/smoke.png") no-repeat center top; background-size:cover;}
+#smoke {
+    position:absolute;
+    background:url("../img/smoke.png") no-repeat;
+    background-size:cover;
 }
-#sprite1 {width:408px; height:406px; overflow:hidden;
-    .sprite {background:url("../img/po.png") no-repeat left center; background-size:cover;}
+#sprite1 {
+    width:408px;
+    height:406px;
+    background:url("../img/po.png") no-repeat left center;
+    background-size:cover;
+    overflow:hidden;
 }
-#sprite2 {width:452px; height:448px; overflow:hidden;
-    .sprite {background:url("../img/he.png") no-repeat left center; background-size:cover;}
+#sprite2 {
+    width:452px;
+    height:448px;
+    background:url("../img/he.png") no-repeat left center;
+    background-size:cover;
+    overflow:hidden;
 }
 .btn_wrap {
     button {width:100px; height:50px; background:#ddd;
