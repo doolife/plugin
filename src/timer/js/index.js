@@ -2,20 +2,27 @@ import '../sass/index.scss';
 import Timer from './page/timer';
 
 const timer = new Timer({
-    el:"#timer",
-    minutes:5,
-    start:false
+    el: "#timer",
+    time: "01:00:05",
+    start: false
 });
 
-$(".btn_start").on("click", function(){
-    timer.cleartimer(true);
-    timer.countdown(5);
+timer.on("end", function () {
+    console.log("종료!!!!!!!!!!!!!!!!!");
 });
 
-$(".btn_stop").on("click", function(){
-    timer.cleartimer(false);
+document.querySelector(".btn_start").addEventListener("click", function () {
+    timer.start();
 });
 
-timer.on("end", function(){
-    console.log("end!!!!!!!!!!!!!!!!!");
-})
+document.querySelector(".btn_pause").addEventListener("click", function () {
+    timer.pause();
+});
+
+document.querySelector(".btn_stop").addEventListener("click", function () {
+    timer.stop();
+});
+
+document.querySelector(".btn_restart").addEventListener("click", function () {
+    timer.restart();
+});

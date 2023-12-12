@@ -1,67 +1,88 @@
 class Timer {
-    constructor(opts){
-        this.opts = $.extend({
-            el:"#timer",
-            minutes:5,
-            start:true
-        }, opts);
+    constructor(options) {
+        const { el, time, start } = Object.assign({
+            el: "#timer",
+            time: "00:00:05",
+            start: false
+        }, options);
 
-        this.$el = $(this.opts.el);
-        this.$count = this.$el.find("[data-time='count']");
-
+        this.el = document.querySelector(el);
+        this.count = this.el.querySelector("[data-time='count']");
         this.state = {
-            timeChk:true
+            time: this.parseTimeToSeconds(time),
+            initialTime: this.parseTimeToSeconds(time),
+            timerId: null,
+            timeChk: false
         };
 
-        this.init();
-    }
+        this.updateDisplay();
 
-    init(){
-        if(!this.opts.start) return false;
-        this.countdown(this.opts.minutes);
-    }
-    countdown(time){
-        if(this.state.timeChk){
-            this.$el.css({opacity:1});
-            this.state.time = time*60*1000;
-        }
-
-        this.state.timerId = setTimeout(()=>{
-            if(this.state.timeChk){
-                this.state.time -= 0;
-                this.state.timeChk = false;
-            }else{
-                this.state.time -= 1000;
-            }
-
-            this.state.min = Math.floor(this.state.time / (60 * 1000));
-            this.state.sec = Math.floor((this.state.time - (this.state.min * 60 * 1000)) / 1000);
-
-            this.state.min = this.state.min < 10 ? "0" + this.state.min : this.state.min;
-            this.state.sec = this.state.sec < 10 ? "0" + this.state.sec : this.state.sec;
-            console.log(this.state.min, this.state.sec)
-
-            this.$count.html(this.state.min + " : " + this.state.sec);
-
-            this.countdown();
-
-            if (this.state.time <= 0) {
-                this.cleartimer(true);
-                this.$count.trigger("end");
-            }
-
-        }, 1000);
-    }
-    cleartimer(str){
-        clearTimeout(this.state.timerId);
-        this.state.timeChk = true;
-        if(!str){
-            this.$el.css({opacity:0});
-            this.$count.html("");
+        if (start) {
+            this.start();
         }
     }
-    on(event, func){
-        return this.$count.on(event, func);
+
+    start() {
+        if (!this.state.timeChk && this.state.time > 0) {
+            const update = () => {
+                this.updateDisplay();
+                this.state.time--;
+
+                if (this.state.time < 0) {
+                    this.pause();
+                    this.triggerEndEvent();
+                } else {
+                    this.state.timerId = setTimeout(update, 1000);
+                }
+            };
+
+            update();
+            this.state.timeChk = true;
+        }
+    }
+
+    stop() {
+        this.pause();
+        this.state.time = 0;
+        this.updateDisplay();
+    }
+
+    pause() {
+        clearInterval(this.state.timerId);
+        this.state.timeChk = false;
+    }
+
+    reset() {
+        this.state.time = this.state.initialTime;
+        this.updateDisplay();
+    }
+
+    restart() {
+        this.stop();
+        this.reset();
+        this.start();
+    }
+
+    updateDisplay() {
+        const hours = Math.floor(this.state.time / 3600);
+        const minutes = Math.floor((this.state.time % 3600) / 60);
+        const seconds = this.state.time % 60;
+
+        this.count.textContent = `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    }
+
+    parseTimeToSeconds(timeString) {
+        const [hours, minutes, seconds] = timeString.split(":").map(part => parseInt(part, 10));
+        return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    triggerEndEvent() {
+        const endEvent = new Event('end');
+        this.count.dispatchEvent(endEvent);
+    }
+
+    on(event, func) {
+        return this.count.addEventListener(event, func);
     }
 }
 
