@@ -61,12 +61,13 @@ class Skewed {
 
     animateImage(el) {
         gsap.to(el, { duration: 0.8, width: '15vw', ease: 'power2.out' });
-        this.emitEvent('enter', parseInt(el.dataset.index));
+        if (!this.clicked) this.emitEvent('enter', parseInt(el.dataset.index));
     }
 
     resetImage(el) {
         gsap.to(el, { duration: 0.8, width: 0, ease: 'power2.out' });
-        this.emitEvent('leave', parseInt(el.dataset.index));
+        if (this.clicked) return;
+        if (!this.clicked) this.emitEvent('leave', parseInt(el.dataset.index));
     }
 
     handleClick(el) {
