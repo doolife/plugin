@@ -1,9 +1,11 @@
 import {gsap} from 'gsap';
 
 class Skewed {
+    // 생성자 함수
     constructor(opts) {
-        this.skewed = document.querySelector(opts.el);
-        this.images = this.skewed.querySelectorAll('.skewed__img');
+        // 옵션에 대한 엘리먼트와 속성 초기화
+        this.$el = document.querySelector(opts.el);
+        this.$list = Array.from(this.$el.children);
         this.width = opts.width;
         this.height = opts.height;
         this.gap = opts.gap;
@@ -11,6 +13,7 @@ class Skewed {
         this.clicked = opts.clicked;
         this.prevEl = null;
         this.prevLeave = false;
+        this.events = {};       // 이벤트 저장할 객체
 
         this.initialClipPath = `polygon(var(--s) 0, 100% 0, calc(100% - var(--s)) 100%, 0 100%)`;
         this.startClipPath = 'polygon(0 0, 100% 0, calc(100% - var(--s)) 100%, 0 100%)';
@@ -19,79 +22,98 @@ class Skewed {
         this.init();
     }
 
+    // 초기화
     init() {
         this.setInitialSizes();
         this.addEventListeners();
     }
 
+    // 초기 크기 설정
     setInitialSizes() {
-        gsap.set(this.skewed, {
+        gsap.set(this.$el, {
             '--s': this.skewAmount,
             gap: this.gap,
             width: this.width,
             height: this.height
         });
 
-        this.images.forEach((el, index) => {
+        this.$list.forEach((el, index) => {
             gsap.set(el, {
                 width: 0,
                 minWidth: `calc(100% + var(--s))`,
                 height: 0,
                 minHeight: '100%',
                 objectFit: 'cover',
-                clipPath: index === 0 ? this.startClipPath : (index === this.images.length - 1 ? this.endClipPath : this.initialClipPath),
-                placeSelf: index === 0 ? 'start' : (index === this.images.length - 1 ? 'end' : '')
+                clipPath: index === 0 ? this.startClipPath : (index === this.$list.length - 1 ? this.endClipPath : this.initialClipPath),
+                placeSelf: index === 0 ? 'start' : (index === this.$list.length - 1 ? 'end' : '')
             });
 
             el.dataset.index = index;
         });
     }
 
+    // 이벤트 등록
     addEventListeners() {
-        if (!this.clicked) {
-            this.images.forEach(el => {
-                el.addEventListener('mouseenter', () => this.animateImage(el));
-                el.addEventListener('mouseleave', () => this.resetImage(el));
-            });
-        }
-        this.images.forEach(el => {
+        this.$list.forEach(el => {
+            if(!this.clicked){
+                el.addEventListener('mouseenter', () => this.animateSkewed(el));
+                el.addEventListener('mouseleave', () => this.resetSkewed(el));
+            }
             el.addEventListener('click', () => this.handleClick(el));
         });
     }
 
-    animateImage(el) {
+    // mouseenter
+    animateSkewed(el) {
         gsap.to(el, { duration: 0.8, width: '15vw', ease: 'power2.out' });
-        if (!this.clicked) this.emitEvent('enter', parseInt(el.dataset.index));
+        if (!this.clicked) this.handleEvent(el,"enter");
     }
 
-    resetImage(el) {
+    // mouseleave
+    resetSkewed(el) {
         gsap.to(el, { duration: 0.8, width: 0, ease: 'power2.out' });
-        if (this.clicked) return;
-        if (!this.clicked) this.emitEvent('leave', parseInt(el.dataset.index));
+        if (!this.clicked) this.handleEvent(el,"leave");
     }
 
+    // click
     handleClick(el) {
         if (this.clicked) {
-            this.animateImage(el);
+            this.animateSkewed(el);
             if(this.prevEl !== null) {
-                if(this.prevLeave) this.resetImage(this.prevEl);
+                if(this.prevLeave) this.resetSkewed(this.prevEl);
             }
             this.prevLeave = !(this.prevLeave && this.prevEl === el);
             this.prevEl = el;
         }
-        this.emitEvent('click', parseInt(el.dataset.index));
+        this.handleEvent(el,"click");
     }
 
+    // 이벤트 핸들링
+    handleEvent(el, eventType){
+        // 현재 인덱스와 이전 인덱스 키 값 생성
+        const currentKey = `${eventType}CurrIndex`;
+        const prevKey = `${eventType}PrevIndex`;
+
+        // 현재 인덱스 설정 및 이벤트
+        this[currentKey] = parseInt(el.dataset.index);
+        this.emitEvent(eventType, this[currentKey], this[prevKey]);
+
+        // 이전 인덱스
+        this[prevKey] = this[currentKey];
+    }
+
+    // 이벤트 등록
     on(eventName, callback) {
         this.events = this.events || {};
         this.events[eventName] = this.events[eventName] || [];
         this.events[eventName].push(callback);
     }
 
-    emitEvent(eventName, index) {
+    // 이벤트 발생
+    emitEvent(eventName, ...index) {
         if (this.events && this.events[eventName]) {
             this.events[eventName].forEach(callback => {
-                callback(index);
+                callback(...index);
             });
         }
     }
