@@ -1,72 +1,84 @@
-class ChtSelect{
-    constructor(opts){
-        this.opts = $.extend(false ,{
-            el:"#contents",
-            scale:1.2,
-            leftX:-50,
-            rightX:50
-        }, opts);
+import { gsap } from 'gsap';
 
-        this.$el = $(this.opts.el);
-        this.$wrap = this.$el.find("[data-cht-wrap]");
-        this.$cover = this.$el.find("[data-cht-cover]");
-        this.$list = this.$cover.find("[data-select]");
-        this.$role = this.$wrap.find("[data-role]");
-        this.$roleWrap = this.$wrap.find("[data-list-wrap]");
-        this.listArr = [];
-        this.currArr;
+class ChtSelect {
+    constructor(opts) {
+        this.opts = {
+            el: "#cht-select",
+            scale: 1.2,
+            leftMove: -50,
+            rightMove: 50,
+            ...opts,        // 기본값을 덮어씀
+        };
 
-        this._init();
+        this.$el = document.querySelector(this.opts.el);
+        this.$list = Array.from(this.$el.children);
+
+        this.currEl = null;
+        this.prevEl = null;
+        this.callCurrIdx = null;
+        this.callPrevIdx = null;
+        this.events = {};
+
+        this.init();
     }
 
-    _init(){
-        this._settings();
-        this._controls();
+    init() {
+        this.addEventListeners();
     }
 
-    _settings(){
-        $.each(this.$list,(idx, el)=>{
-            this.listArr[idx] = $(el).data("select");
+    addEventListeners() {
+        this.$list.forEach((el, index) => {
+            el.addEventListener('mouseenter', (evt) => this.handleEvent(evt, index));
+        });
+
+        this.$el.addEventListener('mouseleave', () => this.resetAnimate());
+
+        this.$list.forEach((el, index) => {
+            el.addEventListener('click', (evt) => this.handleClick(evt, index));
         });
     }
 
-    _controls(){
-        this.$list.on("mouseenter", evt=> this.select(evt));
-        this.$cover.on("mouseleave", evt=> this.reset());
-    }
+    handleEvent(evt, currIdx) {
+        this.currEl = evt.target.children;
 
-    select(evt){
-        let roleCht = [], findCht = [], num = $(evt.currentTarget).index();
-        for (let i=0, len=this.$list.length ; i<len ; i++ ){
-            if(num===i){
-                roleCht[i] = {zIndex:2};
-                findCht[i] = {x:0, scale:this.opts.scale};
-            }else if(num>i){
-                roleCht[i] = {zIndex:1};
-                findCht[i] = {x:this.opts.leftX, scale:1};
-            }else{
-                roleCht[i] = {zIndex:1};
-                findCht[i] = {x:this.opts.rightX, scale:1};
-            }
-            TweenMax.to(this.$wrap.find(`[data-role=${this.listArr[i]}]`), 0.3, roleCht[i]);
-            TweenMax.to(this.$wrap.find(`[data-role=${this.listArr[i]}]`).find("[data-list-wrap]"), 0.3, findCht[i]);
+        const animationOptions = {
+            duration: 0.65,
+            ease: 'power2.out',
         };
-        this.currArr = this.listArr[num];
-        this.methodDepth("enterCallback");
+
+        this.$list.forEach((el, index) => {
+            const xValue = index < currIdx ? this.opts.leftMove : (index > currIdx ? this.opts.rightMove : 0);
+            const scaleValue = index === currIdx ? this.opts.scale : 1;
+
+            gsap.to(el.children, { ...animationOptions, x: xValue, scale: scaleValue });
+        });
+
+        this.prevEl = this.currEl;
     }
 
-    on(event, func){
-        this.$el.on(event, func);
+    resetAnimate() {
+        this.$list.forEach((el) => {
+            gsap.to(el.children, { duration: 0.8, scale: 1, x: 0 });
+        });
     }
 
-    methodDepth(funcValue){
-        if (typeof this.opts[`${funcValue}`] == "function") this.opts[`${funcValue}`].call(this);
+    handleClick(evt, currIdx) {
+        this.callCurrIdx = currIdx;
+        this.emitEvent("click", { currentIdx: this.callCurrIdx, previousIdx: this.callPrevIdx });
+        this.callPrevIdx = this.callCurrIdx;
     }
 
-    reset(){
-        TweenMax.to(this.$role, 0.3, {zIndex:1});
-        TweenMax.to(this.$roleWrap, 0.3, {x:0, scale:1});
-        this.methodDepth("leaveCallback");
+    on(eventName, callback) {
+        this.events[eventName] = this.events[eventName] || [];
+        this.events[eventName].push(callback);
+    }
+
+    emitEvent(eventName, data) {
+        if (this.events[eventName]) {
+            this.events[eventName].forEach(callback => {
+                callback(data);
+            });
+        }
     }
 }
 
