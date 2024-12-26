@@ -5,73 +5,73 @@
     overflow:hidden;
 }
 
-.moving-slider {
-    margin:100px auto 0;
-    width:700px;
-    height:300px;
-    position:relative;
-    &__btn {
-        @include position-abs(
-            $width:50px,
-            $height:40px,
-            $top:50%,
-        );
-        background-color:#ffdd80;
-        &--prev {
-            left:-50px;
-        }
-        &--next {
-            right:-50px;
-        }
-    }
-    &__cover {
-        width:100%;
-        height:100%;
-        position:relative;
-        overflow:hidden;
-    }
-    &__wrap {
-        width:100%;
-        height:100%;
-        font-size:0;
-        position:absolute;
-        white-space:nowrap;
-    }
-    &__list {
-        width:100px;
-        height:100%;
-        display:inline-block;
-        font-size:12px;
-        position:relative;
-        cursor:pointer;
-        &--on {
-            width:300px;
-        }
-    }
-    &__con {
-        position:absolute;
-        top:50%;
-        left:50%;
-        &--1 {
-            background-color:darkseagreen;
-        }
-        &--2 {
-            background-color:cornflowerblue;
-        }
-        &--3 {
-            background-color:coral;
-        }
-        &--4 {
-            background-color:palevioletred;
-        }
-        &--5 {
-            background-color:gray;
-        }
-        &--6 {
-            background-color:indianred;
-        }
-        &--7 {
-            background-color:gold;
-        }
-    }
+.slider-container {
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+}
+
+.slide {
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.5s ease;
+    color:#fff;
+    font-size:50px;
+}
+
+.slide__list {
+    background-color: gray;
+    transition: all 0.5s ease;
+    transform-origin: center;
+    position: absolute;
+}
+
+.slide__list.active {
+    width: 500px;
+    height: 400px;
+}
+
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.slide-btn.slide-btn__prev {
+    left: 0px;
+}
+
+.slide-btn.slide-btn__next {
+    right: 0px;
+}
+
+.pagination {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.pagination__btn {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background: lightgray;
+    cursor: pointer;
+}
+
+.pagination__btn.active {
+    background: black;
 }

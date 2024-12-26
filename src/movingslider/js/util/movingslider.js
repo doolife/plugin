@@ -1,190 +1,179 @@
-class Movingslider{
-    constructor(opts){
-        this.opts = $.extend(true, {
-            el:"#slider1",
-            idx:0,
-            total:4,
-            smallWidth:100,
-            smallHeight:100,
-            largeWidth:300,
-            largeHeight:300,
-            expand:2,
-            speed:500,
-            endCallback(){
+export default class DynamicSlider {
+    constructor(options) {
+        this.sliderSelector = options.sliderSelector;
+        this.initialCenterIndex = options.initialCenterIndex;
+        this.totalSlides = options.totalSlides;
+        this.centerWidth = options.centerWidth;
+        this.sideWidth = options.sideWidth;
+        this.centerHeight = options.centerHeight;
+        this.sideHeight = options.sideHeight;
+        this.centerGap = options.centerGap;
+        this.sideGap = options.sideGap;
+        this.visibleSlides = options.visibleSlides || 5;
 
+        this.usePagination = options.usePagination || false;
+        this.useNavButtons = options.useNavButtons || false;
+
+        this.paginationSelector = options.paginationSelector || '#pagination';
+        this.prevButtonSelector = options.prevButtonSelector || '#prevButton';
+        this.nextButtonSelector = options.nextButtonSelector || '#nextButton';
+
+        this.currentIndex = this.initialCenterIndex;
+        this.previousIndex = null; // 초기에는 이전 인덱스가 없으므로 null로 설정
+
+        // 콜백 초기화
+        this.slideChangeCallback = null;
+
+        // DOM 요소들 초기화
+        this.sliderElement = document.querySelector(this.sliderSelector);
+
+        if (!this.sliderElement) {
+            console.error(`Slider element not found for selector: ${this.sliderSelector}`);
+            return;
+        }
+
+        if (this.usePagination) {
+            this.paginationElement = document.createElement('div');
+            this.paginationElement.id = 'pagination';
+            this.paginationElement.classList.add('pagination');
+            this.sliderElement.appendChild(this.paginationElement);
+        }
+
+        if (this.useNavButtons) {
+            this.prevButton = document.createElement('button');
+            this.prevButton.id = 'prevButton';
+            this.prevButton.classList.add('slide-btn', 'slide-btn__prev');
+            this.prevButton.textContent = 'Prev';
+            this.sliderElement.appendChild(this.prevButton);
+
+            this.nextButton = document.createElement('button');
+            this.nextButton.id = 'nextButton';
+            this.nextButton.classList.add('slide-btn', 'slide-btn__next');
+            this.nextButton.textContent = 'Next';
+            this.sliderElement.appendChild(this.nextButton);
+        }
+
+        if (this.useNavButtons) {
+            this.addEventListeners();
+        }
+
+        this.updateSlider();
+        this.updateSliderContainerSize();
+
+        // 초기화 후 콜백 호출
+        if (this.slideChangeCallback) {
+            this.slideChangeCallback(this.currentIndex, this.previousIndex);
+        }
+    }
+
+    onSlideChange(callback) {
+        if (typeof callback === 'function') {
+            this.slideChangeCallback = callback;
+
+            // 현재 상태를 즉시 콜백으로 전달
+            if (this.currentIndex !== null) {
+                this.slideChangeCallback(this.currentIndex, this.previousIndex);
             }
-        }, opts);
+        } else {
+            console.error('onSlideChange expects a function as its argument');
+        }
+    }
 
-        this.$el = $(this.opts.el);
-        this.$btn = this.$el.find("[data-btn]");
-        this.$cover = this.$el.find("[data-cover]");
-        this.$wrap = this.$el.find("[data-wrap]");
-        this.$list = this.$wrap.find("[data-list]");
-        this.$listCon;
-        this.$slideList;
+    goToSlide(index) {
+        this.previousIndex = this.currentIndex;
+        this.currentIndex = index;
 
-        this.stCurrId;
-        this.stPrevId;
-        this.endCurrId;
-        this.endPrevId;
-        this.stCurrNum;
-        this.stPrevNum;
-        this.endCurrNum;
-        this.realCurrNum;
-        this.realPrevNum;
-        this.endPrevNum;
-        this.inPrevNum;
-        this.isAni = true;
-        this.lenght;
-        this.realLength = this.$list.lenght;
+        this.updateSlider();
 
-        this.init();
-    };
+        // 콜백 호출
+        if (this.slideChangeCallback) {
+            this.slideChangeCallback(this.currentIndex, this.previousIndex);
+        }
+    }
 
-    init(){
-        this.clones();
-        this.settings();
-        this.constrols();
-        this.moving();
-    };
+    goToNext() {
+        const nextIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.goToSlide(nextIndex);
+    }
 
-    settings(){
-        this.inCurrNum = this.opts.idx+this.opts.total;
-        this.$slideList = this.$wrap.find("[data-list]");
-        this.$listCon = this.$slideList.find("[data-con]");
-        this.lenght = this.$slideList.length;
-    };
+    goToPrev() {
+        const prevIndex = (this.currentIndex - 1 + this.totalSlides) % this.totalSlides;
+        this.goToSlide(prevIndex);
+    }
 
-    clones(){
-        let firstClone = [];
-        let lastClone = [];
-        for(let i=0, len=this.opts.total ; i<len ; i++ ){
-            firstClone = this.$list.eq(i).clone();
-            this.$wrap.append(firstClone);
-        };
-        for(let i=1, len=this.opts.total+1 ; i<len ; i++ ){
-            lastClone = this.$list.eq(this.$list.length-i).clone();
-            this.$wrap.prepend(lastClone);
-        };
-    };
+    addEventListeners() {
+        this.prevButton.addEventListener('click', this.goToPrev.bind(this));
+        this.nextButton.addEventListener('click', this.goToNext.bind(this));
+    }
 
-    constrols(){
-        this.$btn.on("click", evt=> this.separately(evt));
-        this.$wrap.on("click", "[data-list]", evt=> this.separately(evt));
-    };
+    updateSlider() {
+        const slides = document.querySelectorAll('.slide__list');
+        const totalVisible = Math.min(this.visibleSlides, this.totalSlides);
 
-    separately(evt){
-        if(!this.isAni) return;
-        if($(evt.target).data("btn")==="prev") this.inCurrNum = this.inCurrNum-1;
-        if($(evt.target).data("btn")==="next") this.inCurrNum = this.inCurrNum+1;
-        if($(evt.currentTarget).data("list")) this.inCurrNum = $(evt.currentTarget).index();
-        if(this.inPrevNum===this.inCurrNum) return;
-        this.moving();
-    };
+        slides.forEach((slide, index) => {
+            const offset = (index - this.currentIndex + this.totalSlides) % this.totalSlides;
+            const adjustedOffset = offset > Math.floor(this.totalSlides / 2) ? offset - this.totalSlides : offset;
 
-    moving(){
-        this.isAni = false;
-        this.realCurrNum = this.inCurrNum;
-        this.endCall("start");
-        this.slideSet(true);
+            let translateX = 0;
 
-        this.$wrap.stop().animate({left:-(this.inCurrNum-this.opts.expand)*this.opts.smallWidth}, this.opts.speed, ()=>{
-            this.endCall("end");
-            this.slideSet(false);
-            this.isAni = true;
+            if (adjustedOffset === 0) {
+                translateX = 0;
+            } else {
+                const absOffset = Math.abs(adjustedOffset);
+                const isLeft = adjustedOffset < 0;
+
+                if (absOffset === 1) {
+                    translateX = (isLeft ? -1 : 1) * ((this.centerWidth + this.centerGap) / 2 + this.sideWidth / 2);
+                } else {
+                    translateX = (isLeft ? -1 : 1) * (
+                        (this.centerWidth + this.centerGap) / 2 +
+                        this.sideWidth / 2 +
+                        (absOffset - 1) * (this.sideWidth + this.sideGap)
+                    );
+                }
+            }
+
+            slide.style.transform = `translateX(${translateX}px)`;
+            slide.style.opacity = Math.abs(adjustedOffset) < totalVisible / 2 ? 1 : 0;
+            slide.style.zIndex = 10 - Math.abs(adjustedOffset);
+            slide.classList.toggle('active', adjustedOffset === 0);
+
+            if (adjustedOffset === 0) {
+                slide.style.width = `${this.centerWidth}px`;
+                slide.style.height = `${this.centerHeight}px`;
+            } else {
+                slide.style.width = `${this.sideWidth}px`;
+                slide.style.height = `${this.sideHeight}px`;
+            }
         });
 
-        this.inPrevNum = this.inCurrNum;
-        this.realPrevNum = this.inPrevNum;
-    };
+        if (this.usePagination) this.updatePagination();
+    }
 
-    endCall(str){
-        let cycle = (
-            this.inCurrNum===(this.opts.total-1) ||
-            this.inCurrNum===(this.opts.total-2) ||
-            this.inCurrNum===this.lenght-this.opts.total ||
-            this.inCurrNum===this.lenght-this.opts.total+1
-        );
+    updateSliderContainerSize() {
+        const sliderContainer = document.querySelector('.slider-container');
+        if (!sliderContainer) {
+            console.error('slider-container not found');
+            return;
+        }
 
-        if(cycle){
-            switch(this.inCurrNum){
-                case (this.opts.total-1) :
-                    if(str==="start") this.realCurrNum = this.lenght-(this.opts.total+1);
-                    if(str==="end") this.inCurrNum = this.lenght-(this.opts.total+1);
-                    break;
-                case (this.opts.total-2) :
-                    if(str==="start") this.realCurrNum = this.lenght-(this.opts.total+2);
-                    if(str==="end") this.inCurrNum = this.lenght-(this.opts.total+2);
-                    break;
-                case this.lenght-this.opts.total :
-                    if(str==="start") this.realCurrNum = this.opts.total;
-                    if(str==="end") this.inCurrNum = this.opts.total;
-                    break;
-                case this.lenght-this.opts.total+1 :
-                    if(str==="start") this.realCurrNum = this.opts.total+1;
-                    if(str==="end") this.inCurrNum = this.opts.total+1;
-                    break;
-            }
-            if(str==="end") this.$wrap.css({left:-(this.inCurrNum-this.opts.expand)*this.opts.smallWidth});
+        const totalWidth = this.centerWidth + (this.visibleSlides - 1) * (this.sideWidth + this.sideGap) + this.centerGap;
+        sliderContainer.style.width = `${this.centerWidth}px`;
+        sliderContainer.style.height = `${this.centerHeight}px`;
+    }
+
+    updatePagination() {
+        this.paginationElement.innerHTML = '';
+        for (let i = 0; i < this.totalSlides; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.classList.add('pagination__btn');
+            if (i === this.currentIndex) pageButton.classList.add('active');
+            pageButton.addEventListener('click', () => this.goToSlide(i));
+            this.paginationElement.appendChild(pageButton);
         }
     }
 
-    slideSet(str){
-        let aniObjsmall = {marginTop:-this.opts.smallHeight/2, marginLeft:-this.opts.smallWidth/2, width:this.opts.smallWidth, height:this.opts.smallHeight};
-        let aniObjLarge = {marginTop:-this.opts.largeHeight/2, marginLeft:-this.opts.largeWidth/2, width:this.opts.largeWidth, height:this.opts.largeHeight};
-        if(str){
-            this.$slideList.stop().animate({width:this.opts.smallWidth}, this.opts.speed);
-            this.$slideList.eq(this.inCurrNum).stop().animate({width:this.opts.largeWidth}, this.opts.speed);
-            this.$slideList.find(this.$listCon).stop().animate(aniObjsmall, this.opts.speed);
-            this.$slideList.eq(this.inCurrNum).find(this.$listCon).stop().animate(aniObjLarge, this.opts.speed);
-            this.startStatus(true);
-            this.methodDepth("startCallback");
-            this.startStatus(false);
-        }else{
-            this.$slideList.css({width:this.opts.smallWidth});
-            this.$slideList.eq(this.inCurrNum).css({width:this.opts.largeWidth});
-            this.$slideList.find(this.$listCon).css(aniObjsmall);
-            this.$slideList.eq(this.inCurrNum).find(this.$listCon).css(aniObjLarge);
-            this.endStatus(true);
-            this.methodDepth("endCallback");
-            this.endStatus(false);
-        }
-        this.addRemove();
+    to(index) {
+        this.goToSlide(index);
     }
-
-    startStatus(str){
-        if(str){
-            this.stCurrNum = this.realCurrNum-this.opts.total;
-            this.stCurrId = this.$slideList.eq(this.stCurrNum+this.opts.total).data("list");
-        }else{
-            this.stPrevNum = this.stCurrNum;
-            this.stPrevId = this.$slideList.eq(this.stPrevNum+this.opts.total).data("list");
-        }
-    }
-
-    endStatus(str){
-        if(str){
-            this.endCurrNum = this.inCurrNum-this.opts.total;
-            this.endCurrId = this.$slideList.eq(this.endCurrNum+this.opts.total).data("list");
-        }else{
-            this.endPrevNum = this.endCurrNum;
-            this.endPrevId = this.$slideList.eq(this.endPrevNum+this.opts.total).data("list");
-        }
-    }
-
-    addRemove(){
-        this.$slideList.removeClass("moving-slider__list--on");
-        this.$slideList.eq(this.inCurrNum).addClass("moving-slider__list--on");
-    }
-
-    methodDepth(funcValue){
-        if (typeof this.opts[`${funcValue}`] == "function") this.opts[`${funcValue}`].call(this);
-    }
-
-    set reset(num){
-        this.inCurrNum = num+this.opts.total;
-        this.moving();
-    }
-};
-
-export default Movingslider;
+}

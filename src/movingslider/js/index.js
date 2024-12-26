@@ -1,23 +1,23 @@
 import '../sass/index.scss';
-import Movingslider from './util/movingslider';
+import DynamicSlider from './util/movingslider'
 
-
-let movingslider1 = new Movingslider({
-    el:"#moving-slider1",
-    idx:0,
-    total:5,
-    smallWidth:100,
-    smallHeight:100,
-    largeWidth:300,
-    largeHeight:300,
-    expand:2,
-    speed:500,
-    startCallback(){
-        console.log("prev | ", this.stPrevNum, this.stPrevId, " | curr", this.stCurrNum, this.stCurrId, "start")
-    },
-    endCallback(){
-        // console.log("prev | ", this.endPrevNum, this.endPrevId, " | curr", this.endCurrNum, this.endCurrId, "end")
-    }
+const slider = new DynamicSlider({
+    sliderSelector: '#slider',
+    initialCenterIndex: 0,
+    totalSlides: 7,
+    centerWidth: 500,
+    centerHeight: 400,
+    sideWidth: 300,
+    sideHeight: 200,
+    centerGap: 0,
+    sideGap: 0,
+    visibleSlides: 5,
+    usePagination: true,
+    useNavButtons: true,
 });
 
-// movingslider1.reset = 3;
+// slider.to(3);
+slider.onSlideChange((currentIndex, previousIndex) => {
+    console.log('Current Index:', currentIndex);
+    console.log('Previous Index:', previousIndex);
+});
