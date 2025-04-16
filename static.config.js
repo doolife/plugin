@@ -1,5 +1,5 @@
 let config = {
-    path: 'movingslider'
+    path: 'resizable'
 };
 
 module.exports = config;
