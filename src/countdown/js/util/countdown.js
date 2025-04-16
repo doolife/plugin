@@ -1,10 +1,8 @@
 export const initializeCountdown = ({ el, startDate = null, endDate, onEndCallback }) => {
     // startDate가 없으면 현재 시간을 사용
     const startDateToUse = startDate ? startDate : new Date().toISOString();
-
     // 서버 시간과 클라이언트 시간 차이 계산
     const diff = calculateServerTimeDiff(startDateToUse);
-
     // 기본 동작을 빈 콜백으로 설정
     const count = {
         onEndCallback: onEndCallback || (() => {}), // 기본 콜백
@@ -14,20 +12,17 @@ export const initializeCountdown = ({ el, startDate = null, endDate, onEndCallba
             }
         }
     };
-
     // 시간 설정
     timeSetting(el, endDate, diff, () => {
         count.onEndCallback(); // 타이머 종료 시에만 콜백 실행
     });
-
     return count; // count 객체 반환
 };
 
-// 기존의 다른 함수들
 const calculateServerTimeDiff = (startDate) => {
     const serverTime = Date.parse(startDate); // 서버 시작 시간
     const clientTime = Date.parse(new Date()); // 클라이언트 현재 시간
-    return serverTime - clientTime; // 두 시간의 차이 계산
+    return serverTime - clientTime; // 시간의 차이 계산
 };
 
 const timeSetting = (el, endDate, diff, onEndCallback) => {
@@ -39,7 +34,6 @@ const timeSetting = (el, endDate, diff, onEndCallback) => {
 
     const timeUpdate = () => {
         const t = getTimeRemaining(endDate, diff);
-
         if (t.total <= 0) {
             // 시간이 끝났을 때 값을 0으로 설정
             $elDays.innerHTML = 0;
