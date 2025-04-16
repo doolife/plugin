@@ -1,21 +1,23 @@
 import '../sass/index.scss';
-import DynamicSlider from './util/movingslider'
+import {useDynamicSlider} from './util/movingslider'
 
-const slider = new DynamicSlider({
+const slider = useDynamicSlider({
     sliderSelector: '#slider',
+    slideItemClass: ".slide__list",
     initialCenterIndex: 0,
-    totalSlides: 7,
-    centerWidth: 500,
+    centerWidth: 715,
     centerHeight: 400,
-    sideWidth: 300,
-    sideHeight: 200,
-    centerGap: 0,
-    sideGap: 0,
+    sideWidth: 458,
+    sideHeight: 277,
+    centerGap: 120,
+    sideGap: 40,
     visibleSlides: 5,
-    usePagination: true,
+    transitionDuration: 0.5,
     useNavButtons: true,
+    usePagination: false,
+    autoEnableControls: true
 });
-
+// slider.enableControls();
 // slider.to(3);
 slider.onSlideChange((currentIndex, previousIndex) => {
     console.log('Current Index:', currentIndex);
