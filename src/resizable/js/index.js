@@ -1,6 +1,4 @@
 import { createResizable } from './resizable.js';
-import '../media/before.mp4';
-import '../media/after.mp4';
 
 const userResizableOptions1 = createResizable({
     element: "#resizeable1",
